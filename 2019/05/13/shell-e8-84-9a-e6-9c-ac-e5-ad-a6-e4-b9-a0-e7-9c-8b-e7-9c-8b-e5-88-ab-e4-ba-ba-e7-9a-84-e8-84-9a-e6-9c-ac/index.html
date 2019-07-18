@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
-  <title>Archives: 2019/7 | 云维</title>
+  <title>shell脚本学习-看看别人的脚本 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="博文，让学习留下印记">
-<meta property="og:type" content="website">
-<meta property="og:title" content="云维">
-<meta property="og:url" content="https://zhang12c.bithub.xin/archives/2019/07/index.html">
+  <meta name="description" content="脚本拷贝自GitHub：https://github.com/eduosi/ 目的是参考别人的脚本，学习大佬的思维  #!/bin/bash    # httpd Startup script for the Apache HTTP Server    # chkconfig: - 85 15# description: The Apache HTTP Server is an efficient">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell脚本学习-看看别人的脚本">
+<meta property="og:url" content="https://zhang12c.bithub.xin/2019/05/13/shell-e8-84-9a-e6-9c-ac-e5-ad-a6-e4-b9-a0-e7-9c-8b-e7-9c-8b-e5-88-ab-e4-ba-ba-e7-9a-84-e8-84-9a-e6-9c-ac/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="博文，让学习留下印记">
+<meta property="og:description" content="脚本拷贝自GitHub：https://github.com/eduosi/ 目的是参考别人的脚本，学习大佬的思维  #!/bin/bash    # httpd Startup script for the Apache HTTP Server    # chkconfig: - 85 15# description: The Apache HTTP Server is an efficient">
 <meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-07-18T04:32:04.799Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="云维">
-<meta name="twitter:description" content="博文，让学习留下印记">
+<meta name="twitter:title" content="shell脚本学习-看看别人的脚本">
+<meta name="twitter:description" content="脚本拷贝自GitHub：https://github.com/eduosi/ 目的是参考别人的脚本，学习大佬的思维  #!/bin/bash    # httpd Startup script for the Apache HTTP Server    # chkconfig: - 85 15# description: The Apache HTTP Server is an efficient">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
   
@@ -157,87 +158,203 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-shell-e8-84-9a-e6-9c-ac-e5-ad-a6-e4-b9-a0-e7-9c-8b-e7-9c-8b-e5-88-ab-e4-ba-ba-e7-9a-84-e8-84-9a-e6-9c-ac" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/18/LearnMarkdown/" class="archive-article-date">
-  	<time datetime="2019-07-17T17:02:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/18/LearnMarkdown/">README</a>
+    <h1 class="article-title" itemprop="name">
+      shell脚本学习-看看别人的脚本
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
+        
+        <a href="/2019/05/13/shell-e8-84-9a-e6-9c-ac-e5-ad-a6-e4-b9-a0-e7-9c-8b-e7-9c-8b-e5-88-ab-e4-ba-ba-e7-9a-84-e8-84-9a-e6-9c-ac/" class="archive-article-date">
+  	<time datetime="2019-05-13T08:51:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>脚本拷贝自GitHub：<a href="https://github.com/eduosi/" target="_blank" rel="noopener">https://github.com/eduosi/</a> 目的是参考别人的脚本，学习大佬的思维</p>
+<hr>
+<p>#!/bin/bash  </p>
+<h1 id><a href="#" class="headerlink" title=" "></a> </h1><p># httpd Startup script for the Apache HTTP Server  </p>
+<h1 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h1><p># chkconfig: - 85 15<br># description: The Apache HTTP Server is an efficient and extensible<br># server implementing the current HTTP standards.<br># processname: httpd<br># config: /usr/local/apache/conf/httpd.conf<br># config: /etc/sysconfig/httpd<br># pidfile: /var/run/httpd.pid  </p>
+<h1 id="-2"><a href="#-2" class="headerlink" title=" "></a> </h1><p>### BEGIN INIT INFO<br># Provides: httpd<br># Required-Start: $local_fs $remote_fs $network $named<br># Required-Stop: $local_fs $remote_fs $network<br># Should-Start: distcache<br># Short-Description: start and stop Apache HTTP Server<br># Description: The Apache HTTP Server is an extensible server<br># implementing the current HTTP standards.<br>### END INIT INFO</p>
+<p># Source function library.<br>. /etc/rc.d/init.d/functions</p>
+<p>if [ -f /etc/sysconfig/httpd ]; then<br>. /etc/sysconfig/httpd<br>fi</p>
+<p># Start httpd in the C locale by default.<br>HTTPD_LANG=${HTTPD_LANG-“C”}</p>
+<p># This will prevent initlog from swallowing up a pass-phrase prompt if<br># mod_ssl needs a pass-phrase from the user.<br>INITLOG_ARGS=””</p>
+<p># Set HTTPD=/usr/sbin/httpd.worker in /etc/sysconfig/httpd to use a server<br># with the thread-based “worker” MPM; BE WARNED that some modules may not<br># work correctly with a thread-based MPM; notably PHP will refuse to start.</p>
+<p># Path to the apachectl script, server binary, and short-form for messages.<br>APACHE_HOME=”/usr/local/apache”<br>apachectl=${APACHE_HOME}”/bin/apachectl”<br>httpd=${HTTPD-${APACHE_HOME}”/bin/httpd”}<br>PROG=”Apache HTTP Server”<br>pidfile=${PIDFILE-/var/run/httpd.pid}<br>lockfile=${LOCKFILE-/var/lock/subsys/httpd}</p>
+<p>STOP_TIMEOUT=${STOP_TIMEOUT-10}<br>RETVAL=0</p>
+<p># The semantics of these two functions differ from the way apachectl does<br># things – attempting to start while running is a failure, and shutdown<br># when not running is also a failure. So we just do it the way init scripts<br># are expected to behave here.<br>start() {<br>echo -n $”Starting $PROG: “<br>LANG=$HTTPD_LANG daemon –pidfile=${pidfile} $httpd $OPTIONS<br>RETVAL=$?<br>echo<br>[ $RETVAL = 0 ] &amp;&amp; touch ${lockfile}<br>return $RETVAL<br>}</p>
+<p>reload() {<br>echo -n $”Reloading $PROG: “<br>if ! LANG=$HTTPD_LANG $httpd $OPTIONS -t &gt;&amp;/dev/null; then<br>RETVAL=6<br>echo $”not reloading due to configuration syntax error”<br>failure $”not reloading $httpd due to configuration syntax error”<br>else<br># Force LSB behaviour from killproc<br>LSB=1 killproc -p ${pidfile} $httpd -HUP<br>RETVAL=$?<br>if [ $RETVAL -eq 7 ]; then<br>failure $”httpd shutdown”<br>fi<br>fi<br>return $RETVAL<br>}</p>
+<p>configtest() {<br>$apachectl configtest<br>RETVAL=$?<br>return $RETVAL<br>}</p>
+<p># When stopping httpd, a delay (of default 10 second) is required<br># before SIGKILLing the httpd parent; this gives enough time for the<br># httpd parent to SIGKILL any errant children.<br>stop() {<br>echo -n $”Stopping $PROG: “<br>killproc -p ${pidfile} -d ${STOP_TIMEOUT} $httpd<br>RETVAL=$?<br>echo<br>[ $RETVAL = 0 ] &amp;&amp; rm -f ${lockfile} ${pidfile}<br>}</p>
+<p>rh_status() {<br>status -p ${pidfile} $httpd<br>RETVAL=$?<br>return $RETVAL<br>}</p>
+<p>case “$1” in<br>start)<br>start<br>;;<br>force-reload|reload)<br>configtest || exit 0<br>reload<br>;;<br>restart)<br>configtest || exit 0<br>stop<br>start<br>;;<br>stop)<br>stop<br>;;<br>status)<br>rh_status<br>;;<br>condrestart|try-restart)<br>if rh_status &gt;&amp;/dev/null; then<br>stop<br>start<br>fi<br>;;<br>configtest)<br>configtest<br>;;<br>graceful|configtest|fullstatus|help)<br>$apachectl $@<br>RETVAL=$?<br>;;<br>*)<br>echo $”Usage: $PROG {start|reload|force-reload|restart|condrestart|try-restart|stop|status|fullstatus|graceful|configtest|help}”<br>RETVAL=2<br>;;<br>esac</p>
+<p>exit $RETVAL</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Markdown</a>
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/shell/WEB//" class="article-tag-list-link color4">WEB</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://zhang12c.bithub.xin/2019/05/13/shell-e8-84-9a-e6-9c-ac-e5-ad-a6-e4-b9-a0-e7-9c-8b-e7-9c-8b-e5-88-ab-e4-ba-ba-e7-9a-84-e8-84-9a-e6-9c-ac/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/17/hello-world/" class="archive-article-date">
-  	<time datetime="2019-07-17T01:53:03.389Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-17</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/05/19/virt-manager-e7-a3-81-e7-9b-98-e6-89-a9-e5-ae-b9-e8-99-9a-e6-8b-9f-e6-9c-ba-e5-ae-89-e8-a3-85/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Virt-Manager磁盘扩容
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/10/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">shell脚本编程入门-5</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/17/hello-world/">Hello World</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -260,8 +377,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

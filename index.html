@@ -347,6 +347,767 @@
 
 
   
+    <article id="post-virt-manager-e5-ae-89-e8-a3-85centos-7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/22/virt-manager-e5-ae-89-e8-a3-85centos-7/">Virt-Manager安装Centos 7</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/22/virt-manager-e5-ae-89-e8-a3-85centos-7/" class="archive-article-date">
+  	<time datetime="2019-05-22T09:15:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天在使用Virt-Manager安装虚拟机的时候，界面报内核崩溃(kernel panic)。一直没能成功安装虚拟机。通过一个下午的百度，终于发现了问题的解决方法。原因就是虚拟机没有开启cpu的虚拟化</p>
+<p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE11-1024x576.png" alt></p>
+<p>勾选CPU虚拟化的三项选项</p>
+<p>安装和使用命令行、图形界面安装虚拟机的教程在下面链接。</p>
+<p><a href="https://www.linuxtechi.com/install-kvm-hypervisor-on-centos-7-and-rhel-7/" target="_blank" rel="noopener">https://www.linuxtechi.com/install-kvm-hypervisor-on-centos-7-and-rhel-7/</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/Virt-Manager//" class="article-tag-list-link color3">Virt-Manager</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/22/virt-manager-e5-ae-89-e8-a3-85centos-7/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-virt-manager-e7-a3-81-e7-9b-98-e6-89-a9-e5-ae-b9-e8-99-9a-e6-8b-9f-e6-9c-ba-e5-ae-89-e8-a3-85" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/19/virt-manager-e7-a3-81-e7-9b-98-e6-89-a9-e5-ae-b9-e8-99-9a-e6-8b-9f-e6-9c-ba-e5-ae-89-e8-a3-85/">Virt-Manager磁盘扩容</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/19/virt-manager-e7-a3-81-e7-9b-98-e6-89-a9-e5-ae-b9-e8-99-9a-e6-8b-9f-e6-9c-ba-e5-ae-89-e8-a3-85/" class="archive-article-date">
+  	<time datetime="2019-05-19T06:55:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>开始要接触的是Linux集群，现在在自己的虚拟机里开启多个虚拟机。刚好在爸爸那里有台自己组装内存16G主机，现在就在VMware的Centos里安装的多台主机。这时候用到了Virtual Machine Manager。在配置的过程中，遇到了两个问题。（图片截图在相册）</p>
+<ol>
+<li>磁盘空间不足</li>
+</ol>
+<ul>
+<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE3-1024x687.png" alt></p>
+<p>删除快照才可以扩容</p>
+</li>
+<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE4-1024x576.png" alt></p>
+<p>扩展到50G</p>
+</li>
+<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE7.png" alt></p>
+<p>磁盘分区</p>
+</li>
+<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE8.png" alt></p>
+<p>创建物理卷</p>
+</li>
+<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE9.png" alt></p>
+<p>根目录逻辑卷扩容</p>
+</li>
+<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE10.png" alt></p>
+<p>逻辑卷格式化</p>
+</li>
+</ul>
+<hr>
+<p>在之前VMware安装Centos7的时候，我设置虚拟机的磁盘空间只有20G，用KVM安装新虚拟机的时候，磁盘就开始不够用了。所以现在我做了一个磁盘的扩容</p>
+<p>一、扩展磁盘</p>
+<ol>
+<li>关闭VMware虚拟机.</li>
+<li>扩展磁盘</li>
+<li>开启虚拟机</li>
+</ol>
+<p>二、扩展逻辑卷组</p>
+<ol>
+<li>磁盘分区 fdisk</li>
+<li>物理卷添加 pvcreate </li>
+<li>添加到centos卷组 vgextend</li>
+<li>扩展centos/root的逻辑卷 lvextend</li>
+</ol>
+<p>三、格式化卷组</p>
+<ol>
+<li>格式化逻辑卷 xfs_grows </li>
+<li>查看 df -h</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/Virt-Manager//" class="article-tag-list-link color3">Virt-Manager</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/19/virt-manager-e7-a3-81-e7-9b-98-e6-89-a9-e5-ae-b9-e8-99-9a-e6-8b-9f-e6-9c-ba-e5-ae-89-e8-a3-85/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-shell-e8-84-9a-e6-9c-ac-e5-ad-a6-e4-b9-a0-e7-9c-8b-e7-9c-8b-e5-88-ab-e4-ba-ba-e7-9a-84-e8-84-9a-e6-9c-ac" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/13/shell-e8-84-9a-e6-9c-ac-e5-ad-a6-e4-b9-a0-e7-9c-8b-e7-9c-8b-e5-88-ab-e4-ba-ba-e7-9a-84-e8-84-9a-e6-9c-ac/">shell脚本学习-看看别人的脚本</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/13/shell-e8-84-9a-e6-9c-ac-e5-ad-a6-e4-b9-a0-e7-9c-8b-e7-9c-8b-e5-88-ab-e4-ba-ba-e7-9a-84-e8-84-9a-e6-9c-ac/" class="archive-article-date">
+  	<time datetime="2019-05-13T08:51:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>脚本拷贝自GitHub：<a href="https://github.com/eduosi/" target="_blank" rel="noopener">https://github.com/eduosi/</a> 目的是参考别人的脚本，学习大佬的思维</p>
+<hr>
+<p>#!/bin/bash  </p>
+<h1 id><a href="#" class="headerlink" title=" "></a> </h1><p># httpd Startup script for the Apache HTTP Server  </p>
+<h1 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h1><p># chkconfig: - 85 15<br># description: The Apache HTTP Server is an efficient and extensible<br># server implementing the current HTTP standards.<br># processname: httpd<br># config: /usr/local/apache/conf/httpd.conf<br># config: /etc/sysconfig/httpd<br># pidfile: /var/run/httpd.pid  </p>
+<h1 id="-2"><a href="#-2" class="headerlink" title=" "></a> </h1><p>### BEGIN INIT INFO<br># Provides: httpd<br># Required-Start: $local_fs $remote_fs $network $named<br># Required-Stop: $local_fs $remote_fs $network<br># Should-Start: distcache<br># Short-Description: start and stop Apache HTTP Server<br># Description: The Apache HTTP Server is an extensible server<br># implementing the current HTTP standards.<br>### END INIT INFO</p>
+<p># Source function library.<br>. /etc/rc.d/init.d/functions</p>
+<p>if [ -f /etc/sysconfig/httpd ]; then<br>. /etc/sysconfig/httpd<br>fi</p>
+<p># Start httpd in the C locale by default.<br>HTTPD_LANG=${HTTPD_LANG-“C”}</p>
+<p># This will prevent initlog from swallowing up a pass-phrase prompt if<br># mod_ssl needs a pass-phrase from the user.<br>INITLOG_ARGS=””</p>
+<p># Set HTTPD=/usr/sbin/httpd.worker in /etc/sysconfig/httpd to use a server<br># with the thread-based “worker” MPM; BE WARNED that some modules may not<br># work correctly with a thread-based MPM; notably PHP will refuse to start.</p>
+<p># Path to the apachectl script, server binary, and short-form for messages.<br>APACHE_HOME=”/usr/local/apache”<br>apachectl=${APACHE_HOME}”/bin/apachectl”<br>httpd=${HTTPD-${APACHE_HOME}”/bin/httpd”}<br>PROG=”Apache HTTP Server”<br>pidfile=${PIDFILE-/var/run/httpd.pid}<br>lockfile=${LOCKFILE-/var/lock/subsys/httpd}</p>
+<p>STOP_TIMEOUT=${STOP_TIMEOUT-10}<br>RETVAL=0</p>
+<p># The semantics of these two functions differ from the way apachectl does<br># things – attempting to start while running is a failure, and shutdown<br># when not running is also a failure. So we just do it the way init scripts<br># are expected to behave here.<br>start() {<br>echo -n $”Starting $PROG: “<br>LANG=$HTTPD_LANG daemon –pidfile=${pidfile} $httpd $OPTIONS<br>RETVAL=$?<br>echo<br>[ $RETVAL = 0 ] &amp;&amp; touch ${lockfile}<br>return $RETVAL<br>}</p>
+<p>reload() {<br>echo -n $”Reloading $PROG: “<br>if ! LANG=$HTTPD_LANG $httpd $OPTIONS -t &gt;&amp;/dev/null; then<br>RETVAL=6<br>echo $”not reloading due to configuration syntax error”<br>failure $”not reloading $httpd due to configuration syntax error”<br>else<br># Force LSB behaviour from killproc<br>LSB=1 killproc -p ${pidfile} $httpd -HUP<br>RETVAL=$?<br>if [ $RETVAL -eq 7 ]; then<br>failure $”httpd shutdown”<br>fi<br>fi<br>return $RETVAL<br>}</p>
+<p>configtest() {<br>$apachectl configtest<br>RETVAL=$?<br>return $RETVAL<br>}</p>
+<p># When stopping httpd, a delay (of default 10 second) is required<br># before SIGKILLing the httpd parent; this gives enough time for the<br># httpd parent to SIGKILL any errant children.<br>stop() {<br>echo -n $”Stopping $PROG: “<br>killproc -p ${pidfile} -d ${STOP_TIMEOUT} $httpd<br>RETVAL=$?<br>echo<br>[ $RETVAL = 0 ] &amp;&amp; rm -f ${lockfile} ${pidfile}<br>}</p>
+<p>rh_status() {<br>status -p ${pidfile} $httpd<br>RETVAL=$?<br>return $RETVAL<br>}</p>
+<p>case “$1” in<br>start)<br>start<br>;;<br>force-reload|reload)<br>configtest || exit 0<br>reload<br>;;<br>restart)<br>configtest || exit 0<br>stop<br>start<br>;;<br>stop)<br>stop<br>;;<br>status)<br>rh_status<br>;;<br>condrestart|try-restart)<br>if rh_status &gt;&amp;/dev/null; then<br>stop<br>start<br>fi<br>;;<br>configtest)<br>configtest<br>;;<br>graceful|configtest|fullstatus|help)<br>$apachectl $@<br>RETVAL=$?<br>;;<br>*)<br>echo $”Usage: $PROG {start|reload|force-reload|restart|condrestart|try-restart|stop|status|fullstatus|graceful|configtest|help}”<br>RETVAL=2<br>;;<br>esac</p>
+<p>exit $RETVAL</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/shell/WEB//" class="article-tag-list-link color4">WEB</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/13/shell-e8-84-9a-e6-9c-ac-e5-ad-a6-e4-b9-a0-e7-9c-8b-e7-9c-8b-e5-88-ab-e4-ba-ba-e7-9a-84-e8-84-9a-e6-9c-ac/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/10/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-5/">shell脚本编程入门-5</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/10/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-5/" class="archive-article-date">
+  	<time datetime="2019-05-10T08:18:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><p>定义一个函数，可以随时引用<br>定义函数的格式：<br>funname [()] {<br>     action;<br>     [return int;]<br> }</p>
+<h6 id="下面的例子定义了一个函数并进行调用："><a href="#下面的例子定义了一个函数并进行调用：" class="headerlink" title="下面的例子定义了一个函数并进行调用："></a>下面的例子定义了一个函数并进行调用：</h6><p>———————–sprite———–</p>
+<p>##!/bin/bash -<br>## 20190510<br>## fun_test<br> fun(){<br> echo “hello,world”<br> }<br> fun  ##调用</p>
+<h6 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a><strong>输出结果</strong></h6><p>[root@bithub zhang]# chmod +x fun.sh<br>[root@bithub zhang]# ls<br>fun.sh  install_mysql[5.5-8.0].sh  ping.sh  test.sh<br>[root@bithub zhang]# ./fun.sh<br> hello,world</p>
+<h6 id="github的脚本实例-安装mysql的脚本"><a href="#github的脚本实例-安装mysql的脚本" class="headerlink" title="github的脚本实例(安装mysql的脚本)"></a>github的脚本实例(安装mysql的脚本)</h6><p>[root@bithub zhang]# cat install_mysql[5.5-8.0].sh<br> !/bin/bash -<br> 版本1.1<br> 安装mysql社区版本5.5-8.0<br> info=<code>rpm -qa | grep &quot;yum-utils&quot;</code><br> if [ -z $info ];then<br>     echo “正在安装脚本依赖”<br>     yum -y install yum-utils &gt;/etc/null 2&gt;&amp;1<br> else<br>     echo “脚本依赖已经完成,脚本开始进行”<br> fi<br>  echo “==============================”<br>  echo “安装的版本：”<br>  echo “(0) mysql55-community”<br>  echo “(1) mysql56-community”<br>  echo “(2) mysql57-community”<br>  echo “(3) mysql80-community”<br>  echo “Crt + c  退出脚本”<br>  echo “==============================”<br>  read -p “请选择您要安装的版本(0-3)” input<br> case $input in<br>     0)<br>         yum-config-manager —disable mysql80-community –save<br>         yum-config-manager –enable mysql55-community –save<br>         yum install mysql-community-server -y;;<br>     1)<br>         yum-config-manager —disable mysql80-community –save<br>         yum-config-manager –enable mysql56-community –save<br>         yum install mysql-community-server -y;;<br>     2)<br>         yum-config-manager —disable mysql80-community –save<br>         yum-config-manager –enable mysql57-community –save<br>         yum install mysql-community-server -y;;<br>     3)<br>         yum install mysql-community-server -y;;<br> esac</p>
+<h6 id="实例结果"><a href="#实例结果" class="headerlink" title="实例结果"></a>实例结果</h6><p>[root@bithub zhang]# sh install_mysql[5.5-8.0].sh<br> 脚本依赖已经完成,脚本开始进行<br> 安装的版本：<br> (0) mysql55-community<br> (1) mysql56-community<br> (2) mysql57-community<br> (3) mysql80-community<br> Crt + c  退出脚本<br> 请选择您要安装的版本(0-3)</p>
+<p>这个脚本就是没有用脚本也可以执行，不过可以看出那个echo，yum这些命令都太多重复了，所以今天我优化一下，加上函数和判断。从而为下一步的循环做准备</p>
+<h6 id="改变后"><a href="#改变后" class="headerlink" title="改变后"></a>改变后</h6><p>#!/bin/bash -  </p>
+<p>#版本1.1  </p>
+<p>#安装mysql社区版本5.5-8.0<br>info=`rpm -qa | grep “yum-utils”`<br>if [ -z $info ];then<br>echo “正在安装脚本依赖”<br>yum -y install yum-utils &gt;/etc/null 2&gt;&amp;1<br>else<br>echo “脚本依赖已经完成,脚本开始进行”<br>fi</p>
+<p>#定义函数<br>fun_echo(){</p>
+<p>echo “==============================”<br>echo “安装的版本：”<br>echo “(0) mysql55-community”<br>echo “(1) mysql56-community”<br>echo “(2) mysql57-community”<br>echo “(3) mysql80-community”<br>echo “Crt + c 退出脚本”<br>echo “==============================”<br>}<br>dis_mysql80(){</p>
+<p>yum-config-manager —disable mysql80-community –save<br>}<br>en_mysql55(){</p>
+<p>yum-config-manager –enable mysql55-community –save</p>
+<p>}<br>en_mysql56(){</p>
+<p>yum-config-manager –enable mysql56-community –save</p>
+<p>}<br>en_mysql57(){</p>
+<p>yum-config-manager –enable mysql57-community –save</p>
+<p>}<br>in_mysql(){</p>
+<p>yum install mysql-community-server -y</p>
+<p>}<br>fun_read(){<br>read -p “请选择您要安装的版本(0-3)” input<br>}</p>
+<p>fun_install(){<br>case $input in<br>0)<br>dis_mysql80#yum-config-manager —disable mysql80-community –save<br>en_mysql55#yum-config-manager –enable mysql55-community –save<br>in_mysql;;#yum install mysql-community-server -y;;<br>1)<br>dis_mysql80#yum-config-manager —disable mysql80-community –save<br>en_mysql56#yum-config-manager –enable mysql56-community –save<br>in_mysql;;#yum install mysql-community-server -y;;<br>2)<br>dis_mysql80#yum-config-manager —disable mysql80-community –save<br>en_mysql57#yum-config-manager –enable mysql57-community –save<br>in_mysql;;#yum install mysql-community-server -y;;<br>3)<br>in_mysql;;#yum install mysql-community-server -y;;<br>esac<br>}<br>fun_echo<br>fun_read<br>if [ -z $input ]<br>then<br>echo “输入有误，请重新输入”<br>fun_read<br>else<br>fun_install<br>fi</p>
+<h6 id="脚本可以在首页的我的GitHub的shell目录里面"><a href="#脚本可以在首页的我的GitHub的shell目录里面" class="headerlink" title="脚本可以在首页的我的GitHub的shell目录里面"></a>脚本可以在首页的我的GitHub的shell目录里面</h6><p><strong>我说的清楚吗</strong></p>
+<p>10分 or 5分</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/10/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-5/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4/">shell脚本编程入门-4</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4/" class="archive-article-date">
+  	<time datetime="2019-05-09T14:49:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="位置变量-“-0-1-2-3-”"><a href="#位置变量-“-0-1-2-3-”" class="headerlink" title="位置变量 “$0 $1 $2 $3 $@ $#”"></a>位置变量 “$0 $1 $2 $3 $@ $#”</h4><p>————sprite-test.sh———–<br>!/bin/bash -<br> echo “\$0是：$0”<br> echo “\$1是：$1”<br> echo “\$2是：$2”<br> echo “\$3是：$3”<br> echo “\$4是：$4”<br> echo “\$@是：$@”<br> echo “\$#是：$#”<br> exit 0<br>————end————–<br>[zhang@bithub ~]$ ./test.sh a b c d e f g<br> $0是：./test.sh ##执行的脚本位置<br> $1是：a ##第一个参数<br> $2是：b<br> $3是：c<br> $4是：d ##第四个参数<br> $@是：a b c d e f g ##列出全部参数<br> $#是：7  ##一共是7个参数<br>[zhang@bithub ~]$ sh test.sh 1 2 3 4 5 6 7<br> $0是：test.sh<br> $1是：1<br> $2是：2<br> $3是：3<br> $4是：4<br> $@是：1 2 3 4 5 6 7<br> $#是：7</p>
+<h5 id="与其相类似的”-”，这个是用来判断命令是否执行成功-成功0失败非0"><a href="#与其相类似的”-”，这个是用来判断命令是否执行成功-成功0失败非0" class="headerlink" title="与其相类似的”$?”，这个是用来判断命令是否执行成功(成功0失败非0)"></a>与其相类似的”$?”，这个是用来判断命令是否执行成功(成功0失败非0)</h5><p>[zhang@bithub ~]$ cat ping.sh<br> !/bin/bash -<br> ip=$1<br> ping -c 2 -w 2 $ip &gt; /dev/null 2&gt;&amp;1<br> [ $? -eq 0 ] &amp;&amp; echo “$ip is on” || echo “$ip is down”<br>[zhang@bithub ~]$ ./ping.sh <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a><br><a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> is on<br>[zhang@bithub ~]$ ./ping.sh 192.168.1.1<br> 192.168.1.1 is down</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/">shell脚本编程入门-3</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/" class="archive-article-date">
+  	<time datetime="2019-05-09T14:18:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="数值的比较-字符的比较"><a href="#数值的比较-字符的比较" class="headerlink" title="数值的比较-字符的比较"></a>数值的比较-字符的比较</h3><h6 id="数值比较的两种方法："><a href="#数值比较的两种方法：" class="headerlink" title="数值比较的两种方法："></a><strong>数值比较的两种方法：</strong></h6><p>[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F<br> F<br>[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F”<br> F<br>”[]“是一个判断，方括号两边必须留空<br>[  “$HOME”  ==  “$MAIL”  ]<br>[□”$HOME”□==□”$MAIL”□]<br> ↑       ↑  ↑       ↑<br>这里提到了数值比较的两种方法，其实就是格式的不一样，第一条上面是用”-eq“表示“==”。<br>当然[]中可以有2个判断条件。<br>[zhang@bithub ~]$ [ 2 -gt 1 -o 2 -lt 3 ] &amp;&amp; echo “T” #解释# -o 表示或<br> T<br>[zhang@bithub ~]$ [ 2 -gt 1 -a 2 -lt 1 ] &amp;&amp; echo “T” || echo “F”<br> F #解释#-a 表示 and 并且</p>
+<p>运算符</p>
+<p>说明</p>
+<p>-eq</p>
+<p>检测两个数是否相等，相等返回 true。</p>
+<p>-ne</p>
+<p>检测两个数是否不相等，不相等返回 true。</p>
+<p>-lt</p>
+<p>检测左边的数是否小于右边的，如果是，则返回 true</p>
+<p>-gt</p>
+<p>检测左边的数是否大于右边的，如果是，则返回 true。</p>
+<p>-le</p>
+<p>检测左边的数是否小于等于右边的，如果是，则返回 true。</p>
+<p>-ge</p>
+<p>检测左边的数是否大于等于右边的，如果是，则返回 true。</p>
+<h6 id="字符的比较"><a href="#字符的比较" class="headerlink" title="字符的比较"></a>字符的比较</h6><p>符号</p>
+<p>说明</p>
+<p>-f</p>
+<p>文件是否存在</p>
+<p>-z</p>
+<p>-x</p>
+<p>文件是否有x权限</p>
+<p>-d</p>
+<p>目录是否存在</p>
+<p>[zhang@bithub ~]$ var=zhang<br>[zhang@bithub ~]$ [ $var = ‘li’ ] &amp;&amp; echo “T” || echo “F”<br>F<br>[zhang@bithub ~]$ [ $var -eq ‘li’ ] &amp;&amp; echo “T” || echo “F”<br> -bash: [: zhang: 期待整数表达式 ##这里的-eq就会报错了，运算符在这就会报错<br> F<br>[zhang@bithub ~]$ unset var ##清空<br>[zhang@bithub ~]$ echo $var </p>
+<p>[zhang@bithub ~]$ ls<br>install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ var=install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ echo $var<br>install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ [ -f $var ] &amp;&amp; echo “T” ##-f 文件如果存在输出T<br> T</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/08/wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404/">WordPress-固定链接-404</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/08/wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404/" class="archive-article-date">
+  	<time datetime="2019-05-08T13:06:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>WordPress默认的固定链接格式为朴素的格式</p>
+<p>[<code>https://www.bithub.xin/?p=123</code>]</p>
+<p>然后在更改成别的格式的时候，就会出现404页面不存在的问题</p>
+<p>以下是成功解决问题的实例步骤记录</p>
+</blockquote>
+<h2 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h2><p>在控制台上将固定链接更改后，实际页面的链接并没有变。导致了页面找不到</p>
+<h2 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h2><h5 id="WordPress社区找文档-https-codex-wordpress-org-zh-cn-E4-BD-BF-E7-94-A8-E5-9B-BA-E5-AE-9A-E9-93-BE-E6-8E-A5"><a href="#WordPress社区找文档-https-codex-wordpress-org-zh-cn-E4-BD-BF-E7-94-A8-E5-9B-BA-E5-AE-9A-E9-93-BE-E6-8E-A5" class="headerlink" title="WordPress社区找文档[https://codex.wordpress.org/zh-cn:%E4%BD%BF%E7%94%A8%E5%9B%BA%E5%AE%9A%E9%93%BE%E6%8E%A5]"></a>WordPress社区找文档[<a href="https://codex.wordpress.org/zh-cn:%E4%BD%BF%E7%94%A8%E5%9B%BA%E5%AE%9A%E9%93%BE%E6%8E%A5" target="_blank" rel="noopener">https://codex.wordpress.org/zh-cn:%E4%BD%BF%E7%94%A8%E5%9B%BA%E5%AE%9A%E9%93%BE%E6%8E%A5</a>]</h5><p>最后原来是Apache缺Mod_rewrite的模块，这个模块没有启用</p>
+<h5 id="启用Mod-rewrite-so、添加权限（改3处）"><a href="#启用Mod-rewrite-so、添加权限（改3处）" class="headerlink" title="启用Mod_rewrite.so、添加权限（改3处）"></a>启用Mod_rewrite.so、添加权限（改3处）</h5><p>vim /etc/httpd/conf/httpd.conf<br>————————-sprite—/httpd.conf———————<br>#<br> This is the main Apache HTTP server configuration file.  It contains the<br> configuration directives that give the server its instructions.<br> See  for detailed information.<br>       ….<br>Include conf.modules.d/*.conf<br>LoadModule rewrite_module modules/mod_rewrite.so[加载mod]<br>       ….<br><directory><br><code>AllowOverride ALL</code> [None改为ALL]<br><code>Require all denied</code><br></directory><br>       ….<br><code># The Options directive is both complicated and important.  Please see</code><br><code># http://httpd.apache.org/docs/2.4/mod/core.html#options</code><br><code># for more information.</code><br><code>#</code><br><code>Options Indexes FollowSymLinks</code><br><code>#</code><br><code># AllowOverride controls what directives may be placed in .htaccess files.</code><br><code># It can be &quot;All&quot;, &quot;None&quot;, or any combination of the keywords:</code><br><code>#   Options FileInfo AuthConfig Limit</code><br><code>#</code><br><code>AllowOverride ALL</code> [None改为ALL]<br>      ….<br>END<br>--------------------------------------------------------------------<br>$ sudo systemctl restart httpd [重启服务]</p>
+<p>到这问题已经解决了</p>
+<h5 id="后续问题"><a href="#后续问题" class="headerlink" title="后续问题"></a>后续问题</h5><p>1.您现在需要手工更新您的.htaccess文件。<br>这个Apache用户没有 w 写的权限，有chmod g+w -R</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/WordPress//" class="article-tag-list-link color5">WordPress</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/08/wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/07/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-2/">shell脚本编程入门-2</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/07/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-2/" class="archive-article-date">
+  	<time datetime="2019-05-07T14:29:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="两个常用的内置变量"><a href="#两个常用的内置变量" class="headerlink" title="两个常用的内置变量"></a>两个常用的内置变量</h2><p>最常用的两个内置变量就是UID和GID, 经常用来识别用户的身份.系统内置的变量是无法通过直接赋值去更改。</p>
+<p>[zhang@bithub ~]$ id<br> uid=1000(zhang) gid=1000(zhang) groups=1000(zhang)<br>[zhang@bithub ~]$ echo $UID<br> 1000<br>[zhang@bithub ~]$ UID=10001<br> -bash: UID: 只读变量</p>
+<h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><p>脚本目的：在脚本执行先检测用户是不是root(uid)=0，如果$UID = 0则进行脚本<br> 1 #!/bin/bash -<br> 2 #20190507<br> 3 #who am i<br> 4<br> 5 [ $UID -eq 0 ] &amp;&amp; echo “You are root” || echo “You are normal user”</p>
+<h4 id="脚本介绍"><a href="#脚本介绍" class="headerlink" title="脚本介绍"></a>脚本介绍</h4><p>1.[ $UID -eq 0 ] ：用[]判断UID是否等于(-eq)0，结果为真则进行&amp;&amp;之后的命令 2.&amp;&amp;：command1 &amp;&amp; command2 ，执行完command1后执行command2，不管command1是否执行成功<br>3.|| ：command1 || command2，执行完command1 结果为假，则执行command2，如果command1结果为真，则command2不执行</p>
+<p>line1：定义脚本执行的bash环境，每个脚本必须要有这一行，并且要在第一行，否则计算机无法识别该脚本<br>line2：脚本建立时间<br>line3：脚本的作用<br>line5：如果UID为0则打印“You are root”否则打印“You are normal user”</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/07/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -441,6 +1202,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Markdown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
             
             <div class="clearfix"></div>

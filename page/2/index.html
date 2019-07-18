@@ -426,16 +426,32 @@
       
         <p>网站使用的数据库是wordpress，对于一些没有sql语言基础的，不知道怎么创建数据库，可以通过phpmyadmin用界面的方式来管理数据库，方便今后的数据库备份等操作，相对要简单很多。如果有基础的可以直接跳过安装phpmyadmin，创建wordpress数据库就行</p>
 <hr>
-<p>一、安装phpmyadmin 1.下载源码包</p>
-<p>wget <a href="https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip" target="_blank" rel="noopener">https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip</a></p>
-<p>2.解压</p>
-<p>unzip phpMyAdmin-4.8.2-all-languages.zip</p>
-<p>#首先要有unzip 如果没有yum install unzip -y</p>
-<p>mv phpMyAdmin-4.8.2-all-languages /var/www/html/phpmyadmin  &lt;==将其放在网站目录上</p>
-<p>3.检验</p>
-<p>在浏览器中<br><a href="http://ip/phpmyadmin" target="_blank" rel="noopener">http://ip/phpmyadmin</a></p>
-<p>登陆时使用的登陆账号是数据库的用户及密码</p>
-<p>4.建立博客系统的数据库</p>
+<blockquote>
+<p>一、安装phpmyadmin </p>
+<ul>
+<li>下载源码包</li>
+</ul>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解压<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip phpMyAdmin-4.8.2-all-languages.zip</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>###首先要有unzip 如果没有yum install unzip -y</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv phpMyAdmin-4.8.2-all-languages /var/www/html/phpmyadmin  &lt;==将其放在网站目录上</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>检验</li>
+</ul>
+<p>在浏览器中</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://ip/phpmyadmin</span><br></pre></td></tr></table></figure>
+
+<p><code>登陆时使用的登陆账号是数据库的用户及密码</code></p>
+<ul>
+<li>建立博客系统的数据库</li>
+</ul>
 <p>点击新建，数据库名字为wordpress，其他参数默认就行</p>
 <p>使用终端命令行的可以进入mariadb后执行</p>
 <p>create database wordpress；</p>
@@ -445,8 +461,10 @@
 <p>mv ./wordpress /var/www/html/</p>
 <p>2.开始配置 <a href="http://ip/wordpress" target="_blank" rel="noopener">http://ip/wordpress</a></p>
 <p>vim /var/www/html/wordpress/wp-config.php</p>
-<p>#将其粘贴进去</p>
-<p>#点击现在开始安装</p>
+<blockquote>
+<p>将其粘贴进去</p>
+</blockquote>
+<p>###点击现在开始安装</p>
 <p>3.网站管理员账号密码 4.登陆 到此网站已经建立成功了</p>
 
       
@@ -1048,7 +1066,11 @@
 </ul>
 <p>这种人有些很有才干，却因不敢重新冒险，才愿意平平淡淡地度过一生。<strong>这两种人</strong>身上有着共同的思想毒素，极易感染他人的思想毒素，那就是消极。</p>
 <p>我一直以为，一个人的个性与野心，目前的身分与地位，同与什么人交往有关。经常跟消极的人来往，他自己也会变得消极；<strong>跟小人物交往过密，就会产生许多卑微的习惯</strong>。反过来说，经常受到大人物的熏陶，自会提高自己的思想水准；<strong>经常接触</strong>那些雄心万丈的成功人士，也会使他养成迈向成功所需要的野心与行动。</p>
-<p>我喜欢同那些<strong>永远也不屈服</strong>的人做朋友。有个聪明人说得好：我要挑战令人厌恶的逆境，因为智者告诉我，那是通往成功最明智的方向。只是这种人少之又少。 这种人绝不让悲观来左右一切，绝不屈从各种阻力，更不相信自己只能浑浑噩噩虚度一生。<strong>他们活着的目的就是获得成就</strong>。这种人都很乐观，因为他们一定要完成自己的心愿。<br><strong>这种人很容易成为各个领域的佼佼者</strong>。他们能真正的享受人生，也真正了解生命的可贵与价值。他们都盼望每一个新的日子，以及跟别人之间的新接触，因为他们把这些看成是丰富人生的历练，因此热烈地接受。 我相信人人都希望列入其中，因为只有这些人才能成功，也只有这些人才真正做事，并且能得到他们期盼的结果。 不幸的是，消极的人随处可见，也使很多很多的人无法逃脱消极之墙的围困。 在我们的周围的人并非人人相同，有些消极保守，有些则积极进取。与我曾共事的人，有些人想混口饭吃，有些则胸怀大志，野心勃勃，想要有更好的表现，他们也了解，<strong>在成为大人物前，必须先做个好的追随者。</strong> 要有所成就就要避免落入各式各样的陷阱或圈套。在任何一个地方都有人自知不行，却硬要挡住你上进的路，阻止你更上层楼。有许多人因为力争上游，而被人嘲笑甚至被恐吓。还有些人非常嫉妒，看到你努力上进，力求表现，会想尽办法来作弄你，要你难堪。 我们不能阻止他人成为那些无聊的消极分子，却可以不被那些消极人士影响，降低我们的思想水准。<strong>你要让他们自然溜过，就像水鸭背后的水一样自然滑过。</strong>时时跟随思想积极前进的人，跟着他们一起成长、一起进步。 你确实能够做到这一点，只要你的思想正常，一定可以办到，而且你最好要这样做。 有些消极的人心肠很好，另外还有一些消极的人，自己不知上进，还起想把别人也拖下水，他们自己没有什么作为，所以想使别人也一事无成。记住，约翰，说<strong>你办不到的人，都是无法成功的人，</strong>亦即他个人的成就，顶多普普通通而已。因此这种人的意见，对你有害无益。 <img src="https://pimage.cqcb.com/d/file/reading/2018-06-03/74bef09ba9ec5d300505a249beeb6d66.jpg" alt> 你要多加防范那些说你办不到的人，只能把他们的警告看成证明你一定办得到的挑战。你还要特别防范消极的人破坏你迈向成功的计划，这种人随处可见，他们似乎专门破坏别人的进步与努力。千万要小心，要多多注意那些消极的人，千万不要让他们破坏你的成功计划。不要让那些思想消极、度量狭窄的人妨碍你的进步。<strong>那些幸灾乐祸、喜欢嫉妒的人都想看你摔跤，不要给他们机会。 ** 当你有任何困难时，明智的做法是找第一流的人物来帮你。</strong>如果向一个失败者请教，就跟请求庸医治疗绝症一样可笑<strong>。你的前途很重要，</strong>千万不要从长舌妇那里征求意见<strong>，因为这种人一辈子都没有出息。 你要重视你的环境。</strong>就像食物供应身体一样，精神活动也会滋润你的心理健康<strong>。要使你的环境为你的工作服务，而不是拖累你。不要让那些阻力，亦即专门扯你后腿的人使你萎靡不振。让环境帮助你成功的方法是：</strong>多接近积极成功的人，少同消极的人来往。 ** 每一件事情都要做得尽善尽美。你付不起贪小失大所累积的种种额外负担。 爱你的父亲 May  11， 1902</p>
+<p>我喜欢同那些<strong>永远也不屈服</strong>的人做朋友。有个聪明人说得好：我要挑战令人厌恶的逆境，因为智者告诉我，那是通往成功最明智的方向。只是这种人少之又少。 这种人绝不让悲观来左右一切，绝不屈从各种阻力，更不相信自己只能浑浑噩噩虚度一生。<strong>他们活着的目的就是获得成就</strong>。这种人都很乐观，因为他们一定要完成自己的心愿。<br><strong>这种人很容易成为各个领域的佼佼者</strong>。他们能真正的享受人生，也真正了解生命的可贵与价值。他们都盼望每一个新的日子，以及跟别人之间的新接触，因为他们把这些看成是丰富人生的历练，因此热烈地接受。 我相信人人都希望列入其中，因为只有这些人才能成功，也只有这些人才真正做事，并且能得到他们期盼的结果。 不幸的是，消极的人随处可见，也使很多很多的人无法逃脱消极之墙的围困。 在我们的周围的人并非人人相同，有些消极保守，有些则积极进取。与我曾共事的人，有些人想混口饭吃，有些则胸怀大志，野心勃勃，想要有更好的表现，他们也了解，<strong>在成为大人物前，必须先做个好的追随者。</strong> 要有所成就就要避免落入各式各样的陷阱或圈套。在任何一个地方都有人自知不行，却硬要挡住你上进的路，阻止你更上层楼。有许多人因为力争上游，而被人嘲笑甚至被恐吓。还有些人非常嫉妒，看到你努力上进，力求表现，会想尽办法来作弄你，要你难堪。 我们不能阻止他人成为那些无聊的消极分子，却可以不被那些消极人士影响，降低我们的思想水准。</p>
+<p>你要让他们自然溜过，就像水鸭背后的水一样自然滑过。**时时跟随思想积极前进的人，跟着他们一起成长、一起进步。 你确实能够做到这一点，只要你的思想正常，一定可以办到，而且你最好要这样做。 有些消极的人心肠很好，另外还有一些消极的人，自己不知上进，还起想把别人也拖下水，他们自己没有什么作为，所以想使别人也一事无成。记住，约翰，说你办不到的人，都是无法成功的人，亦即他个人的成就，顶多普普通通而已。因此这种人的意见，对你有害无益。你要多加防范那些说你办不到的人，只能把他们的警告看成证明你一定办得到的挑战。你还要特别防范消极的人破坏你迈向成功的计划，这种人随处可见，他们似乎专门破坏别人的进步与努力。千万要小心，要多多注意那些消极的人，千万不要让他们破坏你的成功计划。不要让那些思想消极、度量狭窄的人妨碍你的进步。</p>
+<p>那些幸灾乐祸、喜欢嫉妒的人都想看你摔跤，不要给他们机会。 ** 当你有任何困难时，明智的做法是找第一流的人物来帮你。如果向一个失败者请教，就跟请求庸医治疗绝症一样可笑。你的前途很重要，<strong>千万不要从长舌妇那里征求意见</strong>，因为这种人一辈子都没有出息。 你要重视你的环境。<strong>就像食物供应身体一样，精神活动也会滋润你的心理健康</strong>。要使你的环境为你的工作服务，而不是拖累你。不要让那些阻力，亦即专门扯你后腿的人使你萎靡不振。让环境帮助你成功的方法是：多接近积极成功的人，少同消极的人来往。 </p>
+<p>每一件事情都要做得尽善尽美。你付不起贪小失大所累积的种种额外负担。 </p>
+<p>爱你的父亲 May  11， 1902<br><img src="https://pimage.cqcb.com/d/file/reading/2018-06-03/74bef09ba9ec5d300505a249beeb6d66.jpg" alt></p>
 
       
 
@@ -1293,7 +1315,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Markdown</a>
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1301,7 +1323,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color4">Markdown</a>
               </li>
             
             <div class="clearfix"></div>

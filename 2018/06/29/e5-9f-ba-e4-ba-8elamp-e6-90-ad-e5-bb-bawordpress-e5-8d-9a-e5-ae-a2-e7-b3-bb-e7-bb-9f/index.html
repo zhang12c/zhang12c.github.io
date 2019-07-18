@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>基于LAMP搭建wordpress博客系统 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="网站使用的数据库是wordpress，对于一些没有sql语言基础的，不知道怎么创建数据库，可以通过phpmyadmin用界面的方式来管理数据库，方便今后的数据库备份等操作，相对要简单很多。如果有基础的可以直接跳过安装phpmyadmin，创建wordpress数据库就行  一、安装phpmyadmin 1.下载源码包 wget https://files.phpmyadmin.net/phpMyA">
+  <meta name="description" content="网站使用的数据库是wordpress，对于一些没有sql语言基础的，不知道怎么创建数据库，可以通过phpmyadmin用界面的方式来管理数据库，方便今后的数据库备份等操作，相对要简单很多。如果有基础的可以直接跳过安装phpmyadmin，创建wordpress数据库就行   一、安装phpmyadmin   下载源码包   1wget https://files.phpmyadmin.net/ph">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于LAMP搭建wordpress博客系统">
 <meta property="og:url" content="http://yoursite.com/2018/06/29/e5-9f-ba-e4-ba-8elamp-e6-90-ad-e5-bb-bawordpress-e5-8d-9a-e5-ae-a2-e7-b3-bb-e7-bb-9f/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="网站使用的数据库是wordpress，对于一些没有sql语言基础的，不知道怎么创建数据库，可以通过phpmyadmin用界面的方式来管理数据库，方便今后的数据库备份等操作，相对要简单很多。如果有基础的可以直接跳过安装phpmyadmin，创建wordpress数据库就行  一、安装phpmyadmin 1.下载源码包 wget https://files.phpmyadmin.net/phpMyA">
+<meta property="og:description" content="网站使用的数据库是wordpress，对于一些没有sql语言基础的，不知道怎么创建数据库，可以通过phpmyadmin用界面的方式来管理数据库，方便今后的数据库备份等操作，相对要简单很多。如果有基础的可以直接跳过安装phpmyadmin，创建wordpress数据库就行   一、安装phpmyadmin   下载源码包   1wget https://files.phpmyadmin.net/ph">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-18T04:32:04.799Z">
+<meta property="og:updated_time" content="2019-07-18T05:04:44.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于LAMP搭建wordpress博客系统">
-<meta name="twitter:description" content="网站使用的数据库是wordpress，对于一些没有sql语言基础的，不知道怎么创建数据库，可以通过phpmyadmin用界面的方式来管理数据库，方便今后的数据库备份等操作，相对要简单很多。如果有基础的可以直接跳过安装phpmyadmin，创建wordpress数据库就行  一、安装phpmyadmin 1.下载源码包 wget https://files.phpmyadmin.net/phpMyA">
+<meta name="twitter:description" content="网站使用的数据库是wordpress，对于一些没有sql语言基础的，不知道怎么创建数据库，可以通过phpmyadmin用界面的方式来管理数据库，方便今后的数据库备份等操作，相对要简单很多。如果有基础的可以直接跳过安装phpmyadmin，创建wordpress数据库就行   一、安装phpmyadmin   下载源码包   1wget https://files.phpmyadmin.net/ph">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
   
@@ -176,16 +176,32 @@
       
         <p>网站使用的数据库是wordpress，对于一些没有sql语言基础的，不知道怎么创建数据库，可以通过phpmyadmin用界面的方式来管理数据库，方便今后的数据库备份等操作，相对要简单很多。如果有基础的可以直接跳过安装phpmyadmin，创建wordpress数据库就行</p>
 <hr>
-<p>一、安装phpmyadmin 1.下载源码包</p>
-<p>wget <a href="https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip" target="_blank" rel="noopener">https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip</a></p>
-<p>2.解压</p>
-<p>unzip phpMyAdmin-4.8.2-all-languages.zip</p>
-<p>#首先要有unzip 如果没有yum install unzip -y</p>
-<p>mv phpMyAdmin-4.8.2-all-languages /var/www/html/phpmyadmin  &lt;==将其放在网站目录上</p>
-<p>3.检验</p>
-<p>在浏览器中<br><a href="http://ip/phpmyadmin" target="_blank" rel="noopener">http://ip/phpmyadmin</a></p>
-<p>登陆时使用的登陆账号是数据库的用户及密码</p>
-<p>4.建立博客系统的数据库</p>
+<blockquote>
+<p>一、安装phpmyadmin </p>
+<ul>
+<li>下载源码包</li>
+</ul>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解压<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip phpMyAdmin-4.8.2-all-languages.zip</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>###首先要有unzip 如果没有yum install unzip -y</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv phpMyAdmin-4.8.2-all-languages /var/www/html/phpmyadmin  &lt;==将其放在网站目录上</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>检验</li>
+</ul>
+<p>在浏览器中</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://ip/phpmyadmin</span><br></pre></td></tr></table></figure>
+
+<p><code>登陆时使用的登陆账号是数据库的用户及密码</code></p>
+<ul>
+<li>建立博客系统的数据库</li>
+</ul>
 <p>点击新建，数据库名字为wordpress，其他参数默认就行</p>
 <p>使用终端命令行的可以进入mariadb后执行</p>
 <p>create database wordpress；</p>
@@ -195,8 +211,10 @@
 <p>mv ./wordpress /var/www/html/</p>
 <p>2.开始配置 <a href="http://ip/wordpress" target="_blank" rel="noopener">http://ip/wordpress</a></p>
 <p>vim /var/www/html/wordpress/wp-config.php</p>
-<p>#将其粘贴进去</p>
-<p>#点击现在开始安装</p>
+<blockquote>
+<p>将其粘贴进去</p>
+</blockquote>
+<p>###点击现在开始安装</p>
 <p>3.网站管理员账号密码 4.登陆 到此网站已经建立成功了</p>
 
       
@@ -443,7 +461,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Markdown</a>
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -451,7 +469,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color4">Markdown</a>
               </li>
             
             <div class="clearfix"></div>

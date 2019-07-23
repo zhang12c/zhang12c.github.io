@@ -159,6 +159,69 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-python" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/23/python/">python</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/23/python/" class="archive-article-date">
+  	<time datetime="2019-07-23T01:39:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>plksjdk<br>asdlkjfosijdv<br>asdbvlaksjboaj<br>apsojdvwej</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/23/python/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-LearnMarkdown" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1029,88 +1092,6 @@
 
 
   
-    <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/07/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-2/">shell脚本编程入门-2</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/07/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-2/" class="archive-article-date">
-  	<time datetime="2019-05-07T14:29:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="两个常用的内置变量"><a href="#两个常用的内置变量" class="headerlink" title="两个常用的内置变量"></a>两个常用的内置变量</h2><p>最常用的两个内置变量就是UID和GID, 经常用来识别用户的身份.系统内置的变量是无法通过直接赋值去更改。</p>
-<p>[zhang@bithub ~]$ id<br> uid=1000(zhang) gid=1000(zhang) groups=1000(zhang)<br>[zhang@bithub ~]$ echo $UID<br> 1000<br>[zhang@bithub ~]$ UID=10001<br> -bash: UID: 只读变量</p>
-<h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><p>脚本目的：在脚本执行先检测用户是不是root(uid)=0，如果$UID = 0则进行脚本<br> 1 #!/bin/bash -<br> 2 #20190507<br> 3 #who am i<br> 4<br> 5 [ $UID -eq 0 ] &amp;&amp; echo “You are root” || echo “You are normal user”</p>
-<h4 id="脚本介绍"><a href="#脚本介绍" class="headerlink" title="脚本介绍"></a>脚本介绍</h4><p>1.[ $UID -eq 0 ] ：用[]判断UID是否等于(-eq)0，结果为真则进行&amp;&amp;之后的命令 2.&amp;&amp;：command1 &amp;&amp; command2 ，执行完command1后执行command2，不管command1是否执行成功<br>3.|| ：command1 || command2，执行完command1 结果为假，则执行command2，如果command1结果为真，则command2不执行</p>
-<p>line1：定义脚本执行的bash环境，每个脚本必须要有这一行，并且要在第一行，否则计算机无法识别该脚本<br>line2：脚本建立时间<br>line3：脚本的作用<br>line5：如果UID为0则打印“You are root”否则打印“You are normal user”</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/07/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1212,11 +1193,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
             
             <div class="clearfix"></div>

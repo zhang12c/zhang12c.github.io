@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
-  <title>shell脚本编程入门-3 | 云维</title>
+  <title>ansible集群学习备忘 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="数值的比较-字符的比较数值比较的两种方法：[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F F[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F” F”[]“是一个判断，方括号两边必须留空[  “$HOME”  ==  “$MAIL”  ][□”$HOME”□==□”$MAIL”□] ↑       ↑">
+  <meta name="description" content="如果你需要在使用 sudo 时指定密码,可在运行 ansible-playbook 命令时加上选项  1--ask-sudo-pass  如果使用sudo时,playbook疑似被挂起,可能是在sudo prompt处被卡住,这时可执行Control-C杀死卡住的任务,再重新运行一次.  使用 command module 和 shell module 时,我们需要关心返回码信息,如果有一条命令,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="shell脚本编程入门-3">
-<meta property="og:url" content="https://zhang12c.bithub.xin/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/index.html">
+<meta property="og:title" content="ansible集群学习备忘">
+<meta property="og:url" content="https://zhang12c.bithub.xin/2019/07/23/ansible集群学习备忘/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="数值的比较-字符的比较数值比较的两种方法：[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F F[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F” F”[]“是一个判断，方括号两边必须留空[  “$HOME”  ==  “$MAIL”  ][□”$HOME”□==□”$MAIL”□] ↑       ↑">
+<meta property="og:description" content="如果你需要在使用 sudo 时指定密码,可在运行 ansible-playbook 命令时加上选项  1--ask-sudo-pass  如果使用sudo时,playbook疑似被挂起,可能是在sudo prompt处被卡住,这时可执行Control-C杀死卡住的任务,再重新运行一次.  使用 command module 和 shell module 时,我们需要关心返回码信息,如果有一条命令,">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-07-18T04:32:04.799Z">
+<meta property="og:updated_time" content="2019-07-24T02:07:57.586Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="shell脚本编程入门-3">
-<meta name="twitter:description" content="数值的比较-字符的比较数值比较的两种方法：[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F F[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F” F”[]“是一个判断，方括号两边必须留空[  “$HOME”  ==  “$MAIL”  ][□”$HOME”□==□”$MAIL”□] ↑       ↑">
+<meta name="twitter:title" content="ansible集群学习备忘">
+<meta name="twitter:description" content="如果你需要在使用 sudo 时指定密码,可在运行 ansible-playbook 命令时加上选项  1--ask-sudo-pass  如果使用sudo时,playbook疑似被挂起,可能是在sudo prompt处被卡住,这时可执行Control-C杀死卡住的任务,再重新运行一次.  使用 command module 和 shell module 时,我们需要关心返回码信息,如果有一条命令,">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
   
@@ -158,52 +158,35 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-ansible集群学习备忘" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      shell脚本编程入门-3
+      ansible集群学习备忘
     </h1>
   
 
         
-        <a href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/" class="archive-article-date">
-  	<time datetime="2019-05-09T14:18:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
+        <a href="/2019/07/23/ansible集群学习备忘/" class="archive-article-date">
+  	<time datetime="2019-07-23T01:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="数值的比较-字符的比较"><a href="#数值的比较-字符的比较" class="headerlink" title="数值的比较-字符的比较"></a>数值的比较-字符的比较</h3><h6 id="数值比较的两种方法："><a href="#数值比较的两种方法：" class="headerlink" title="数值比较的两种方法："></a><strong>数值比较的两种方法：</strong></h6><p>[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F<br> F<br>[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F”<br> F<br>”[]“是一个判断，方括号两边必须留空<br>[  “$HOME”  ==  “$MAIL”  ]<br>[□”$HOME”□==□”$MAIL”□]<br> ↑       ↑  ↑       ↑<br>这里提到了数值比较的两种方法，其实就是格式的不一样，第一条上面是用”-eq“表示“==”。<br>当然[]中可以有2个判断条件。<br>[zhang@bithub ~]$ [ 2 -gt 1 -o 2 -lt 3 ] &amp;&amp; echo “T” #解释# -o 表示或<br> T<br>[zhang@bithub ~]$ [ 2 -gt 1 -a 2 -lt 1 ] &amp;&amp; echo “T” || echo “F”<br> F #解释#-a 表示 and 并且</p>
-<p>运算符</p>
-<p>说明</p>
-<p>-eq</p>
-<p>检测两个数是否相等，相等返回 true。</p>
-<p>-ne</p>
-<p>检测两个数是否不相等，不相等返回 true。</p>
-<p>-lt</p>
-<p>检测左边的数是否小于右边的，如果是，则返回 true</p>
-<p>-gt</p>
-<p>检测左边的数是否大于右边的，如果是，则返回 true。</p>
-<p>-le</p>
-<p>检测左边的数是否小于等于右边的，如果是，则返回 true。</p>
-<p>-ge</p>
-<p>检测左边的数是否大于等于右边的，如果是，则返回 true。</p>
-<h6 id="字符的比较"><a href="#字符的比较" class="headerlink" title="字符的比较"></a>字符的比较</h6><p>符号</p>
-<p>说明</p>
-<p>-f</p>
-<p>文件是否存在</p>
-<p>-z</p>
-<p>-x</p>
-<p>文件是否有x权限</p>
-<p>-d</p>
-<p>目录是否存在</p>
-<p>[zhang@bithub ~]$ var=zhang<br>[zhang@bithub ~]$ [ $var = ‘li’ ] &amp;&amp; echo “T” || echo “F”<br>F<br>[zhang@bithub ~]$ [ $var -eq ‘li’ ] &amp;&amp; echo “T” || echo “F”<br> -bash: [: zhang: 期待整数表达式 ##这里的-eq就会报错了，运算符在这就会报错<br> F<br>[zhang@bithub ~]$ unset var ##清空<br>[zhang@bithub ~]$ echo $var </p>
-<p>[zhang@bithub ~]$ ls<br>install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ var=install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ echo $var<br>install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ [ -f $var ] &amp;&amp; echo “T” ##-f 文件如果存在输出T<br> T</p>
+        <p>如果你需要在使用 sudo 时指定密码,可在运行 ansible-playbook 命令时加上选项 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--ask-sudo-pass</span><br></pre></td></tr></table></figure>
+
+<p>如果使用<strong>sudo</strong>时,<strong>playbook</strong>疑似被挂起,可能是在<strong>sudo prompt</strong>处被卡住,这时可执行<strong>Control-C</strong>杀死卡住的任务,再重新运行一次.</p>
+<hr>
+<p>使用 command module 和 shell module 时,我们需要关心返回码信息,如果有一条命令,它的成功执行的返回码不是0, 你或许希望这样做:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tasks:</span><br><span class="line">  - name: run this <span class="built_in">command</span> and ignore the result</span><br><span class="line">    shell: /usr/bin/somecommand</span><br><span class="line">    ignore_errors: True</span><br></pre></td></tr></table></figure>
+
+<hr>
 
       
 
@@ -239,11 +222,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
+        			<a href="/categories/ansible//" class="article-tag-list-link color3">ansible</a>
         		</li>
       		
 		</ul>
@@ -298,7 +277,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://zhang12c.bithub.xin/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://zhang12c.bithub.xin/2019/07/23/ansible集群学习备忘/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -312,18 +291,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          shell脚本编程入门-4
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/05/08/wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">WordPress-固定链接-404</div>
+    <a href="/2019/07/23/函数-函数返回值/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">函数-函数返回值</div>
       <i class="icon-circle-right"></i>
     </a>
   

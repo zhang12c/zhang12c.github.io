@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
-  <title>shell脚本编程入门-3 | 云维</title>
+  <title>ansible结合跳板机远程控制 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="数值的比较-字符的比较数值比较的两种方法：[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F F[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F” F”[]“是一个判断，方括号两边必须留空[  “$HOME”  ==  “$MAIL”  ][□”$HOME”□==□”$MAIL”□] ↑       ↑">
+  <meta name="description" content="Ansible结合跳板机控制远程服务器在ansible的使用过程中，存在这样的场景，ansible所在的管理节点与被管理的机器需要 通过一个跳板机才能连接，无法直接连接。网上搜了一下，要解决这个问题，并不需要在 ansible里做什么处理，而是在ssh连接层面解决这个问题。 比如， 我们有三类节点： 管理节点，admin.example.com，是执行ansible命令的服务器 被管理的节点，in">
 <meta property="og:type" content="article">
-<meta property="og:title" content="shell脚本编程入门-3">
-<meta property="og:url" content="https://zhang12c.bithub.xin/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/index.html">
+<meta property="og:title" content="ansible结合跳板机远程控制">
+<meta property="og:url" content="https://zhang12c.bithub.xin/2018/06/03/ansible结合跳板机远程控制/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="数值的比较-字符的比较数值比较的两种方法：[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F F[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F” F”[]“是一个判断，方括号两边必须留空[  “$HOME”  ==  “$MAIL”  ][□”$HOME”□==□”$MAIL”□] ↑       ↑">
+<meta property="og:description" content="Ansible结合跳板机控制远程服务器在ansible的使用过程中，存在这样的场景，ansible所在的管理节点与被管理的机器需要 通过一个跳板机才能连接，无法直接连接。网上搜了一下，要解决这个问题，并不需要在 ansible里做什么处理，而是在ssh连接层面解决这个问题。 比如， 我们有三类节点： 管理节点，admin.example.com，是执行ansible命令的服务器 被管理的节点，in">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-07-18T04:32:04.799Z">
+<meta property="og:updated_time" content="2019-07-24T02:07:57.559Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="shell脚本编程入门-3">
-<meta name="twitter:description" content="数值的比较-字符的比较数值比较的两种方法：[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F F[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F” F”[]“是一个判断，方括号两边必须留空[  “$HOME”  ==  “$MAIL”  ][□”$HOME”□==□”$MAIL”□] ↑       ↑">
+<meta name="twitter:title" content="ansible结合跳板机远程控制">
+<meta name="twitter:description" content="Ansible结合跳板机控制远程服务器在ansible的使用过程中，存在这样的场景，ansible所在的管理节点与被管理的机器需要 通过一个跳板机才能连接，无法直接连接。网上搜了一下，要解决这个问题，并不需要在 ansible里做什么处理，而是在ssh连接层面解决这个问题。 比如， 我们有三类节点： 管理节点，admin.example.com，是执行ansible命令的服务器 被管理的节点，in">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
   
@@ -158,53 +158,48 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-ansible结合跳板机远程控制" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      shell脚本编程入门-3
+      ansible结合跳板机远程控制
     </h1>
   
 
         
-        <a href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/" class="archive-article-date">
-  	<time datetime="2019-05-09T14:18:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
+        <a href="/2018/06/03/ansible结合跳板机远程控制/" class="archive-article-date">
+  	<time datetime="2018-06-03T13:08:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="数值的比较-字符的比较"><a href="#数值的比较-字符的比较" class="headerlink" title="数值的比较-字符的比较"></a>数值的比较-字符的比较</h3><h6 id="数值比较的两种方法："><a href="#数值比较的两种方法：" class="headerlink" title="数值比较的两种方法："></a><strong>数值比较的两种方法：</strong></h6><p>[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F<br> F<br>[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F”<br> F<br>”[]“是一个判断，方括号两边必须留空<br>[  “$HOME”  ==  “$MAIL”  ]<br>[□”$HOME”□==□”$MAIL”□]<br> ↑       ↑  ↑       ↑<br>这里提到了数值比较的两种方法，其实就是格式的不一样，第一条上面是用”-eq“表示“==”。<br>当然[]中可以有2个判断条件。<br>[zhang@bithub ~]$ [ 2 -gt 1 -o 2 -lt 3 ] &amp;&amp; echo “T” #解释# -o 表示或<br> T<br>[zhang@bithub ~]$ [ 2 -gt 1 -a 2 -lt 1 ] &amp;&amp; echo “T” || echo “F”<br> F #解释#-a 表示 and 并且</p>
-<p>运算符</p>
-<p>说明</p>
-<p>-eq</p>
-<p>检测两个数是否相等，相等返回 true。</p>
-<p>-ne</p>
-<p>检测两个数是否不相等，不相等返回 true。</p>
-<p>-lt</p>
-<p>检测左边的数是否小于右边的，如果是，则返回 true</p>
-<p>-gt</p>
-<p>检测左边的数是否大于右边的，如果是，则返回 true。</p>
-<p>-le</p>
-<p>检测左边的数是否小于等于右边的，如果是，则返回 true。</p>
-<p>-ge</p>
-<p>检测左边的数是否大于等于右边的，如果是，则返回 true。</p>
-<h6 id="字符的比较"><a href="#字符的比较" class="headerlink" title="字符的比较"></a>字符的比较</h6><p>符号</p>
-<p>说明</p>
-<p>-f</p>
-<p>文件是否存在</p>
-<p>-z</p>
-<p>-x</p>
-<p>文件是否有x权限</p>
-<p>-d</p>
-<p>目录是否存在</p>
-<p>[zhang@bithub ~]$ var=zhang<br>[zhang@bithub ~]$ [ $var = ‘li’ ] &amp;&amp; echo “T” || echo “F”<br>F<br>[zhang@bithub ~]$ [ $var -eq ‘li’ ] &amp;&amp; echo “T” || echo “F”<br> -bash: [: zhang: 期待整数表达式 ##这里的-eq就会报错了，运算符在这就会报错<br> F<br>[zhang@bithub ~]$ unset var ##清空<br>[zhang@bithub ~]$ echo $var </p>
-<p>[zhang@bithub ~]$ ls<br>install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ var=install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ echo $var<br>install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ [ -f $var ] &amp;&amp; echo “T” ##-f 文件如果存在输出T<br> T</p>
+        <p>Ansible结合跳板机控制远程服务器<br>在ansible的使用过程中，存在这样的场景，ansible所在的管理节点与被管理的机器需要 通过一个跳板机才能连接，无法直接连接。网上搜了一下，要解决这个问题，并不需要在 ansible里做什么处理，而是在ssh连接层面解决这个问题。</p>
+<p>比如，</p>
+<p>我们有三类节点：</p>
+<p>管理节点，admin.example.com，是执行ansible命令的服务器</p>
+<p>被管理的节点，internal1.example.com, internal2.example.com</p>
+<p>跳板机，bastion.example.com</p>
+<p>管理节点不能直连 internal1 &amp; internal2，需要通过跳板机建立连接。</p>
+<p>管理节点连接跳板机的方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i keyfile_bastion -p 12345 user@bastion.example.com</span><br></pre></td></tr></table></figure>
 
+<p>从跳板机连接internal节点的方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -i keyfile_internal -p 23456 user@internal1.example.com</span><br><span class="line">ssh -i keyfile_internal -p 23456 user@internal2.example.com</span><br></pre></td></tr></table></figure>
+
+<p>解决方案：</p>
+<p>修改 ~/.ssh/config，加入如下的配置项，</p>
+<pre><code>Host internal1.example.com internal2.example.com
+    User user
+    Port 23456
+    IdentityFile=keyfile_internal
+    ProxyCommand ssh -qaY -i keyfile_bastion -p 12345 user@bastion.example.com &apos;nc -w 14400 %h %p&apos;</code></pre><p>这样，就可以直接从节点 admin.example.com 执行下面的命令直接连接internal1.example.com了</p>
+<pre><code>ssh user@internal1.example.com</code></pre><p>ansible中也可以将internal节点当做可以直接连接的机器来使用</p>
+<pre><code>ansible -i host -m setup internal1.example.com</code></pre>
       
 
       
@@ -239,11 +234,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
+        			<a href="/categories/ansible//" class="article-tag-list-link color3">ansible</a>
         		</li>
       		
 		</ul>
@@ -298,7 +289,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://zhang12c.bithub.xin/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://zhang12c.bithub.xin/2018/06/03/ansible结合跳板机远程控制/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -312,18 +303,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/06/03/e4-bb-8e-e6-88-91-e5-b9-b4-e8-bd-bb-e7-9a-84-e6-97-b6-e5-80-99-e5-bc-80-e5-a7-8b-e6-88-91-e5-b0-b1-e6-8b-92-e7-bb-9d-e5-90-8c-e4-b8-a4-e7-a7-8d-e4-ba-ba-e4-ba-a4-e5-be-80/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          shell脚本编程入门-4
+          从我年轻的时候开始  我就拒绝同两种人交往
         
       </div>
     </a>
   
   
-    <a href="/2019/05/08/wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">WordPress-固定链接-404</div>
+    <a href="/2018/05/14/ipython-5-7-0-e5-92-8c-6-4-0-e5-8f-91-e5-b8-83-ef-bc-8cpython-e5-91-bd-e4-bb-a4-e8-a1-8c-e4-ba-a4-e4-ba-92/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">IPython 5.7.0 和 6.4.0 发布，Python 命令行交互</div>
       <i class="icon-circle-right"></i>
     </a>
   

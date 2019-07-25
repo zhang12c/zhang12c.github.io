@@ -8,18 +8,20 @@
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
   <title>ansible结合跳板机远程控制 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##源ip来限制单端口速率  布局介绍  希望运维工程师连接到客户生产服务器时能够有效的控制带宽 123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimi">
+  <meta name="description" content="##iptables-源ip单或多端口速率目前在在Google上还没有用这个hashlimit来直接限制速率。大多都是使用数据包来限速或者用tc  布局介绍    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;  运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ssh的跳">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ansible结合跳板机远程控制">
 <meta property="og:url" content="https://zhang12c.bithub.xin/2019/07/25/iptables单端口限速/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="##源ip来限制单端口速率  布局介绍  希望运维工程师连接到客户生产服务器时能够有效的控制带宽 123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimi">
+<meta property="og:description" content="##iptables-源ip单或多端口速率目前在在Google上还没有用这个hashlimit来直接限制速率。大多都是使用数据包来限速或者用tc  布局介绍    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;  运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ssh的跳">
 <meta property="og:locale" content="Chinese">
 <meta property="og:image" content="https://zhang12c.bithub.xin/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png">
-<meta property="og:updated_time" content="2019-07-25T07:43:16.429Z">
+<meta property="og:image" content="https://zhang12c.bithub.xin/images/%E5%A0%A1%E5%9E%92%E6%9C%BA.png">
+<meta property="og:image" content="https://zhang12c.bithub.xin/images/%E6%9C%8D%E5%8A%A1%E5%99%A8.png">
+<meta property="og:updated_time" content="2019-07-25T08:12:42.983Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ansible结合跳板机远程控制">
-<meta name="twitter:description" content="##源ip来限制单端口速率  布局介绍  希望运维工程师连接到客户生产服务器时能够有效的控制带宽 123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimi">
+<meta name="twitter:description" content="##iptables-源ip单或多端口速率目前在在Google上还没有用这个hashlimit来直接限制速率。大多都是使用数据包来限速或者用tc  布局介绍    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;  运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ssh的跳">
 <meta name="twitter:image" content="https://zhang12c.bithub.xin/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
@@ -180,12 +182,27 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##<strong>源ip来限制单端口速率</strong></p>
+        <p>##<strong>iptables-源ip单或多端口速率</strong><br>目前在在<strong>Google</strong>上还没有用这个<strong>hashlimit</strong>来直接限制速率。大多都是使用<em>数据包</em>来限速或者用<strong>tc</strong></p>
 <blockquote>
 <p>布局介绍</p>
 </blockquote>
-<p><img src="/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png" alt><br>希望运维工程师连接到客户生产服务器时能够有效的控制带宽</p>
+<p><img src="/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png" alt="运维工程师">  &gt;&gt;   ssh   &gt;&gt; <img src="/images/%E5%A0%A1%E5%9E%92%E6%9C%BA.png" alt="堡垒机">   &gt;&gt;   ssh   &gt;&gt; <img src="/images/%E6%9C%8D%E5%8A%A1%E5%99%A8.png" alt="堡垒机"></p>
+<p><code>运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ssh的跳板。</code></p>
+<blockquote>
+<p>iptables策略思路</p>
+</blockquote>
+<p>使用源ip、单端口或多端口进行限速。上行和下行都限制为100Kb/s。把所有的数据都丢到hash lable中，用令牌桶来分发令牌，没有令牌的数据包丢弃。这样来达到限速的功能</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashlimit-burst 200kb -j ACCEPT</span><br><span class="line">iptables -A INPUT -p tcp --dport 22 -j DROP</span><br><span class="line">----------------------------上传----------------------------------</span><br><span class="line">iptables -A OUTPUT -p tcp --sport 22 -m hashlimit --hashlimit-name conn_limitB --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode dstip --hashlimit-burst 200kb -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p tcp --sport 22 -j DROP</span><br><span class="line">-----------------------------下载---------------------------------</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意问题</p>
+</blockquote>
+<p>其中有一个坑卡了我好久，那就是hashlimit-name必须是唯一的。如果相同，数据包被多条iptables策略过滤。比如上面的<br>hashlimit-name相同的话。上传速率平均是100kb/s但是下载速率是50kb/s</p>
+<blockquote>
+<p>价值</p>
+</blockquote>
+<p>百度云等不良限速，大概也是这样限速用户的流量速度。</p>
+
       
 
       

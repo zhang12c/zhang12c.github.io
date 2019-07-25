@@ -6,22 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
-  <title>ansible结合跳板机远程控制 | 云维</title>
+  <title>iptables-源ip单或多端口限速 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##iptables-源ip单或多端口速率目前在在Google上还没有用这个hashlimit来直接限制速率。大多都是使用数据包来限速或者用tc  布局介绍    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;  运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ssh的跳">
+  <meta name="description" content="##iptables-源ip单或多端口速率目前在在Google上还没有用这个hashlimit来直接限制速率。大多都是使用数据包来限速或者用tc  布局介绍       &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;  运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ss">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ansible结合跳板机远程控制">
+<meta property="og:title" content="iptables-源ip单或多端口限速">
 <meta property="og:url" content="https://zhang12c.bithub.xin/2019/07/25/iptables单端口限速/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="##iptables-源ip单或多端口速率目前在在Google上还没有用这个hashlimit来直接限制速率。大多都是使用数据包来限速或者用tc  布局介绍    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;  运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ssh的跳">
+<meta property="og:description" content="##iptables-源ip单或多端口速率目前在在Google上还没有用这个hashlimit来直接限制速率。大多都是使用数据包来限速或者用tc  布局介绍       &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;  运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ss">
 <meta property="og:locale" content="Chinese">
 <meta property="og:image" content="https://zhang12c.bithub.xin/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png">
 <meta property="og:image" content="https://zhang12c.bithub.xin/images/%E5%A0%A1%E5%9E%92%E6%9C%BA.png">
 <meta property="og:image" content="https://zhang12c.bithub.xin/images/%E6%9C%8D%E5%8A%A1%E5%99%A8.png">
-<meta property="og:updated_time" content="2019-07-25T08:12:42.983Z">
+<meta property="og:updated_time" content="2019-07-25T08:16:04.252Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ansible结合跳板机远程控制">
-<meta name="twitter:description" content="##iptables-源ip单或多端口速率目前在在Google上还没有用这个hashlimit来直接限制速率。大多都是使用数据包来限速或者用tc  布局介绍    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;  运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ssh的跳">
+<meta name="twitter:title" content="iptables-源ip单或多端口限速">
+<meta name="twitter:description" content="##iptables-源ip单或多端口速率目前在在Google上还没有用这个hashlimit来直接限制速率。大多都是使用数据包来限速或者用tc  布局介绍       &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;    &amp;gt;&amp;gt;   ssh   &amp;gt;&amp;gt;  运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ss">
 <meta name="twitter:image" content="https://zhang12c.bithub.xin/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
@@ -169,7 +169,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      ansible结合跳板机远程控制
+      iptables-源ip单或多端口限速
     </h1>
   
 
@@ -182,11 +182,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##<strong>iptables-源ip单或多端口速率</strong><br>目前在在<strong>Google</strong>上还没有用这个<strong>hashlimit</strong>来直接限制速率。大多都是使用<em>数据包</em>来限速或者用<strong>tc</strong></p>
+        <p>##<strong>iptables-源ip单或多端口速率</strong><br>目前在在<strong>Google</strong>上还没有用这个<strong>hashlimit</strong>来直接限制速率。大多都是使用数据包来限速或者用<strong>tc</strong></p>
 <blockquote>
 <p>布局介绍</p>
 </blockquote>
-<p><img src="/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png" alt="运维工程师">  &gt;&gt;   ssh   &gt;&gt; <img src="/images/%E5%A0%A1%E5%9E%92%E6%9C%BA.png" alt="堡垒机">   &gt;&gt;   ssh   &gt;&gt; <img src="/images/%E6%9C%8D%E5%8A%A1%E5%99%A8.png" alt="堡垒机"></p>
+<p>   <img src="/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png" alt="运维工程师">  &gt;&gt;   ssh   &gt;&gt; <img src="/images/%E5%A0%A1%E5%9E%92%E6%9C%BA.png" alt="堡垒机">   &gt;&gt;   ssh   &gt;&gt; <img src="/images/%E6%9C%8D%E5%8A%A1%E5%99%A8.png" alt="堡垒机"></p>
 <p><code>运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ssh的跳板。</code></p>
 <blockquote>
 <p>iptables策略思路</p>
@@ -311,8 +311,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2019/07/23/函数-函数返回值/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">函数-函数返回值</div>
+    <a href="/2019/07/23/ansible集群学习备忘/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ansible集群学习备忘</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -438,11 +438,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
             
             <div class="clearfix"></div>

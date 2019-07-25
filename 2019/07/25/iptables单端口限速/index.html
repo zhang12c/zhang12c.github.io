@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
-  <title>Tab命令提示-bash_completion | 云维</title>
+  <title>ansible结合跳板机远程控制 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="平时在使用云服务器的时候，tab的命令补齐功能并不完善，迫于无奈我找了个软件包，解决了这个问题 [Centos7.5]$sudo yum install bash-completion [Centos7.5]$sudo find / -name “bash-completion” /usr/share/bash-completion 执行这个目录里面的bash_completion文件就可以了。">
+  <meta name="description" content="##源ip来限制单端口速率  通过源ip达到限速目的  123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashli">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tab命令提示-bash_completion">
-<meta property="og:url" content="https://zhang12c.bithub.xin/2018/06/05/tab-e5-91-bd-e4-bb-a4-e6-8f-90-e7-a4-ba-bash-completion/index.html">
+<meta property="og:title" content="ansible结合跳板机远程控制">
+<meta property="og:url" content="https://zhang12c.bithub.xin/2019/07/25/iptables单端口限速/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="平时在使用云服务器的时候，tab的命令补齐功能并不完善，迫于无奈我找了个软件包，解决了这个问题 [Centos7.5]$sudo yum install bash-completion [Centos7.5]$sudo find / -name “bash-completion” /usr/share/bash-completion 执行这个目录里面的bash_completion文件就可以了。">
+<meta property="og:description" content="##源ip来限制单端口速率  通过源ip达到限速目的  123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashli">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-07-24T02:34:23.096Z">
+<meta property="og:updated_time" content="2019-07-25T07:15:56.549Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tab命令提示-bash_completion">
-<meta name="twitter:description" content="平时在使用云服务器的时候，tab的命令补齐功能并不完善，迫于无奈我找了个软件包，解决了这个问题 [Centos7.5]$sudo yum install bash-completion [Centos7.5]$sudo find / -name “bash-completion” /usr/share/bash-completion 执行这个目录里面的bash_completion文件就可以了。">
+<meta name="twitter:title" content="ansible结合跳板机远程控制">
+<meta name="twitter:description" content="##源ip来限制单端口速率  通过源ip达到限速目的  123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashli">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
   
@@ -158,28 +158,31 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-tab-e5-91-bd-e4-bb-a4-e6-8f-90-e7-a4-ba-bash-completion" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-iptables单端口限速" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Tab命令提示-bash_completion
+      ansible结合跳板机远程控制
     </h1>
   
 
         
-        <a href="/2018/06/05/tab-e5-91-bd-e4-bb-a4-e6-8f-90-e7-a4-ba-bash-completion/" class="archive-article-date">
-  	<time datetime="2018-06-05T02:32:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-05</time>
+        <a href="/2019/07/25/iptables单端口限速/" class="archive-article-date">
+  	<time datetime="2019-07-25T07:08:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-25</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>平时在使用云服务器的时候，tab的命令补齐功能并不完善，迫于无奈我找了个软件包，解决了这个问题 [Centos7.5]$sudo yum install bash-completion [Centos7.5]$sudo find / -name “bash-completion” /usr/share/bash-completion 执行这个目录里面的bash_completion文件就可以了。 开机自动执行，就将其写入/etc/bashrc中 [Centos7.5]$sudo vim /etc/bashrc #编辑 if [ -f /usr/share/bash-completion/bash_completion ];then . /usr/share/bash-completion/bash_completion fi [Centos7.5]$sudo source /etc/bashrc #生效</p>
-
+        <p>##<strong>源ip来限制单端口速率</strong></p>
+<blockquote>
+<p>通过源ip达到限速目的</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashlimit-burst 200kb -j ACCEPT</span><br><span class="line">iptables -A INPUT -p tcp --dport 22 -j DROP</span><br><span class="line">----------------------------上传----------------------------------</span><br><span class="line">iptables -A OUTPUT -p tcp --sport 22 -m hashlimit --hashlimit-name conn_limitB --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode dstip --hashlimit-burst 200kb -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p tcp --sport 22 -j DROP</span><br><span class="line">-----------------------------下载---------------------------------</span><br></pre></td></tr></table></figure>
       
 
       
@@ -214,7 +217,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        			<a href="/categories/iptables//" class="article-tag-list-link color4">iptables</a>
         		</li>
       		
 		</ul>
@@ -269,7 +272,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://zhang12c.bithub.xin/2018/06/05/tab-e5-91-bd-e4-bb-a4-e6-8f-90-e7-a4-ba-bash-completion/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://zhang12c.bithub.xin/2019/07/25/iptables单端口限速/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -283,18 +286,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/06/05/photon-e5-9f-ba-e4-ba-8e-aria2-e7-9a-84-e5-a4-9a-e7-ba-bf-e7-a8-8b-e5-9b-be-e5-bd-a2-e7-95-8c-e9-9d-a2-e4-b8-8b-e8-bd-bd-e5-b7-a5-e5-85-b7/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Photon/基于 aria2 的多线程图形界面下载工具
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/06/03/e4-bb-8e-e6-88-91-e5-b9-b4-e8-bd-bb-e7-9a-84-e6-97-b6-e5-80-99-e5-bc-80-e5-a7-8b-e6-88-91-e5-b0-b1-e6-8b-92-e7-bb-9d-e5-90-8c-e4-b8-a4-e7-a7-8d-e4-ba-ba-e4-ba-a4-e5-be-80/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">从我年轻的时候开始  我就拒绝同两种人交往</div>
+    <a href="/2019/07/23/函数-函数返回值/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">函数-函数返回值</div>
       <i class="icon-circle-right"></i>
     </a>
   

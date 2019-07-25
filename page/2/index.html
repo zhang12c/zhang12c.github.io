@@ -159,6 +159,109 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/">shell脚本编程入门-3</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/" class="archive-article-date">
+  	<time datetime="2019-05-09T14:18:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="数值的比较-字符的比较"><a href="#数值的比较-字符的比较" class="headerlink" title="数值的比较-字符的比较"></a>数值的比较-字符的比较</h3><h6 id="数值比较的两种方法："><a href="#数值比较的两种方法：" class="headerlink" title="数值比较的两种方法："></a><strong>数值比较的两种方法：</strong></h6><p>[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F<br> F<br>[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F”<br> F<br>”[]“是一个判断，方括号两边必须留空<br>[  “$HOME”  ==  “$MAIL”  ]<br>[□”$HOME”□==□”$MAIL”□]<br> ↑       ↑  ↑       ↑<br>这里提到了数值比较的两种方法，其实就是格式的不一样，第一条上面是用”-eq“表示“==”。<br>当然[]中可以有2个判断条件。<br>[zhang@bithub ~]$ [ 2 -gt 1 -o 2 -lt 3 ] &amp;&amp; echo “T” #解释# -o 表示或<br> T<br>[zhang@bithub ~]$ [ 2 -gt 1 -a 2 -lt 1 ] &amp;&amp; echo “T” || echo “F”<br> F #解释#-a 表示 and 并且</p>
+<p>运算符</p>
+<p>说明</p>
+<p>-eq</p>
+<p>检测两个数是否相等，相等返回 true。</p>
+<p>-ne</p>
+<p>检测两个数是否不相等，不相等返回 true。</p>
+<p>-lt</p>
+<p>检测左边的数是否小于右边的，如果是，则返回 true</p>
+<p>-gt</p>
+<p>检测左边的数是否大于右边的，如果是，则返回 true。</p>
+<p>-le</p>
+<p>检测左边的数是否小于等于右边的，如果是，则返回 true。</p>
+<p>-ge</p>
+<p>检测左边的数是否大于等于右边的，如果是，则返回 true。</p>
+<h6 id="字符的比较"><a href="#字符的比较" class="headerlink" title="字符的比较"></a>字符的比较</h6><p>符号</p>
+<p>说明</p>
+<p>-f</p>
+<p>文件是否存在</p>
+<p>-z</p>
+<p>-x</p>
+<p>文件是否有x权限</p>
+<p>-d</p>
+<p>目录是否存在</p>
+<p>[zhang@bithub ~]$ var=zhang<br>[zhang@bithub ~]$ [ $var = ‘li’ ] &amp;&amp; echo “T” || echo “F”<br>F<br>[zhang@bithub ~]$ [ $var -eq ‘li’ ] &amp;&amp; echo “T” || echo “F”<br> -bash: [: zhang: 期待整数表达式 ##这里的-eq就会报错了，运算符在这就会报错<br> F<br>[zhang@bithub ~]$ unset var ##清空<br>[zhang@bithub ~]$ echo $var </p>
+<p>[zhang@bithub ~]$ ls<br>install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ var=install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ echo $var<br>install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ [ -f $var ] &amp;&amp; echo “T” ##-f 文件如果存在输出T<br> T</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1110,80 +1213,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/06/05/photon-e5-9f-ba-e4-ba-8e-aria2-e7-9a-84-e5-a4-9a-e7-ba-bf-e7-a8-8b-e5-9b-be-e5-bd-a2-e7-95-8c-e9-9d-a2-e4-b8-8b-e8-bd-bd-e5-b7-a5-e5-85-b7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tab-e5-91-bd-e4-bb-a4-e6-8f-90-e7-a4-ba-bash-completion" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/05/tab-e5-91-bd-e4-bb-a4-e6-8f-90-e7-a4-ba-bash-completion/">Tab命令提示-bash_completion</a>
-    </h1>
-  
-
-        
-        <a href="/2018/06/05/tab-e5-91-bd-e4-bb-a4-e6-8f-90-e7-a4-ba-bash-completion/" class="archive-article-date">
-  	<time datetime="2018-06-05T02:32:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>平时在使用云服务器的时候，tab的命令补齐功能并不完善，迫于无奈我找了个软件包，解决了这个问题 [Centos7.5]$sudo yum install bash-completion [Centos7.5]$sudo find / -name “bash-completion” /usr/share/bash-completion 执行这个目录里面的bash_completion文件就可以了。 开机自动执行，就将其写入/etc/bashrc中 [Centos7.5]$sudo vim /etc/bashrc #编辑 if [ -f /usr/share/bash-completion/bash_completion ];then . /usr/share/bash-completion/bash_completion fi [Centos7.5]$sudo source /etc/bashrc #生效</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/05/tab-e5-91-bd-e4-bb-a4-e6-8f-90-e7-a4-ba-bash-completion/">展开全文 >></a>
         </p>
       
 

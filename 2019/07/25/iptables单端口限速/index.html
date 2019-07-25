@@ -8,17 +8,19 @@
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
   <title>ansible结合跳板机远程控制 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##源ip来限制单端口速率  通过源ip达到限速目的  123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashli">
+  <meta name="description" content="##源ip来限制单端口速率  布局介绍  希望运维工程师连接到客户生产服务器时能够有效的控制带宽 123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ansible结合跳板机远程控制">
 <meta property="og:url" content="https://zhang12c.bithub.xin/2019/07/25/iptables单端口限速/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="##源ip来限制单端口速率  通过源ip达到限速目的  123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashli">
+<meta property="og:description" content="##源ip来限制单端口速率  布局介绍  希望运维工程师连接到客户生产服务器时能够有效的控制带宽 123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimi">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-07-25T07:15:56.549Z">
+<meta property="og:image" content="https://zhang12c.bithub.xin/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png">
+<meta property="og:updated_time" content="2019-07-25T07:43:16.429Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ansible结合跳板机远程控制">
-<meta name="twitter:description" content="##源ip来限制单端口速率  通过源ip达到限速目的  123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashli">
+<meta name="twitter:description" content="##源ip来限制单端口速率  布局介绍  希望运维工程师连接到客户生产服务器时能够有效的控制带宽 123456iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimi">
+<meta name="twitter:image" content="https://zhang12c.bithub.xin/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
   
@@ -180,8 +182,9 @@
       
         <p>##<strong>源ip来限制单端口速率</strong></p>
 <blockquote>
-<p>通过源ip达到限速目的</p>
+<p>布局介绍</p>
 </blockquote>
+<p><img src="/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png" alt><br>希望运维工程师连接到客户生产服务器时能够有效的控制带宽</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashlimit-burst 200kb -j ACCEPT</span><br><span class="line">iptables -A INPUT -p tcp --dport 22 -j DROP</span><br><span class="line">----------------------------上传----------------------------------</span><br><span class="line">iptables -A OUTPUT -p tcp --sport 22 -m hashlimit --hashlimit-name conn_limitB --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode dstip --hashlimit-burst 200kb -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p tcp --sport 22 -j DROP</span><br><span class="line">-----------------------------下载---------------------------------</span><br></pre></td></tr></table></figure>
       
 
@@ -217,7 +220,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/iptables//" class="article-tag-list-link color4">iptables</a>
+        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux/iptables//" class="article-tag-list-link color4">iptables</a>
         		</li>
       		
 		</ul>

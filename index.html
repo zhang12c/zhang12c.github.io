@@ -181,8 +181,9 @@
       
         <p>##<strong>源ip来限制单端口速率</strong></p>
 <blockquote>
-<p>通过源ip达到限速目的</p>
+<p>布局介绍</p>
 </blockquote>
+<p><img src="/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png" alt><br>希望运维工程师连接到客户生产服务器时能够有效的控制带宽</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashlimit-burst 200kb -j ACCEPT</span><br><span class="line">iptables -A INPUT -p tcp --dport 22 -j DROP</span><br><span class="line">----------------------------上传----------------------------------</span><br><span class="line">iptables -A OUTPUT -p tcp --sport 22 -m hashlimit --hashlimit-name conn_limitB --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode dstip --hashlimit-burst 200kb -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p tcp --sport 22 -j DROP</span><br><span class="line">-----------------------------下载---------------------------------</span><br></pre></td></tr></table></figure>
       
 
@@ -197,7 +198,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/iptables//" class="article-tag-list-link color4">iptables</a>
+        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux/iptables//" class="article-tag-list-link color4">iptables</a>
         		</li>
       		
 		</ul>

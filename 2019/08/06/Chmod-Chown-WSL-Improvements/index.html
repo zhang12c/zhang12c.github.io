@@ -8,17 +8,19 @@
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
   <title>Chmod/Chown WSL Improvements | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="博文，让学习留下印记">
+  <meta name="description" content="####WSL Windows 子系统linux在WSL中，Windows的目录都存在与/mnt目录里。ls -l可以看到WSL在Windows里面的拥有777最高选项的。 但是我们要更改文件选项使用chmod 0600 file的时候，并不能更改文件的权限。这时候我们就要去更改/mnt/d的挂载方式。解决详细方案来自microsoft帮助 您现在可以使用chmod / chown设置文件的所有者">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Chmod&#x2F;Chown WSL Improvements">
 <meta property="og:url" content="https://zhang12c.bithub.xin/2019/08/06/Chmod-Chown-WSL-Improvements/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="博文，让学习留下印记">
+<meta property="og:description" content="####WSL Windows 子系统linux在WSL中，Windows的目录都存在与/mnt目录里。ls -l可以看到WSL在Windows里面的拥有777最高选项的。 但是我们要更改文件选项使用chmod 0600 file的时候，并不能更改文件的权限。这时候我们就要去更改/mnt/d的挂载方式。解决详细方案来自microsoft帮助 您现在可以使用chmod / chown设置文件的所有者">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-08-06T05:47:12.577Z">
+<meta property="og:image" content="https://zhang12c.bithub.xin/images/sceen_WSL_0.png">
+<meta property="og:updated_time" content="2019-08-06T06:02:37.125Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chmod&#x2F;Chown WSL Improvements">
-<meta name="twitter:description" content="博文，让学习留下印记">
+<meta name="twitter:description" content="####WSL Windows 子系统linux在WSL中，Windows的目录都存在与/mnt目录里。ls -l可以看到WSL在Windows里面的拥有777最高选项的。 但是我们要更改文件选项使用chmod 0600 file的时候，并不能更改文件的权限。这时候我们就要去更改/mnt/d的挂载方式。解决详细方案来自microsoft帮助 您现在可以使用chmod / chown设置文件的所有者">
+<meta name="twitter:image" content="https://zhang12c.bithub.xin/images/sceen_WSL_0.png">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
   
@@ -178,7 +180,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>####WSL Windows 子系统linux<br>在WSL中，Windows的目录都存在与<code>/mnt</code>目录里。<code>ls -l</code>可以看到<code>WSL</code>在<code>Windows</code>里面的拥有<code>777</code>最高选项的。<br><img src="/images/sceen_WSL_0.png" alt="Sceen"></p>
+<p>但是我们要更改文件选项使用<code>chmod 0600 file</code>的时候，并不能更改文件的权限。这时候我们就要去更改<code>/mnt/d</code>的挂载方式。<br>解决详细方案来自<a href="https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/" target="_blank" rel="noopener">microsoft帮助</a></p>
+<p>您现在可以使用chmod / chown设置文件的所有者和组，  并在WSL中修改读/写/执行权限。您还可以创建特殊文件，如fifos，unix套接字和设备文件。我们在DrvFs中引入了新的安装选项，用于将权限投射到文件上，同时在文件和文件夹上提供新的Linux元数据。</p>
+<p>还有一个步骤中，您必须采取之前，你可以享受这些新功能：你必须卸载drvfs 并与“元数据”标志重新安装。去做这个： </p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">按需使用磁盘C或D 或者其他</span></span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
+
+<p>到这，<code>WSL</code>就有随意更替<code>Windows</code>文件的权限。</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 0600 .ssh/*</span><br></pre></td></tr></table></figure>
+
+
       
 
       
@@ -422,11 +433,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
             
             <div class="clearfix"></div>

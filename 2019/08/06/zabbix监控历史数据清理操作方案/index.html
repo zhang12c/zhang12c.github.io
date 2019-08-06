@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
-  <title>Archives: 2018/6 | 云维</title>
+  <title>zabbix监控历史数据清理操作方案 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="博文，让学习留下印记">
-<meta property="og:type" content="website">
-<meta property="og:title" content="云维">
-<meta property="og:url" content="https://zhang12c.bithub.xin/archives/2018/06/index.html">
+  <meta name="description" content="zabbix监控运行一段时间以后，会留下大量的历史监控数据，zabbix数据库一直在增大；可能会造成系统性能下降，查看历史数据室查询速度缓慢。 zabbix里面最大的表就是history和history_uint两个表，而且zabbix里面的时间是使用的时间戳方式记录，所以可以根据时间戳来删除历史数据 一、关闭zabbix、http服务 script12pkill -9 zabbixservice">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zabbix监控历史数据清理操作方案">
+<meta property="og:url" content="https://zhang12c.bithub.xin/2019/08/06/zabbix监控历史数据清理操作方案/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="博文，让学习留下印记">
+<meta property="og:description" content="zabbix监控运行一段时间以后，会留下大量的历史监控数据，zabbix数据库一直在增大；可能会造成系统性能下降，查看历史数据室查询速度缓慢。 zabbix里面最大的表就是history和history_uint两个表，而且zabbix里面的时间是使用的时间戳方式记录，所以可以根据时间戳来删除历史数据 一、关闭zabbix、http服务 script12pkill -9 zabbixservice">
 <meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-08-06T09:03:20.002Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="云维">
-<meta name="twitter:description" content="博文，让学习留下印记">
+<meta name="twitter:title" content="zabbix监控历史数据清理操作方案">
+<meta name="twitter:description" content="zabbix监控运行一段时间以后，会留下大量的历史监控数据，zabbix数据库一直在增大；可能会造成系统性能下降，查看历史数据室查询速度缓慢。 zabbix里面最大的表就是history和history_uint两个表，而且zabbix里面的时间是使用的时间戳方式记录，所以可以根据时间戳来删除历史数据 一、关闭zabbix、http服务 script12pkill -9 zabbixservice">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
   
@@ -157,350 +158,202 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-zabbix监控历史数据清理操作方案" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      zabbix监控历史数据清理操作方案
+    </h1>
+  
+
+        
+        <a href="/2019/08/06/zabbix监控历史数据清理操作方案/" class="archive-article-date">
+  	<time datetime="2019-08-06T08:58:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-06</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>zabbix监控运行一段时间以后，会留下大量的历史监控数据，zabbix数据库一直在增大；可能会造成系统性能下降，查看历史数据室查询速度缓慢。</p>
+<p>zabbix里面最大的表就是history和history_uint两个表，而且zabbix里面的时间是使用的时间戳方式记录，所以可以根据时间戳来删除历史数据</p>
+<p>一、关闭zabbix、http服务</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pkill -9 zabbix</span><br><span class="line">service httpd stop</span><br></pre></td></tr></table></figure>
+
+<p>二、清理zabbix历史数据</p>
+<p>1、查看数据库目录文件</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix-server zabbix]# cd /var/lib/mysql/zabbix/</span><br><span class="line">[root@zabbix-server zabbix]# ls -lh | grep G</span><br><span class="line">total 177G</span><br><span class="line">-rw-r----- 1 mysql mysql 1.7G Dec 24 13:49 events.ibd</span><br><span class="line">-rw-r----- 1 mysql mysql  60G Dec 24 13:49 history.ibd</span><br><span class="line">-rw-r----- 1 mysql mysql 2.4G Dec 24 13:49 history_str.ibd</span><br><span class="line">-rw-r----- 1 mysql mysql  99G Dec 24 13:49 history_uint.ibd</span><br><span class="line">-rw-r----- 1 mysql mysql 4.6G Dec 24 13:02 trends.ibd</span><br><span class="line">-rw-r----- 1 mysql mysql 9.5G Dec 24 13:49 trends_uint.ibd</span><br><span class="line">[root@zabbix-server zabbix]# </span><br><span class="line">生成Unix时间戳。时间定为2018年2月1日（暂定是保存18年2月以后的监控数据）</span><br><span class="line">[root@zabbix-server zabbix]# date +%s -d "Feb 1, 2018 00:00:00"    #执行此命令以后会生成一个ID</span><br><span class="line">1517414400            #这是生成的ID</span><br></pre></td></tr></table></figure>
+
+<p>2、数据备份</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix-server zabbix]#mysql -uroot -p zabbix &gt; /root/mysqlback/zabbix.sql     #需要创建mysqlback目录</span><br></pre></td></tr></table></figure>
+
+<p>3、 登录数据库</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix-server zabbix]# mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 7</span><br><span class="line">Server version: 5.5.60-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; </span><br><span class="line"></span><br><span class="line">use zabbix;    #选择zabbix数据库</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">执行sql查看指定日期之前的数据大小：</span></span><br><span class="line">SELECT table_schema as `Database`,table_name AS `Table`,round(((data_length + index_length) / 1024 / 1024 / 1024), 2) `Size in MB`FROM information_schema.TABLES where CREATE_TIME &lt; '2018-02-01 00:00:00' and table_name='history.ibd';</span><br><span class="line"><span class="meta">#</span><span class="bash">根据需要修改日期和查询的表名称(如果查询出来的结果是0.0，需要将sql中的三个1024删除一个，以G为单位显示)</span></span><br></pre></td></tr></table></figure>
+
+<p>4、 执行以下命令，清理指定时间之前的数据、对zabbix数据库执行以下sql</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">delete from history where clock &lt; 1517414400;</span><br><span class="line">optimize table history;</span><br><span class="line"></span><br><span class="line">delete from history_uint where clock &lt; 1517414400;</span><br><span class="line">optimize table history_uint;</span><br><span class="line"></span><br><span class="line">delete from trends where clock &lt; 1517414400;</span><br><span class="line">optimize table trends;</span><br><span class="line"></span><br><span class="line">delete from trends_uint where clock &lt; 1517414400;</span><br><span class="line">optimize table trends_uint;</span><br></pre></td></tr></table></figure>
+
+<p>注意：sql中的ID是生成Unix时间戳的ID号,需要改为自己生成的ID号<br>三、启动服务</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/zabbix_server -c /etc/zabbix/zabbix_server.conf    #zabbix server</span><br><span class="line">/usr/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf    #zabbix agent</span><br><span class="line">service httpd start</span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<p>1、使用truncate命令清空zabbix 所有监控数据</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-------------------------------------------------------</span><br><span class="line">truncate table history;</span><br><span class="line">optimize table history;</span><br><span class="line">------------------------------------------------------- </span><br><span class="line">truncate table history_str;</span><br><span class="line">optimize table history_str;</span><br><span class="line">-------------------------------------------------------</span><br><span class="line">truncate table history_uint;</span><br><span class="line">optimize table history_uint;</span><br><span class="line">-------------------------------------------------------</span><br><span class="line">truncate table trends;</span><br><span class="line">optimize table trends;</span><br><span class="line">-------------------------------------------------------</span><br><span class="line">truncate table trends_uint; </span><br><span class="line">optimize table trends_uint; </span><br><span class="line">-------------------------------------------------------</span><br><span class="line">truncate table events;</span><br><span class="line">optimize table events;</span><br><span class="line">-------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<p>注意：这些命令会把zabbix所有的监控数据清空，操作前注意备份数据库</p>
+<p>truncate是删除了表，然后根据表结构重新建立，delete删除的是记录的数据没有修改表</p>
+<p>truncate执行删除比较快，但是在事务处理安全性方面不如delete,如果我们执行truncat的表正在处理事务，这个命令退出并会产生错误信息</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/30/e3-80-8e-e5-b9-b2-e8-b4-a7-e3-80-8fimooc-e6-85-95-e8-af-be-e7-bd-91920g-e8-a7-86-e9-a2-91-e5-88-86-e4-ba-ab-e4-b8-8b-e8-bd-bd/" class="archive-article-date">
-  	<time datetime="2018-06-30T05:15:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/30/e3-80-8e-e5-b9-b2-e8-b4-a7-e3-80-8fimooc-e6-85-95-e8-af-be-e7-bd-91920g-e8-a7-86-e9-a2-91-e5-88-86-e4-ba-ab-e4-b8-8b-e8-bd-bd/">『干货』IMOOC 慕课网920G视频分享下载</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/自学资源//" class="article-tag-list-link color5">自学资源</a>
+        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/categories/自学资源/视频//" class="article-tag-list-link color3">视频</a>
+        			<a href="/categories/linux/zabbix//" class="article-tag-list-link color2">zabbix</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://zhang12c.bithub.xin/2019/08/06/zabbix监控历史数据清理操作方案/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/29/e5-9f-ba-e4-ba-8elamp-e6-90-ad-e5-bb-bawordpress-e5-8d-9a-e5-ae-a2-e7-b3-bb-e7-bb-9f/" class="archive-article-date">
-  	<time datetime="2018-06-29T04:00:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/06/Chmod-Chown-WSL-Improvements/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Chmod/Chown WSL Improvements</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/29/e5-9f-ba-e4-ba-8elamp-e6-90-ad-e5-bb-bawordpress-e5-8d-9a-e5-ae-a2-e7-b3-bb-e7-bb-9f/">基于LAMP搭建wordpress博客系统</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/WEB//" class="article-tag-list-link color4">WEB</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/28/e6-89-8b-e6-8a-8a-e6-89-8b-e6-95-99-e4-bd-a0-e5-bb-ba-e7-ab-99-e4-b8-8e-e6-98-8e-e5-a4-a9-e5-87-ba-e6-9d-a5-e6-95-ac-e8-af-b7-e6-9c-9f-e5-be-85-ef-bc-81-ef-bc-81-ef-bc-81/" class="archive-article-date">
-  	<time datetime="2018-06-28T13:20:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-28</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/28/e6-89-8b-e6-8a-8a-e6-89-8b-e6-95-99-e4-bd-a0-e5-bb-ba-e7-ab-99-e4-b8-8e-e6-98-8e-e5-a4-a9-e5-87-ba-e6-9d-a5-e6-95-ac-e8-af-b7-e6-9c-9f-e5-be-85-ef-bc-81-ef-bc-81-ef-bc-81/">手把手教你搭建LAMP环境</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/WEB//" class="article-tag-list-link color4">WEB</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/28/linux-e4-b8-ad-e7-9a-84-e5-ae-98-e6-96-b9-e6-ba-90-e3-80-81-e9-95-9c-e5-83-8f-e6-ba-90-e6-b1-87-e6-80-bb/" class="archive-article-date">
-  	<time datetime="2018-06-28T02:34:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/28/linux-e4-b8-ad-e7-9a-84-e5-ae-98-e6-96-b9-e6-ba-90-e3-80-81-e9-95-9c-e5-83-8f-e6-ba-90-e6-b1-87-e6-80-bb/">Linux中的官方源、镜像源汇总</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/工具//" class="article-tag-list-link color3">工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/工具/自学资源//" class="article-tag-list-link color5">自学资源</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/05/photon-e5-9f-ba-e4-ba-8e-aria2-e7-9a-84-e5-a4-9a-e7-ba-bf-e7-a8-8b-e5-9b-be-e5-bd-a2-e7-95-8c-e9-9d-a2-e4-b8-8b-e8-bd-bd-e5-b7-a5-e5-85-b7/" class="archive-article-date">
-  	<time datetime="2018-06-05T03:05:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/05/photon-e5-9f-ba-e4-ba-8e-aria2-e7-9a-84-e5-a4-9a-e7-ba-bf-e7-a8-8b-e5-9b-be-e5-bd-a2-e7-95-8c-e9-9d-a2-e4-b8-8b-e8-bd-bd-e5-b7-a5-e5-85-b7/">Photon/基于 aria2 的多线程图形界面下载工具</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/工具//" class="article-tag-list-link color3">工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/工具/自学资源//" class="article-tag-list-link color5">自学资源</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/05/tab-e5-91-bd-e4-bb-a4-e6-8f-90-e7-a4-ba-bash-completion/" class="archive-article-date">
-  	<time datetime="2018-06-05T02:32:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/05/tab-e5-91-bd-e4-bb-a4-e6-8f-90-e7-a4-ba-bash-completion/">Tab命令提示-bash_completion</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/03/e4-bb-8e-e6-88-91-e5-b9-b4-e8-bd-bb-e7-9a-84-e6-97-b6-e5-80-99-e5-bc-80-e5-a7-8b-e6-88-91-e5-b0-b1-e6-8b-92-e7-bb-9d-e5-90-8c-e4-b8-a4-e7-a7-8d-e4-ba-ba-e4-ba-a4-e5-be-80/" class="archive-article-date">
-  	<time datetime="2018-06-03T13:08:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/03/e4-bb-8e-e6-88-91-e5-b9-b4-e8-bd-bb-e7-9a-84-e6-97-b6-e5-80-99-e5-bc-80-e5-a7-8b-e6-88-91-e5-b0-b1-e6-8b-92-e7-bb-9d-e5-90-8c-e4-b8-a4-e7-a7-8d-e4-ba-ba-e4-ba-a4-e5-be-80/">从我年轻的时候开始  我就拒绝同两种人交往</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/杂项//" class="article-tag-list-link color3">杂项</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/03/ansible结合跳板机远程控制/" class="archive-article-date">
-  	<time datetime="2018-06-03T13:08:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/03/ansible结合跳板机远程控制/">ansible结合跳板机远程控制</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ansible//" class="article-tag-list-link color3">ansible</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -532,8 +385,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

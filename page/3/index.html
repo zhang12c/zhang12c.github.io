@@ -159,6 +159,111 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e6-89-8b-e6-8a-8a-e6-89-8b-e6-95-99-e4-bd-a0-e5-bb-ba-e7-ab-99-e4-b8-8e-e6-98-8e-e5-a4-a9-e5-87-ba-e6-9d-a5-e6-95-ac-e8-af-b7-e6-9c-9f-e5-be-85-ef-bc-81-ef-bc-81-ef-bc-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/28/e6-89-8b-e6-8a-8a-e6-89-8b-e6-95-99-e4-bd-a0-e5-bb-ba-e7-ab-99-e4-b8-8e-e6-98-8e-e5-a4-a9-e5-87-ba-e6-9d-a5-e6-95-ac-e8-af-b7-e6-9c-9f-e5-be-85-ef-bc-81-ef-bc-81-ef-bc-81/">手把手教你搭建LAMP环境</a>
+    </h1>
+  
+
+        
+        <a href="/2018/06/28/e6-89-8b-e6-8a-8a-e6-89-8b-e6-95-99-e4-bd-a0-e5-bb-ba-e7-ab-99-e4-b8-8e-e6-98-8e-e5-a4-a9-e5-87-ba-e6-9d-a5-e6-95-ac-e8-af-b7-e6-9c-9f-e5-be-85-ef-bc-81-ef-bc-81-ef-bc-81/" class="archive-article-date">
+  	<time datetime="2018-06-28T13:20:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本教程基于CentOS7，使用LAMP搭建网站的黄金组合。时间20180629 LAMP ： linux + Apache + Mariadb + PHP 小小的建议你可以在本地的虚拟机上先熟悉一下流程，再去云服务器上安装。 Apache：2.4.6 #yum自带的版本 PHP：5.6  #yum自带版本为5.4，目前为了铺底phpmyadmin，5.4版本太低了，选用5.6 Mariadb：5.5 #yum自带的版本 yum update -y   #先去更新一下yum库， 再开始以下操作。 一、安装Apache 1.安装 yum -y install httpd 2.开启apache服务 systemctl start httpd.service 3.设置apache服务开机启动 systemctl enable httpd.service 4.开放http(80)端口 ①CentOS7用的是Firewall-cmd，CentOS7之前用的是iptables防火墙；要想让外网能访问到apache主目录，就需要做以下的操作：</p>
+<p>firewall-cmd –permanent –zone=public –add-service=http<br>firewall-cmd –reload</p>
+<p>②大部分云服务器是无法开启firewall服务，但能使用iptables。以下是iptables的配置方法 iptables -A INPUT -p tcp –dport 80 -j ACCEPT  #开放80端口 iptables-save #保存配置 5.验证apache服务是否安装成功 在浏览器中输入虚拟机的ip地址</p>
+<p><a href="http://182.225.xxx.xxx" target="_blank" rel="noopener">http://182.225.xxx.xxx</a></p>
+<p>CentOS7查看ip地址的方式为： [root@vm]#ip addr #如图我的ip是182.225.XXX.XXX，为了我的服务器安全，我将其马赛克了 #如果看到apache默认的页面–有Testing 123…字样，便是成功安装了apache服务了 二、安装PHP 因为centos的yum源自带是5.4的版本，无法满足phpmyadmin安装的最低要求，这里我通过更新yum库来升级php的软件源。</p>
+<p>yum install epel-release -y</p>
+<p>rpm -ivh <a href="http://rpms.famillecollet.com/enterprise/remi-release-7.rpm" target="_blank" rel="noopener">http://rpms.famillecollet.com/enterprise/remi-release-7.rpm</a></p>
+<p>1.安装php及其常用的PHP模块</p>
+<p>yum install –enablerepo=remi –enablerepo=remi-php56 php php-opcache php-devel php-mbstring php-mcrypt php-mysqlnd php-phpunit-PHPUnit php-pecl-xdebug php-pecl-xhprof php-gd php-redis</p>
+<p>#yum search php 选择自己想要的安装的模块</p>
+<p>#其中将PHP和MySQL关联起来用到php-mysqld</p>
+<p>yum -y install php-mysqld</p>
+<p>2.重启apache服务 systemctl restart httpd 3.检验 在网站的主目录上添加一个php文件。</p>
+<p>eg:<br>vi /var/www/html/info.php<br><?php phpinfo(); ?>                        &lt;==注意格式?后面没有空格<br>然后，在自己电脑浏览器输入 185.225.x.x/info.php<br>运行，会出现php的一些信息</p>
+<p>三、安装MariaDB 1.安装 yum -y groupinstall mariadb 2.开启MariaDB服务 systemctl restart mariadb 3.设置开机启动MariaDB服务 systemctl enable mariadb 4.检验是否安装成功</p>
+<p>[root@vm68933 ~]# mysql -u root<br>Welcome to the MariaDB monitor. Commands end with ; or \g.<br>Your MariaDB connection id is 2<br>Server version: 5.5.56-MariaDB MariaDB Server</p>
+<p>Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.</p>
+<p>Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</p>
+<p>MariaDB [(none)]&gt;</p>
+<p>5.设置root帐户的密码 mysql_secure_installation 然后会出现一串东西，可以仔细读一下，如果你懒得读，就在提示出来的时候，按Enter就好了，让你设置密码的时候，你就输入你想要的密码就行，然后继续在让你选择y/n是，Enter就好了；当一切结束的时候，你可以输入mysql -uroot -p的方式，验证一下；</p>
+<p>[root@vm68933 ~]# mysql -u root -p<br>Enter password:<br>Welcome to the MariaDB monitor. Commands end with ; or \g.<br>Your MariaDB connection id is 12<br>Server version: 5.5.56-MariaDB MariaDB Server</p>
+<p>Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.</p>
+<p>Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</p>
+<p>MariaDB [(none)]&gt;</p>
+<p>最后重启apache服务 systemctl restart httpd.service 然后，再次在浏览器中运行info.php，你会看到安装所有模块的信息； 至此，LAMP环境就搭建好了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/WEB//" class="article-tag-list-link color4">WEB</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/06/28/e6-89-8b-e6-8a-8a-e6-89-8b-e6-95-99-e4-bd-a0-e5-bb-ba-e7-ab-99-e4-b8-8e-e6-98-8e-e5-a4-a9-e5-87-ba-e6-9d-a5-e6-95-ac-e8-af-b7-e6-9c-9f-e5-be-85-ef-bc-81-ef-bc-81-ef-bc-81/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-linux-e4-b8-ad-e7-9a-84-e5-ae-98-e6-96-b9-e6-ba-90-e3-80-81-e9-95-9c-e5-83-8f-e6-ba-90-e6-b1-87-e6-80-bb" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1165,102 +1270,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/05/11/e6-b5-81-e7-95-85youtube-2m-s/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e6-99-ba-e6-85-a7-e6-a2-af-e5-ad-90-e5-86-b2-e6-b5-aa-e5-b0-b1-e6-98-af-e8-bf-99-e4-b9-88-e7-ae-80-e5-8d-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/24/e6-99-ba-e6-85-a7-e6-a2-af-e5-ad-90-e5-86-b2-e6-b5-aa-e5-b0-b1-e6-98-af-e8-bf-99-e4-b9-88-e7-ae-80-e5-8d-95/">一键智慧梯子-冲浪就是这么简单</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/24/e6-99-ba-e6-85-a7-e6-a2-af-e5-ad-90-e5-86-b2-e6-b5-aa-e5-b0-b1-e6-98-af-e8-bf-99-e4-b9-88-e7-ae-80-e5-8d-95/" class="archive-article-date">
-  	<time datetime="2018-04-24T01:05:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>转载于：秋水逸冰 » Shadowsocks Python版一键安装脚本</p>
-<p><strong>前提你要有国外的云服务器，我自己是用vulter的KVM<br>zzk的推荐链接<a href="https://www.vultr.com/?ref=7284272" target="_blank" rel="noopener">https://www.vultr.com/?ref=7284272 </a><br>支持支付宝，新用户注册也有优惠送$10,可以当玩具玩玩</strong></p>
-<p><strong>本脚本适用环境：</strong><br> 系统支持：CentOS 6，7，Debian，Ubuntu<br> 内存要求：≥128M<br> 日期：2018 年 02 月 07 日<br><strong>默认配置：</strong><br> 服务器端口：自己设定（如不设定，默认从 9000-19999 之间随机生成）<br> 密码：自己设定（如不设定，默认为 teddysun.com）<br> 加密方式：自己设定（如不设定，默认为 aes-256-gcm）<br> 备注：脚本默认创建单用户配置文件，如需配置多用户，安装完毕后参照下面的教程示例手动修改配置文件后重启即可。</p>
-<p><strong>Shadowsocks for Windows 客户端下载：</strong><br> <a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-windows/releases</a></p>
-<p><strong>使用方法：</strong><br> 使用root用户登录，运行以下命令：</p>
-<p>wget –no-check-certificate -O shadowsocks.sh <a href="https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh" target="_blank" rel="noopener">https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh</a><br>chmod +x shadowsocks.sh<br>./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log</p>
-<p><strong>安装完成后，脚本提示如下：</strong></p>
-<p>Congratulations, Shadowsocks-python server install completed!<br>Your Server IP        :your_server_ip<br>Your Server Port      :your_server_port<br>Your Password         :your_password<br>Your Encryption Method:your_encryption_method</p>
-<p>Welcome to visit:<a href="https://teddysun.com/342.html" target="_blank" rel="noopener">https://teddysun.com/342.html</a><br>Enjoy it!</p>
-<p><strong>卸载方法：</strong><br> 使用root用户登录，运行以下命令：</p>
-<p>./shadowsocks.sh uninstall</p>
-<p>单用户配置文件示例（2015 年 08 月 28 日修正）：<br> 配置文件路径：/etc/shadowsocks.json</p>
-<p>{<br>    “server”:”0.0.0.0”,<br>    “server_port”:your_server_port,<br>    “local_address”:”127.0.0.1”,<br>    “local_port”:1080,<br>    “password”:”your_password”,<br>    “timeout”:300,<br>    “method”:”your_encryption_method”,<br>    “fast_open”: false<br>}</p>
-<p>多用户多端口配置文件示例（2015 年 08 月 28 日修正）：<br> 配置文件路径：/etc/shadowsocks.json</p>
-<p>{<br>    “server”:”0.0.0.0”,<br>    “local_address”:”127.0.0.1”,<br>    “local_port”:1080,<br>    “port_password”:{<br>         “8989”:”password0”,<br>         “9001”:”password1”,<br>         “9002”:”password2”,<br>         “9003”:”password3”,<br>         “9004”:”password4”<br>    },<br>    “timeout”:300,<br>    “method”:”your_encryption_method”,<br>    “fast_open”: false<br>}</p>
-<p>使用命令（2015 年 08 月 28 日修正）：<br> 启动：/etc/init.d/shadowsocks start<br> 停止：/etc/init.d/shadowsocks stop<br> 重启：/etc/init.d/shadowsocks restart<br> 状态：/etc/init.d/shadowsocks status</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/代理//" class="article-tag-list-link color3">代理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/24/e6-99-ba-e6-85-a7-e6-a2-af-e5-ad-90-e5-86-b2-e6-b5-aa-e5-b0-b1-e6-98-af-e8-bf-99-e4-b9-88-e7-ae-80-e5-8d-95/">展开全文 >></a>
         </p>
       
 

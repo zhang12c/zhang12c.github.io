@@ -159,6 +159,193 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Ansible-lineinfile行替换" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/13/Ansible-lineinfile行替换/">Ansible-lineinfile行替换</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/13/Ansible-lineinfile行替换/" class="archive-article-date">
+  	<time datetime="2019-08-13T06:52:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Ansible</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/13/Ansible-lineinfile行替换/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-shadowsocks" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/12/shadowsocks/">zabbix监控历史数据清理操作方案</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/12/shadowsocks/" class="archive-article-date">
+  	<time datetime="2019-08-12T07:12:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="shadowsocks"><a href="#shadowsocks" class="headerlink" title="shadowsocks"></a>shadowsocks</h1><p><a href="https://pypi.python.org/pypi/shadowsocks" target="_blank" rel="noopener"><img src="https://img.shields.io/pypi/v/shadowsocks.svg?style=flat" alt="PyPI version"></a><br><a href="https://travis-ci.org/falseen/shadowsocks" target="_blank" rel="noopener"><img src="https://travis-ci.org/falseen/shadowsocks.svg?branch=manyuser-travis" alt="Build Status"></a><br><a href="https://jenkins.shadowvpn.org/job/Shadowsocks/ws/PYENV/py34/label/linux/htmlcov/index.html" target="_blank" rel="noopener"><img src="https://jenkins.shadowvpn.org/result/shadowsocks" alt="Coverage Status"></a></p>
+<p>A fast tunnel proxy that helps you bypass firewalls.</p>
+<h2 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h2><h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><p>Debian / Ubuntu:</p>
+<pre><code>apt-get install python-pip
+pip install shadowsocks</code></pre><p>CentOS:</p>
+<pre><code>yum install python-setuptools &amp;&amp; easy_install pip
+pip install shadowsocks</code></pre><p>Windows:</p>
+<p>See <a href="https://github.com/shadowsocks/shadowsocks/wiki/Install-Shadowsocks-Server-on-Windows" target="_blank" rel="noopener">Install Server on Windows</a></p>
+<h3 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h3><pre><code>ssserver -p 443 -k password -m aes-256-cfb</code></pre><p>To run in the background:</p>
+<pre><code>sudo ssserver -p 443 -k password -m aes-256-cfb --user nobody -d start</code></pre><p>To stop:</p>
+<pre><code>sudo ssserver -d stop</code></pre><p>To check the log:</p>
+<pre><code>sudo less /var/log/shadowsocks.log</code></pre><p>Check all the options via <code>-h</code>. You can also use a <a href="https://github.com/shadowsocks/shadowsocks/wiki/Configuration-via-Config-File" target="_blank" rel="noopener">Configuration</a> file<br>instead.</p>
+<h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><ul>
+<li><a href="https://github.com/shadowsocks/shadowsocks-csharp" target="_blank" rel="noopener">Windows</a> / <a href="https://github.com/shadowsocks/shadowsocks-iOS/wiki/Shadowsocks-for-OSX-Help" target="_blank" rel="noopener">OS X</a></li>
+<li><a href="https://github.com/shadowsocks/shadowsocks-android" target="_blank" rel="noopener">Android</a> / <a href="https://github.com/shadowsocks/shadowsocks-iOS/wiki/Help" target="_blank" rel="noopener">iOS</a></li>
+<li><a href="https://github.com/shadowsocks/openwrt-shadowsocks" target="_blank" rel="noopener">OpenWRT</a></li>
+</ul>
+<p>Use GUI clients on your local PC/phones. Check the README of your client<br>for more information.</p>
+<h2 id="Documentation"><a href="#Documentation" class="headerlink" title="Documentation"></a>Documentation</h2><p>You can find all the documentation in the <a href="https://github.com/shadowsocks/shadowsocks/wiki" target="_blank" rel="noopener">Wiki</a>.</p>
+<h2 id="License"><a href="#License" class="headerlink" title="License"></a>License</h2><p>Copyright 2015 clowwindy</p>
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may<br>not use this file except in compliance with the License. You may obtain<br>a copy of the License at</p>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre><p>Unless required by applicable law or agreed to in writing, software<br>distributed under the License is distributed on an “AS IS” BASIS, WITHOUT<br>WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the<br>License for the specific language governing permissions and limitations<br>under the License.</p>
+<h2 id="Bugs-and-Issues"><a href="#Bugs-and-Issues" class="headerlink" title="Bugs and Issues"></a>Bugs and Issues</h2><ul>
+<li><a href="https://github.com/shadowsocks/shadowsocks/wiki/Troubleshooting" target="_blank" rel="noopener">Troubleshooting</a></li>
+<li><a href="https://github.com/shadowsocks/shadowsocks/issues?state=open" target="_blank" rel="noopener">Issue Tracker</a></li>
+<li><a href="https://groups.google.com/group/shadowsocks" target="_blank" rel="noopener">Mailing list</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux/shadowsocks//" class="article-tag-list-link color2">shadowsocks</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/12/shadowsocks/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-zabbix监控历史数据清理操作方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1060,169 +1247,6 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/17/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/17/hello-world/" class="archive-article-date">
-  	<time datetime="2019-07-17T01:53:03.389Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/17/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-virt-manager-e5-ae-89-e8-a3-85centos-7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/22/virt-manager-e5-ae-89-e8-a3-85centos-7/">Virt-Manager安装Centos 7</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/22/virt-manager-e5-ae-89-e8-a3-85centos-7/" class="archive-article-date">
-  	<time datetime="2019-05-22T09:15:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天在使用Virt-Manager安装虚拟机的时候，界面报内核崩溃(kernel panic)。一直没能成功安装虚拟机。通过一个下午的百度，终于发现了问题的解决方法。原因就是虚拟机没有开启cpu的虚拟化</p>
-<p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE11-1024x576.png" alt></p>
-<p>勾选CPU虚拟化的三项选项</p>
-<p>安装和使用命令行、图形界面安装虚拟机的教程在下面链接。</p>
-<p><a href="https://www.linuxtechi.com/install-kvm-hypervisor-on-centos-7-and-rhel-7/" target="_blank" rel="noopener">https://www.linuxtechi.com/install-kvm-hypervisor-on-centos-7-and-rhel-7/</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/Virt-Manager//" class="article-tag-list-link color3">Virt-Manager</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/22/virt-manager-e5-ae-89-e8-a3-85centos-7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1329,11 +1353,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color3">Ansible</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
             
             <div class="clearfix"></div>

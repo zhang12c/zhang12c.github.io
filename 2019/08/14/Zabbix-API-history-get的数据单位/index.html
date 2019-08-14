@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://zhang12c.bithub.xin/images/screenshot_history_get1.png">
 <meta property="og:image" content="https://zhang12c.bithub.xin/images/screenshot_history_get2.png">
 <meta property="og:image" content="https://zhang12c.bithub.xin/images/screenshot_history_get3.png">
-<meta property="og:updated_time" content="2019-08-14T09:35:55.568Z">
+<meta property="og:updated_time" content="2019-08-14T09:40:07.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zabbix-API history.get的数据单位">
 <meta name="twitter:description" content="在Google上面，很多人说history.get的网卡数据单位是bps，也有一些人说是byte.这摸棱两可的答案，没有一个定数，所有今天我花了一个早上的实验就是为了history.get得到的数值是bit,还是Byte。 废话太多，直接告诉答案，history.get的数据是拿对应网卡触发器的值。默认情况下数据单位是byte。如果设置了x8倍数,则单位是bps。  用图说话  注：bit = 8">
@@ -190,13 +190,21 @@
 <p>用图说话</p>
 </blockquote>
 <p>注：bit = 8 byte<br>    1bps: 1秒1bit<br>    1Mbps=1Mit/s=1000kbps<br>    1Mb  = 8Mit = 1024Kb</p>
-<p>#####这里监控项里单位是byte：</p>
+<blockquote>
+<p>这里监控项里单位是byte：</p>
+</blockquote>
 <p><img src="/images/screenshot_history_get0.png" alt="监控项"></p>
-<p>#####这里设置倍数：</p>
+<blockquote>
+<p>这里设置倍数：</p>
+</blockquote>
 <p><img src="/images/screenshot_history_get1.png" alt="设置倍数"></p>
-<p>#####通过图像观察二者的差别</p>
+<blockquote>
+<p>通过图像观察二者的差别</p>
+</blockquote>
 <p><img src="/images/screenshot_history_get2.png" alt="图像"></p>
-<p>#####通过数据观察二者的差别</p>
+<blockquote>
+<p>通过数据观察二者的差别</p>
+</blockquote>
 <p><img src="/images/screenshot_history_get3.png" alt="数值"></p>
 
       
@@ -446,11 +454,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
               </li>
             
             <div class="clearfix"></div>

@@ -179,7 +179,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天花了一个早上的实验</p>
+        <p>在Google上面，很多人说history.get的数据单位是bps，也有一些人说是byte.这摸棱两可的答案，没有一个定数，所有今天我花了一个早上的实验就是为了history.get得到的数值是bit,还是Byte。</p>
+<blockquote>
+</blockquote>
 
       
 
@@ -265,13 +267,13 @@
 <blockquote>
 <p>附加：怎么用</p>
 </blockquote>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible -i hosts chang_sshd_config.yml </span><br><span class="line"><span class="meta">#</span>-i 指定inventory 即存放主机ip的文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible -i hosts chang_sshd_config.yml </span><br><span class="line"><span class="meta">#</span><span class="bash">-i 指定inventory 即存放主机ip的文件</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>后续</p>
 </blockquote>
 <p>Ansible默认config文件<code>/etc/ansible/ansible.cfg</code></p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>inventory      = /etc/ansible/hosts</span><br><span class="line"><span class="meta">#</span>library        = /usr/share/my_modules/</span><br><span class="line"><span class="meta">#</span>module_utils   = /usr/share/my_module_utils/</span><br><span class="line"><span class="meta">#</span>remote_tmp     = ~/.ansible/tmp</span><br><span class="line"><span class="meta">#</span>local_tmp      = ~/.ansible/tmp</span><br><span class="line"><span class="meta">#</span>plugin_filters_cfg = /etc/ansible/plugin_filters.yml</span><br><span class="line">forks          = 10 ##默认是 forks = 5</span><br><span class="line"><span class="meta">#</span>poll_interval  = 15</span><br><span class="line"><span class="meta">#</span>sudo_user      = root</span><br><span class="line"><span class="meta">#</span>ask_sudo_pass = True</span><br><span class="line"><span class="meta">#</span>ask_pass      = True</span><br><span class="line"><span class="meta">#</span>transport      = smart</span><br><span class="line"><span class="meta">#</span>remote_port    = 22</span><br><span class="line"><span class="meta">#</span>module_lang    = C</span><br><span class="line"><span class="meta">#</span>module_set_locale = False</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">inventory      = /etc/ansible/hosts</span></span><br><span class="line"><span class="meta">#</span><span class="bash">library        = /usr/share/my_modules/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_utils   = /usr/share/my_module_utils/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">remote_tmp     = ~/.ansible/tmp</span></span><br><span class="line"><span class="meta">#</span><span class="bash">local_tmp      = ~/.ansible/tmp</span></span><br><span class="line"><span class="meta">#</span><span class="bash">plugin_filters_cfg = /etc/ansible/plugin_filters.yml</span></span><br><span class="line">forks          = 10 ##默认是 forks = 5</span><br><span class="line"><span class="meta">#</span><span class="bash">poll_interval  = 15</span></span><br><span class="line"><span class="meta">#</span><span class="bash">sudo_user      = root</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ask_sudo_pass = True</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ask_pass      = True</span></span><br><span class="line"><span class="meta">#</span><span class="bash">transport      = smart</span></span><br><span class="line"><span class="meta">#</span><span class="bash">remote_port    = 22</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_lang    = C</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_set_locale = False</span></span><br></pre></td></tr></table></figure>
 
 <p>将<code>forks = 5</code>替换成<code>forks  = 10</code>目的是为了将同步运行速度提升1倍，即同一时间在10台主机上面执行playbook。缩短了一半的时间</p>
 <blockquote>
@@ -580,7 +582,7 @@ pip install shadowsocks</code></pre><p>Windows:</p>
 <p>但是我们要更改文件选项使用<code>chmod 0600 file</code>的时候，并不能更改文件的权限。这时候我们就要去更改<code>/mnt/d</code>的挂载方式。<br>解决详细方案来自<a href="https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/" target="_blank" rel="noopener">microsoft帮助</a></p>
 <p>您现在可以使用chmod / chown设置文件的所有者和组，  并在WSL中修改读/写/执行权限。您还可以创建特殊文件，如fifos，unix套接字和设备文件。我们在DrvFs中引入了新的安装选项，用于将权限投射到文件上，同时在文件和文件夹上提供新的Linux元数据。</p>
 <p>还有一个步骤中，您必须采取之前，你可以享受这些新功能：你必须卸载drvfs 并与“元数据”标志重新安装。去做这个： </p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>按需使用磁盘C或D 或者其他</span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">按需使用磁盘C或D 或者其他</span></span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
 
 <p>到这，<code>WSL</code>就有随意更替<code>Windows</code>文件的权限。</p>
 <figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 0600 .ssh/*</span><br></pre></td></tr></table></figure>
@@ -1057,6 +1059,89 @@ pip install shadowsocks</code></pre><p>Windows:</p>
 
 
   
+    <article id="post-函数-函数返回值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/23/函数-函数返回值/">函数-函数返回值</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/23/函数-函数返回值/" class="archive-article-date">
+  	<time datetime="2019-07-23T01:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#函数返回值<br>通过return[表达式]语句用于退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。<br>eg:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(num1,num2)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (isinstance(num1,(int,float)) <span class="keyword">and</span> isinstance(num2,(int,float))):</span><br><span class="line">                <span class="keyword">raise</span> TypeError(<span class="string">'参数类型错误'</span>)</span><br><span class="line">        <span class="keyword">return</span> num1 + num2</span><br><span class="line">print(sum(<span class="number">1</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<p>返回结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>isinstance() 进行数据类型检查，判断是否是整形和浮点型。如果参数类型不对，会报错。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/23/函数-函数返回值/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ansible集群学习备忘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1113,89 +1198,6 @@ pip install shadowsocks</code></pre><p>Windows:</p>
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/07/23/ansible集群学习备忘/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-函数-函数返回值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/23/函数-函数返回值/">函数-函数返回值</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/23/函数-函数返回值/" class="archive-article-date">
-  	<time datetime="2019-07-23T01:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#函数返回值<br>通过return[表达式]语句用于退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。<br>eg:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(num1,num2)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (isinstance(num1,(int,float)) <span class="keyword">and</span> isinstance(num2,(int,float))):</span><br><span class="line">                <span class="keyword">raise</span> TypeError(<span class="string">'参数类型错误'</span>)</span><br><span class="line">        <span class="keyword">return</span> num1 + num2</span><br><span class="line">print(sum(<span class="number">1</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
-
-<p>返回结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-<p>isinstance() 进行数据类型检查，判断是否是整形和浮点型。如果参数类型不对，会报错。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/23/函数-函数返回值/">展开全文 >></a>
         </p>
       
 
@@ -1331,7 +1333,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1339,7 +1341,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
             
             <div class="clearfix"></div>

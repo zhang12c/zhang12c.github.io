@@ -159,6 +159,139 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-letsencrypt-生成免费的证书" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/15/letsencrypt-生成免费的证书/">letsencrypt 生成免费的证书</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/15/letsencrypt-生成免费的证书/" class="archive-article-date">
+  	<time datetime="2019-08-15T07:44:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>给自己的网站加个证书，也就提高了网站数据传输过程中的安全性。今天使用的是 <code>Let&#39;t sencrypt</code>公益免费颁发证书的机构。证书的可用性是3个月，超过3个月需要重新生成证书。但是！这证书的重新颁发可以用脚本来做这个动作，项目在<a href="https://github.com/Neilpang/acme.sh/wiki" target="_blank" rel="noopener">Github</a>上。</p>
+<blockquote>
+<p>先决条件</p>
+</blockquote>
+<ol>
+<li>得要有一个域名</li>
+<li>域名解析web主机IP</li>
+</ol>
+<blockquote>
+<p>安装 acme.sh</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl  https://get.acme.sh | sh</span><br></pre></td></tr></table></figure>
+
+<p>哪个用户执行这个命令，那么就<code>cd ~/.acme.sh</code></p>
+<blockquote>
+<p>  生成证书</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">apache</span></span><br><span class="line">./acme.sh --issue  -d 域名.com   --apache</span><br><span class="line"><span class="meta">#</span><span class="bash">nginx</span></span><br><span class="line">./acme.sh --issue  -d 域名.com   --nginx</span><br></pre></td></tr></table></figure>
+
+<p>注意：证书已经生成了，但是还不能用，不能直接将文件添加到httpd.conf/nginx.conf里</p>
+<p>在目录<code>~/.acme.sh/域名.com/</code>可以看到脚本已经生成的几个文件，有用的就 域名.cer(nginx没有用到)、域名.key、fullchain.cer</p>
+<blockquote>
+<p>  安装证书</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">./acme.sh  --installcert  -d  &lt;domain&gt;.com   \</span><br><span class="line">        --key-file   /root/ssl/&lt;domain&gt;.com \  </span><br><span class="line">        --fullchain-file /root/ssl/fullchain.cer</span><br><span class="line"><span class="meta">#</span><span class="bash">位置不一定就是这里，得看具体web的配置文件内容</span></span><br><span class="line"><span class="meta">#</span><span class="bash">key 位置：/etc/nginx/ssl/&lt;domain&gt;.key </span></span><br><span class="line"><span class="meta">#</span><span class="bash">证书 位置：/etc/nginx/ssl/fullchain.cer</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>修改web配置文件</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>apache</p>
+</blockquote>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/httpd/conf.d/</span><br><span class="line">vim ssl.conf #没有这个文件： yum install mod_ssl -y</span><br><span class="line"><span class="meta">#</span><span class="bash">修改一下内容</span></span><br><span class="line">...</span><br><span class="line">SSLCertificateFile /root/ssl/域名.com.cer</span><br><span class="line">...</span><br><span class="line">SSLCertificateKeyFile /root/ssl/域名.com.key</span><br><span class="line">...</span><br><span class="line">SSLCertificateChainFile /root/ssl/fullchain.cer</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">systemctl restart httpd</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<p>nginx</p>
+</blockquote>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/nginx/</span><br><span class="line">vim nginx.conf</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">...</span><br><span class="line">ssl on;</span><br><span class="line">ssl_certificate /root/ssl/fullchain.cer;</span><br><span class="line">ssl_certificate_key /root/ssl/域名.key;</span><br><span class="line">ssl_session_timeout 5m;</span><br><span class="line">ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">ssl_prefer_server_ciphers on;</span><br><span class="line">ssl_ciphers "EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EE</span><br><span class="line">H+3DES:RSA+3DES:!MD5";</span><br><span class="line">ssl_session_cache builtin:1000 shared:SSL:10m;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">ssl 这些默认在conf文件中是没有的，需要添加的</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>问题：开放443端口 </p>
+<ol>
+<li>使用<code>firewalld</code>的：sudo firewall-cmd –permanent –add-service=https</li>
+<li>如阿里云、腾讯云、AWS等一些正规大规模的主机服务商，都需要在后台控制台-安全组，开放443端口</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>问题：http转https</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">apache</span></span><br><span class="line">vim /etc/httpd/conf/httpd.conf</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">... </span><br><span class="line"><span class="meta">#</span><span class="bash">88行</span></span><br><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond %&#123;HTTPS&#125; off</span><br><span class="line">RewriteRule (.*) https://%&#123;SERVER_NAME&#125;/$1 [R,L]</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">nginx</span></span><br><span class="line">server &#123;</span><br><span class="line">...</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    server_name _;</span><br><span class="line">    return 301 https://$host$request_uri;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">zabbix</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/15/letsencrypt-生成免费的证书/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Find-iname-忽略大小写" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1157,92 +1290,9 @@ pip install shadowsocks</code></pre><p>Windows:</p>
 
 
   
-    <article id="post-函数-函数返回值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/23/函数-函数返回值/">函数-函数返回值</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/23/函数-函数返回值/" class="archive-article-date">
-  	<time datetime="2019-07-23T01:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#函数返回值<br>通过return[表达式]语句用于退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。<br>eg:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(num1,num2)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (isinstance(num1,(int,float)) <span class="keyword">and</span> isinstance(num2,(int,float))):</span><br><span class="line">                <span class="keyword">raise</span> TypeError(<span class="string">'参数类型错误'</span>)</span><br><span class="line">        <span class="keyword">return</span> num1 + num2</span><br><span class="line">print(sum(<span class="number">1</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
-
-<p>返回结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-<p>isinstance() 进行数据类型检查，判断是否是整形和浮点型。如果参数类型不对，会报错。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/23/函数-函数返回值/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1346,6 +1396,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
               </li>
              
@@ -1354,11 +1408,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>

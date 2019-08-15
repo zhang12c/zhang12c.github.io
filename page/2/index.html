@@ -244,6 +244,89 @@
 
 
   
+    <article id="post-函数-函数返回值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/23/函数-函数返回值/">函数-函数返回值</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/23/函数-函数返回值/" class="archive-article-date">
+  	<time datetime="2019-07-23T01:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#函数返回值<br>通过return[表达式]语句用于退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。<br>eg:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(num1,num2)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (isinstance(num1,(int,float)) <span class="keyword">and</span> isinstance(num2,(int,float))):</span><br><span class="line">                <span class="keyword">raise</span> TypeError(<span class="string">'参数类型错误'</span>)</span><br><span class="line">        <span class="keyword">return</span> num1 + num2</span><br><span class="line">print(sum(<span class="number">1</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<p>返回结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>isinstance() 进行数据类型检查，判断是否是整形和浮点型。如果参数类型不对，会报错。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/23/函数-函数返回值/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-LearnMarkdown" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1034,100 +1117,9 @@
 
 
   
-    <article id="post-wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/08/wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404/">WordPress-固定链接-404</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/08/wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404/" class="archive-article-date">
-  	<time datetime="2019-05-08T13:06:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>WordPress默认的固定链接格式为朴素的格式</p>
-<p>[<code>https://www.bithub.xin/?p=123</code>]</p>
-<p>然后在更改成别的格式的时候，就会出现404页面不存在的问题</p>
-<p>以下是成功解决问题的实例步骤记录</p>
-</blockquote>
-<h2 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h2><p>在控制台上将固定链接更改后，实际页面的链接并没有变。导致了页面找不到</p>
-<h2 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h2><h5 id="WordPress社区找文档-https-codex-wordpress-org-zh-cn-E4-BD-BF-E7-94-A8-E5-9B-BA-E5-AE-9A-E9-93-BE-E6-8E-A5"><a href="#WordPress社区找文档-https-codex-wordpress-org-zh-cn-E4-BD-BF-E7-94-A8-E5-9B-BA-E5-AE-9A-E9-93-BE-E6-8E-A5" class="headerlink" title="WordPress社区找文档[https://codex.wordpress.org/zh-cn:%E4%BD%BF%E7%94%A8%E5%9B%BA%E5%AE%9A%E9%93%BE%E6%8E%A5]"></a>WordPress社区找文档[<a href="https://codex.wordpress.org/zh-cn:%E4%BD%BF%E7%94%A8%E5%9B%BA%E5%AE%9A%E9%93%BE%E6%8E%A5" target="_blank" rel="noopener">https://codex.wordpress.org/zh-cn:%E4%BD%BF%E7%94%A8%E5%9B%BA%E5%AE%9A%E9%93%BE%E6%8E%A5</a>]</h5><p>最后原来是Apache缺Mod_rewrite的模块，这个模块没有启用</p>
-<h5 id="启用Mod-rewrite-so、添加权限（改3处）"><a href="#启用Mod-rewrite-so、添加权限（改3处）" class="headerlink" title="启用Mod_rewrite.so、添加权限（改3处）"></a>启用Mod_rewrite.so、添加权限（改3处）</h5><p>vim /etc/httpd/conf/httpd.conf<br>————————-sprite—/httpd.conf———————<br>#<br> This is the main Apache HTTP server configuration file.  It contains the<br> configuration directives that give the server its instructions.<br> See  for detailed information.<br>       ….<br>Include conf.modules.d/*.conf<br>LoadModule rewrite_module modules/mod_rewrite.so[加载mod]<br>       ….<br><directory><br><code>AllowOverride ALL</code> [None改为ALL]<br><code>Require all denied</code><br></directory><br>       ….<br><code># The Options directive is both complicated and important.  Please see</code><br><code># http://httpd.apache.org/docs/2.4/mod/core.html#options</code><br><code># for more information.</code><br><code>#</code><br><code>Options Indexes FollowSymLinks</code><br><code>#</code><br><code># AllowOverride controls what directives may be placed in .htaccess files.</code><br><code># It can be &quot;All&quot;, &quot;None&quot;, or any combination of the keywords:</code><br><code>#   Options FileInfo AuthConfig Limit</code><br><code>#</code><br><code>AllowOverride ALL</code> [None改为ALL]<br>      ….<br>END<br>--------------------------------------------------------------------<br>$ sudo systemctl restart httpd [重启服务]</p>
-<p>到这问题已经解决了</p>
-<h5 id="后续问题"><a href="#后续问题" class="headerlink" title="后续问题"></a>后续问题</h5><p>1.您现在需要手工更新您的.htaccess文件。<br>这个Apache用户没有 w 写的权限，有chmod g+w -R</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/WordPress//" class="article-tag-list-link color5">WordPress</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/08/wordpress-e5-9b-ba-e5-ae-9a-e9-93-be-e6-8e-a5-404/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -1231,6 +1223,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
               </li>
              
@@ -1239,11 +1235,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>

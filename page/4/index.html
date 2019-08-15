@@ -159,6 +159,103 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-ansible结合跳板机远程控制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/03/ansible结合跳板机远程控制/">ansible结合跳板机远程控制</a>
+    </h1>
+  
+
+        
+        <a href="/2018/06/03/ansible结合跳板机远程控制/" class="archive-article-date">
+  	<time datetime="2018-06-03T13:08:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Ansible结合跳板机控制远程服务器<br>在ansible的使用过程中，存在这样的场景，ansible所在的管理节点与被管理的机器需要 通过一个跳板机才能连接，无法直接连接。网上搜了一下，要解决这个问题，并不需要在 ansible里做什么处理，而是在ssh连接层面解决这个问题。</p>
+<p>比如，</p>
+<p>我们有三类节点：</p>
+<p>管理节点，admin.example.com，是执行ansible命令的服务器</p>
+<p>被管理的节点，internal1.example.com, internal2.example.com</p>
+<p>跳板机，bastion.example.com</p>
+<p>管理节点不能直连 internal1 &amp; internal2，需要通过跳板机建立连接。</p>
+<p>管理节点连接跳板机的方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i keyfile_bastion -p 12345 user@bastion.example.com</span><br></pre></td></tr></table></figure>
+
+<p>从跳板机连接internal节点的方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -i keyfile_internal -p 23456 user@internal1.example.com</span><br><span class="line">ssh -i keyfile_internal -p 23456 user@internal2.example.com</span><br></pre></td></tr></table></figure>
+
+<p>解决方案：</p>
+<p>修改 ~/.ssh/config，加入如下的配置项，</p>
+<pre><code>Host internal1.example.com internal2.example.com
+    User user
+    Port 23456
+    IdentityFile=keyfile_internal
+    ProxyCommand ssh -qaY -i keyfile_bastion -p 12345 user@bastion.example.com &apos;nc -w 14400 %h %p&apos;</code></pre><p>这样，就可以直接从节点 admin.example.com 执行下面的命令直接连接internal1.example.com了</p>
+<pre><code>ssh user@internal1.example.com</code></pre><p>ansible中也可以将internal节点当做可以直接连接的机器来使用</p>
+<pre><code>ansible -i host -m setup internal1.example.com</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ansible//" class="article-tag-list-link color3">ansible</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/06/03/ansible结合跳板机远程控制/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ipython-5-7-0-e5-92-8c-6-4-0-e5-8f-91-e5-b8-83-ef-bc-8cpython-e5-91-bd-e4-bb-a4-e8-a1-8c-e4-ba-a4-e4-ba-92" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1473,7 +1570,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1481,7 +1578,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
             
             <div class="clearfix"></div>

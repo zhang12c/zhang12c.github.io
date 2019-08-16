@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="云维">
 <meta property="og:description" content="给自己的网站加个证书，也就提高了网站数据传输过程中的安全性。今天使用的是 Let&amp;#39;t sencrypt公益免费颁发证书的机构。证书的可用性是3个月，超过3个月需要重新生成证书。但是！这证书的重新颁发可以用脚本来做这个动作，项目在Github上。  先决条件   得要有一个域名 域名解析web主机IP   安装 acme.sh  script1curl  https://get.acme.s">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-08-15T08:39:19.341Z">
+<meta property="og:updated_time" content="2019-08-16T01:35:16.540Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="letsencrypt 生成免费的证书">
 <meta name="twitter:description" content="给自己的网站加个证书，也就提高了网站数据传输过程中的安全性。今天使用的是 Let&amp;#39;t sencrypt公益免费颁发证书的机构。证书的可用性是3个月，超过3个月需要重新生成证书。但是！这证书的重新颁发可以用脚本来做这个动作，项目在Github上。  先决条件   得要有一个域名 域名解析web主机IP   安装 acme.sh  script1curl  https://get.acme.s">
@@ -232,7 +232,7 @@
 <blockquote>
 <p>问题：http转https</p>
 </blockquote>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">apache</span></span><br><span class="line">vim /etc/httpd/conf/httpd.conf</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">... </span><br><span class="line"><span class="meta">#</span><span class="bash">88行</span></span><br><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond %&#123;HTTPS&#125; off</span><br><span class="line">RewriteRule (.*) https://%&#123;SERVER_NAME&#125;/$1 [R,L]</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">nginx</span></span><br><span class="line">server &#123;</span><br><span class="line">...</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    server_name _;</span><br><span class="line">    return 301 https://$host$request_uri;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">apache</span></span><br><span class="line">vim /etc/httpd/conf/httpd.conf</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">... </span><br><span class="line"><span class="meta">#</span><span class="bash">88行</span></span><br><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond %&#123;HTTPS&#125; off</span><br><span class="line">RewriteRule (.*) https://%&#123;SERVER_NAME&#125;/$1 [R,L]</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">nginx</span></span><br><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        #listen [::]:80;</span><br><span class="line">        server_name dl.sudojs.net;</span><br><span class="line">        root /home/download;</span><br><span class="line"></span><br><span class="line">        access_log  /home/wwwlogs/dl.sudojs.net_80.log;</span><br><span class="line"></span><br><span class="line">        location /.well-known &#123;</span><br><span class="line">                alias /home/wwwroot/default/.well-known;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">	location / &#123; #将80端口的302转到https</span><br><span class="line">                return 302 https://$server_name$request_uri;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">        listen 443 ssl http2;</span><br><span class="line">	    #listen [::]:443 ipv6only=on;</span><br><span class="line">        server_name dl.sudojs.net;</span><br><span class="line">	    root /home/download;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -480,15 +480,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">centos</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -497,6 +493,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
               </li>
              
               <li class="article-tag-list-item">

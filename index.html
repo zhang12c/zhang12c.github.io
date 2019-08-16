@@ -232,7 +232,7 @@
 <blockquote>
 <p>问题：http转https</p>
 </blockquote>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">apache</span></span><br><span class="line">vim /etc/httpd/conf/httpd.conf</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">... </span><br><span class="line"><span class="meta">#</span><span class="bash">88行</span></span><br><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond %&#123;HTTPS&#125; off</span><br><span class="line">RewriteRule (.*) https://%&#123;SERVER_NAME&#125;/$1 [R,L]</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">nginx</span></span><br><span class="line">server &#123;</span><br><span class="line">...</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    server_name _;</span><br><span class="line">    return 301 https://$host$request_uri;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">apache</span></span><br><span class="line">vim /etc/httpd/conf/httpd.conf</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">... </span><br><span class="line"><span class="meta">#</span><span class="bash">88行</span></span><br><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond %&#123;HTTPS&#125; off</span><br><span class="line">RewriteRule (.*) https://%&#123;SERVER_NAME&#125;/$1 [R,L]</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">nginx</span></span><br><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        #listen [::]:80;</span><br><span class="line">        server_name dl.sudojs.net;</span><br><span class="line">        root /home/download;</span><br><span class="line"></span><br><span class="line">        access_log  /home/wwwlogs/dl.sudojs.net_80.log;</span><br><span class="line"></span><br><span class="line">        location /.well-known &#123;</span><br><span class="line">                alias /home/wwwroot/default/.well-known;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">	location / &#123; #将80端口的302转到https</span><br><span class="line">                return 302 https://$server_name$request_uri;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">        listen 443 ssl http2;</span><br><span class="line">	    #listen [::]:443 ipv6only=on;</span><br><span class="line">        server_name dl.sudojs.net;</span><br><span class="line">	    root /home/download;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -813,7 +813,7 @@ pip install shadowsocks</code></pre><p>Windows:</p>
 <p>但是我们要更改文件选项使用<code>chmod 0600 file</code>的时候，并不能更改文件的权限。这时候我们就要去更改<code>/mnt/d</code>的挂载方式。<br>解决详细方案来自<a href="https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/" target="_blank" rel="noopener">microsoft帮助</a></p>
 <p>您现在可以使用chmod / chown设置文件的所有者和组，  并在WSL中修改读/写/执行权限。您还可以创建特殊文件，如fifos，unix套接字和设备文件。我们在DrvFs中引入了新的安装选项，用于将权限投射到文件上，同时在文件和文件夹上提供新的Linux元数据。</p>
 <p>还有一个步骤中，您必须采取之前，你可以享受这些新功能：你必须卸载drvfs 并与“元数据”标志重新安装。去做这个： </p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">按需使用磁盘C或D 或者其他</span></span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>按需使用磁盘C或D 或者其他</span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
 
 <p>到这，<code>WSL</code>就有随意更替<code>Windows</code>文件的权限。</p>
 <figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 0600 .ssh/*</span><br></pre></td></tr></table></figure>
@@ -1396,15 +1396,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">centos</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1413,6 +1409,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
               </li>
              
               <li class="article-tag-list-item">

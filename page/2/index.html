@@ -159,6 +159,106 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-iptables单端口限速" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/25/iptables单端口限速/">iptables-源ip单或多端口限速</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/25/iptables单端口限速/" class="archive-article-date">
+  	<time datetime="2019-07-25T07:08:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##<strong>iptables-源ip单或多端口速率</strong><br>目前在在<strong>Google</strong>上还没有用这个<strong>hashlimit</strong>来直接限制速率。大多都是使用数据包来限速或者用<strong>tc</strong></p>
+<blockquote>
+<p>布局介绍</p>
+</blockquote>
+<p>   <img src="/images/%E5%B7%A5%E7%A8%8B%E5%B8%88.png" alt="运维工程师">  &gt;&gt;   ssh   &gt;&gt; <img src="/images/%E5%A0%A1%E5%9E%92%E6%9C%BA.png" alt="堡垒机">   &gt;&gt;   ssh   &gt;&gt; <img src="/images/%E6%9C%8D%E5%8A%A1%E5%99%A8.png" alt="堡垒机"></p>
+<p><code>运维工程师连接到堡垒机时，在堡垒机上做iptables限速，避免运维过多占用客户生产服务器带宽。中间堡垒机有做一个ssh的跳板。</code></p>
+<blockquote>
+<p>iptables策略思路</p>
+</blockquote>
+<p>使用源ip、单端口或多端口进行限速。上行和下行都限制为100Kb/s。把所有的数据都丢到hash lable中，用令牌桶来分发令牌，没有令牌的数据包丢弃。这样来达到限速的功能</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 22 -m hashlimit --hashlimit-name conn_limitA --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode srcip --hashlimit-burst 200kb -j ACCEPT</span><br><span class="line">iptables -A INPUT -p tcp --dport 22 -j DROP</span><br><span class="line">----------------------------上传----------------------------------</span><br><span class="line">iptables -A OUTPUT -p tcp --sport 22 -m hashlimit --hashlimit-name conn_limitB --hashlimit-htable-expire 30000 --hashlimit-upto 100kb/s --hashlimit-mode dstip --hashlimit-burst 200kb -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p tcp --sport 22 -j DROP</span><br><span class="line">-----------------------------下载---------------------------------</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意问题</p>
+</blockquote>
+<p>其中有一个坑卡了我好久，那就是hashlimit-name必须是唯一的。如果相同，数据包被多条iptables策略过滤。比如上面的hashlimit-name相同的话。上传速率平均是100kb/s但是下载速率是50kb/s</p>
+<blockquote>
+<p>价值</p>
+</blockquote>
+<p>百度云等不良限速，大概也是这样限速用户的流量速度。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux/iptables//" class="article-tag-list-link color4">iptables</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/25/iptables单端口限速/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ansible集群学习备忘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1011,112 +1111,6 @@
 
 
   
-    <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/">shell脚本编程入门-3</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/" class="archive-article-date">
-  	<time datetime="2019-05-09T14:18:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="数值的比较-字符的比较"><a href="#数值的比较-字符的比较" class="headerlink" title="数值的比较-字符的比较"></a>数值的比较-字符的比较</h3><h6 id="数值比较的两种方法："><a href="#数值比较的两种方法：" class="headerlink" title="数值比较的两种方法："></a><strong>数值比较的两种方法：</strong></h6><p>[zhang@bithub ~]$ [ 2 -eq 1 ] || echo “F”#解释#如果2不定于1，输出F<br> F<br>[zhang@bithub ~]$ [[ 2 = 1 ]] || echo “F”<br> F<br>”[]“是一个判断，方括号两边必须留空<br>[  “$HOME”  ==  “$MAIL”  ]<br>[□”$HOME”□==□”$MAIL”□]<br> ↑       ↑  ↑       ↑<br>这里提到了数值比较的两种方法，其实就是格式的不一样，第一条上面是用”-eq“表示“==”。<br>当然[]中可以有2个判断条件。<br>[zhang@bithub ~]$ [ 2 -gt 1 -o 2 -lt 3 ] &amp;&amp; echo “T” #解释# -o 表示或<br> T<br>[zhang@bithub ~]$ [ 2 -gt 1 -a 2 -lt 1 ] &amp;&amp; echo “T” || echo “F”<br> F #解释#-a 表示 and 并且</p>
-<p>运算符</p>
-<p>说明</p>
-<p>-eq</p>
-<p>检测两个数是否相等，相等返回 true。</p>
-<p>-ne</p>
-<p>检测两个数是否不相等，不相等返回 true。</p>
-<p>-lt</p>
-<p>检测左边的数是否小于右边的，如果是，则返回 true</p>
-<p>-gt</p>
-<p>检测左边的数是否大于右边的，如果是，则返回 true。</p>
-<p>-le</p>
-<p>检测左边的数是否小于等于右边的，如果是，则返回 true。</p>
-<p>-ge</p>
-<p>检测左边的数是否大于等于右边的，如果是，则返回 true。</p>
-<h6 id="字符的比较"><a href="#字符的比较" class="headerlink" title="字符的比较"></a>字符的比较</h6><p>符号</p>
-<p>说明</p>
-<p>-f</p>
-<p>文件是否存在</p>
-<p>-z</p>
-<p>-x</p>
-<p>文件是否有x权限</p>
-<p>-d</p>
-<p>目录是否存在</p>
-<p>[zhang@bithub ~]$ var=zhang<br>[zhang@bithub ~]$ [ $var = ‘li’ ] &amp;&amp; echo “T” || echo “F”<br>F<br>[zhang@bithub ~]$ [ $var -eq ‘li’ ] &amp;&amp; echo “T” || echo “F”<br> -bash: [: zhang: 期待整数表达式 ##这里的-eq就会报错了，运算符在这就会报错<br> F<br>[zhang@bithub ~]$ unset var ##清空<br>[zhang@bithub ~]$ echo $var </p>
-<p>[zhang@bithub ~]$ ls<br>install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ var=install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ echo $var<br>install_mysql[5.5-8.0].sh<br>[zhang@bithub ~]$ [ -f $var ] &amp;&amp; echo “T” ##-f 文件如果存在输出T<br> T</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1223,11 +1217,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1240,10 +1238,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>

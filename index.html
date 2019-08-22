@@ -809,13 +809,13 @@
 <blockquote>
 <p>附加：怎么用</p>
 </blockquote>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible -i hosts chang_sshd_config.yml </span><br><span class="line"><span class="meta">#</span><span class="bash">-i 指定inventory 即存放主机ip的文件</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible -i hosts chang_sshd_config.yml </span><br><span class="line"><span class="meta">#</span>-i 指定inventory 即存放主机ip的文件</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>后续</p>
 </blockquote>
 <p>Ansible默认config文件<code>/etc/ansible/ansible.cfg</code></p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">inventory      = /etc/ansible/hosts</span></span><br><span class="line"><span class="meta">#</span><span class="bash">library        = /usr/share/my_modules/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_utils   = /usr/share/my_module_utils/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">remote_tmp     = ~/.ansible/tmp</span></span><br><span class="line"><span class="meta">#</span><span class="bash">local_tmp      = ~/.ansible/tmp</span></span><br><span class="line"><span class="meta">#</span><span class="bash">plugin_filters_cfg = /etc/ansible/plugin_filters.yml</span></span><br><span class="line">forks          = 10 ##默认是 forks = 5</span><br><span class="line"><span class="meta">#</span><span class="bash">poll_interval  = 15</span></span><br><span class="line"><span class="meta">#</span><span class="bash">sudo_user      = root</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ask_sudo_pass = True</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ask_pass      = True</span></span><br><span class="line"><span class="meta">#</span><span class="bash">transport      = smart</span></span><br><span class="line"><span class="meta">#</span><span class="bash">remote_port    = 22</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_lang    = C</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_set_locale = False</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>inventory      = /etc/ansible/hosts</span><br><span class="line"><span class="meta">#</span>library        = /usr/share/my_modules/</span><br><span class="line"><span class="meta">#</span>module_utils   = /usr/share/my_module_utils/</span><br><span class="line"><span class="meta">#</span>remote_tmp     = ~/.ansible/tmp</span><br><span class="line"><span class="meta">#</span>local_tmp      = ~/.ansible/tmp</span><br><span class="line"><span class="meta">#</span>plugin_filters_cfg = /etc/ansible/plugin_filters.yml</span><br><span class="line">forks          = 10 ##默认是 forks = 5</span><br><span class="line"><span class="meta">#</span>poll_interval  = 15</span><br><span class="line"><span class="meta">#</span>sudo_user      = root</span><br><span class="line"><span class="meta">#</span>ask_sudo_pass = True</span><br><span class="line"><span class="meta">#</span>ask_pass      = True</span><br><span class="line"><span class="meta">#</span>transport      = smart</span><br><span class="line"><span class="meta">#</span>remote_port    = 22</span><br><span class="line"><span class="meta">#</span>module_lang    = C</span><br><span class="line"><span class="meta">#</span>module_set_locale = False</span><br></pre></td></tr></table></figure>
 
 <p>将<code>forks = 5</code>替换成<code>forks  = 10</code>目的是为了将同步运行速度提升1倍，即同一时间在10台主机上面执行playbook。缩短了一半的时间</p>
 <blockquote>
@@ -1470,19 +1470,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1491,6 +1487,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
             
             <div class="clearfix"></div>

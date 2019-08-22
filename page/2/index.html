@@ -159,6 +159,143 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-python-函数的参数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/27/python-函数的参数/">python-函数的参数</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/27/python-函数的参数/" class="archive-article-date">
+  	<time datetime="2019-07-27T02:33:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#函数的参数</p>
+<p>###默认值参数<br>我们自定义的函数中，如果调用的时候没有设置参数，需要给一个默认参数时，需要添加一个默认值的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_user_info</span><span class="params">( name,age,sex = <span class="string">'男'</span> )</span>:</span></span><br><span class="line">    <span class="comment">#打印用户信息</span></span><br><span class="line">    print(<span class="string">'昵称:&#123;&#125;'</span>.format(name), end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'年龄:&#123;&#125;'</span>.format(age), end=<span class="string">' '</span> )</span><br><span class="line">    print(<span class="string">'性别:&#123;&#125;'</span>.format(sex))</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"><span class="comment">#调用 print_user_info 函数</span></span><br><span class="line"></span><br><span class="line">print_user_info(<span class="string">'Tingbob'</span>,<span class="string">'20'</span>,<span class="string">'男'</span>)</span><br><span class="line">print_user_info(<span class="string">'Lixie'</span>,<span class="string">'20'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">昵称:Tingbob 年龄:20 性别:男</span><br><span class="line">昵称:Lixie 年龄:20 性别:男</span><br></pre></td></tr></table></figure>
+
+<p>当设置了默认参数的时候，在调用的时候，不传该参数，就会使用默认值。但这里需要注意的一点时：<strong><em>只有在形参表末尾的那些参数可以有默认参数值，</em></strong>也就是说你不能在声明函数形参的时候，先声明有默认值的形参而后声明没有默认值的形参。这是因为赋给形参的值时根据位置而赋值的。<br>例如，def func(a,b=1）是有效的，但是def func(a=1,b)是无效的</p>
+<p>如果参数中是一个可修改的容器比如一个list或者dict，我们可以使用None来作为默认值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(a,b = None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b <span class="keyword">is</span> <span class="literal">None</span> :</span><br><span class="line">        b = []</span><br><span class="line">    <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>在参数中我们直接<code>b=[]</code>不久行了吗？也就是写成下面的这个样子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(a , b = [] )</span>:</span></span><br><span class="line">    <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>这样做也不会报错，但编辑器就会在<code>b = []</code>这里标记出来，为什么呢？这里需要特别注意的一点：<strong>默认参数的值是不可变的对象，比如None、True、False、数字或字符串</strong>，如果默认值在其他地方被修改后，你将会遇到各种麻烦。这些修改会影响到下次调用这个函数时的默认值。</p>
+<p>实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(a,b=[])</span>:</span></span><br><span class="line">    print(b)</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line">    </span><br><span class="line">result = print_info(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">result.append(<span class="string">'error'</span>)</span><br><span class="line"></span><br><span class="line">print_info(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[]</span><br><span class="line">[<span class="string">'error'</span>] </span><br><span class="line"><span class="comment"># `error`字符是不可变的量，b = []就不会起作用了</span></span><br></pre></td></tr></table></figure>
+
+<p>第二个<code>error</code>是你不想要的值，因此切忌不要这样操作。</p>
+<p>有时候我就是不想要默认值，只是想单单判断默认参数有没有值传递出来，那该怎么办？我们可以这样做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_no_value = object()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">( a , b = _no_value )</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b <span class="keyword">is</span> _no_value :</span><br><span class="line">        print(<span class="string">'b 没有赋值'</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>这里的<code>object</code>是python中所有类的基类，你可以创建<code>object</code>类的实例，但是这些实例并没有什么实际用处，因为它并没有任何有用的地方,也没有任何实例数据（因为它没有任何的实例字典，你甚至都不能设置任何属性值）。你唯一能做的就是测试同一性。也正好利用这个特性，来判断是否有值输入。</p>
+<p>###关键字参数<br>在python中，可以通过参数命来给函数传递参数，而不用关系参数列表定义时的顺序，则被称之为关键字参数。使用关键参数有两个优势：</p>
+<ul>
+<li>由于我们不必担心参数的顺序，使用函数变得更加简单了。</li>
+<li>假设其他参数都有默认值，我们可以只给我们想要的那些参数赋值<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_user_info</span><span class="params">( name,age,sex = <span class="string">'男'</span> )</span>:</span></span><br><span class="line">    <span class="comment">#打印用户信息</span></span><br><span class="line">    print(<span class="string">'昵称:&#123;&#125;'</span>.format(name), end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'年龄:&#123;&#125;'</span>.format(age), end=<span class="string">' '</span> )</span><br><span class="line">    print(<span class="string">'性别:&#123;&#125;'</span>.format(sex))</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">print_user_info( name = <span class="string">'LiXie'</span> , age=<span class="number">18</span>,sex=<span class="string">'女'</span>)</span><br><span class="line">print_user_info( name=<span class="string">'Tingbob'</span>,sex=<span class="string">'女'</span>,age=<span class="number">18</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>输出的值:<br><code>昵称:LiXie 年龄:18 性别:女
+昵称:Tingbob 年龄:18 性别:女</code></p>
+<h2 id="不定长参数"><a href="#不定长参数" class="headerlink" title="###不定长参数"></a>###不定长参数</h2><p>有时我们在设计函数接口的时候，可能会需要可变长的参数。也就是说，我们事先无法确认传入的参数个数。python提供了一个元组的方式来接受没有直接定义的参数。这种方式在参数前边加星号 <code>*</code> 。如果在函数调用时没有指定参数，他就是一个空元组。我们也可以不向函数传递未命名的变量。</p>
+<p>例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_user_info</span><span class="params">( name ,  age  , sex = <span class="string">'男'</span> , * hobby)</span>:</span></span><br><span class="line">    <span class="comment"># 打印用户信息</span></span><br><span class="line">    print(<span class="string">'昵称：&#123;&#125;'</span>.format(name) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'年龄：&#123;&#125;'</span>.format(age) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'性别：&#123;&#125;'</span>.format(sex) ,end = <span class="string">' '</span> )</span><br><span class="line">    print(<span class="string">'爱好：&#123;&#125;'</span>.format(hobby))</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用 print_user_info 函数</span></span><br><span class="line">print_user_info( <span class="string">'两点水'</span> ,<span class="number">18</span> , <span class="string">'女'</span>, <span class="string">'打篮球'</span>,<span class="string">'打羽毛球'</span>,<span class="string">'跑步'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">昵称：两点水 年龄：18 性别：女 爱好：(&apos;打篮球&apos;, &apos;打羽毛球&apos;, &apos;跑步&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>通过输出的结果可以知道，*hobby是可变参数，且 hobby其实就是一个 tuple （元祖）</p>
+<p>可变长参数也支持关键参数，没有被定义的关键参数会被放到一个字典里。这种方式即是在参数前边加 **,更改上面的示例如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_user_info</span><span class="params">( name ,  age  , sex = <span class="string">'男'</span> , ** hobby )</span>:</span></span><br><span class="line">    <span class="comment"># 打印用户信息</span></span><br><span class="line">    print(<span class="string">'昵称：&#123;&#125;'</span>.format(name) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'年龄：&#123;&#125;'</span>.format(age) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'性别：&#123;&#125;'</span>.format(sex) ,end = <span class="string">' '</span> )</span><br><span class="line">    print(<span class="string">'爱好：&#123;&#125;'</span>.format(hobby))</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用 print_user_info 函数</span></span><br><span class="line">print_user_info( name = <span class="string">'两点水'</span> , age = <span class="number">18</span> , sex = <span class="string">'女'</span>, hobby = (<span class="string">'打篮球'</span>,<span class="string">'打羽毛球'</span>,<span class="string">'跑步'</span>))</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">昵称：两点水 年龄：18 性别：女 爱好：&#123;&apos;hobby&apos;: (&apos;打篮球&apos;, &apos;打羽毛球&apos;, &apos;跑步&apos;)&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过对比上面的例子和这个例子，可以知道，<em>hobby是可变参数，且 hobby其实就是一个 tuple （元祖），*</em>hobby是关键字参数，且 hobby 就是一个 dict （字典）</p>
+<p>###只接受关键字参数<br>关键字参数使用起来简单，不容易参数出错，那么有些时候，我们定义的函数希望某些参数强制使用关键字参数传递，这时候该怎么办呢？</p>
+<p>将强制关键字参数放到某个<em>参数或者单个</em>后面就能达到这种效果,比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_user_info</span><span class="params">( name , *, age  , sex = <span class="string">'男'</span> )</span>:</span></span><br><span class="line">    <span class="comment"># 打印用户信息</span></span><br><span class="line">    print(<span class="string">'昵称：&#123;&#125;'</span>.format(name) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'年龄：&#123;&#125;'</span>.format(age) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'性别：&#123;&#125;'</span>.format(sex))</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用 print_user_info 函数</span></span><br><span class="line">print_user_info( name = <span class="string">'两点水'</span> ,age = <span class="number">18</span> , sex = <span class="string">'女'</span> )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这种写法会报错，因为 age ，sex 这两个参数强制使用关键字参数</span></span><br><span class="line"><span class="comment">#print_user_info( '两点水' , 18 , '女' )</span></span><br><span class="line">print_user_info(<span class="string">'两点水'</span>,age=<span class="string">'22'</span>,sex=<span class="string">'男'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>通过例子可以看，如果 age , sex 不适用关键字参数是会报错的。</p>
+<p>很多情况下，使用强制关键字参数会比使用位置参数表意更加清晰，程序也更加具有可读性。使用强制关键字参数也会比使用 **kw 参数更好且强制关键字参数在一些更高级场合同样也很有用。</p>
+<p><img src="https://github.com/zhang12c/Python/blob/master/Article/python6/4.md" alt="From github"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/27/python-函数的参数/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-iptables单端口限速" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -259,6 +396,89 @@
 
 
   
+    <article id="post-函数-函数返回值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/23/函数-函数返回值/">函数-函数返回值</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/23/函数-函数返回值/" class="archive-article-date">
+  	<time datetime="2019-07-23T01:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#函数返回值<br>通过return[表达式]语句用于退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。<br>eg:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(num1,num2)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (isinstance(num1,(int,float)) <span class="keyword">and</span> isinstance(num2,(int,float))):</span><br><span class="line">                <span class="keyword">raise</span> TypeError(<span class="string">'参数类型错误'</span>)</span><br><span class="line">        <span class="keyword">return</span> num1 + num2</span><br><span class="line">print(sum(<span class="number">1</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<p>返回结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>isinstance() 进行数据类型检查，判断是否是整形和浮点型。如果参数类型不对，会报错。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/23/函数-函数返回值/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ansible集群学习备忘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -315,89 +535,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/07/23/ansible集群学习备忘/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-函数-函数返回值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/23/函数-函数返回值/">函数-函数返回值</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/23/函数-函数返回值/" class="archive-article-date">
-  	<time datetime="2019-07-23T01:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#函数返回值<br>通过return[表达式]语句用于退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。<br>eg:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(num1,num2)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (isinstance(num1,(int,float)) <span class="keyword">and</span> isinstance(num2,(int,float))):</span><br><span class="line">                <span class="keyword">raise</span> TypeError(<span class="string">'参数类型错误'</span>)</span><br><span class="line">        <span class="keyword">return</span> num1 + num2</span><br><span class="line">print(sum(<span class="number">1</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
-
-<p>返回结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-<p>isinstance() 进行数据类型检查，判断是否是整形和浮点型。如果参数类型不对，会报错。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/23/函数-函数返回值/">展开全文 >></a>
         </p>
       
 
@@ -1029,88 +1166,6 @@
 
 
   
-    <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4/">shell脚本编程入门-4</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4/" class="archive-article-date">
-  	<time datetime="2019-05-09T14:49:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="位置变量-“-0-1-2-3-”"><a href="#位置变量-“-0-1-2-3-”" class="headerlink" title="位置变量 “$0 $1 $2 $3 $@ $#”"></a>位置变量 “$0 $1 $2 $3 $@ $#”</h4><p>————sprite-test.sh———–<br>!/bin/bash -<br> echo “\$0是：$0”<br> echo “\$1是：$1”<br> echo “\$2是：$2”<br> echo “\$3是：$3”<br> echo “\$4是：$4”<br> echo “\$@是：$@”<br> echo “\$#是：$#”<br> exit 0<br>————end————–<br>[zhang@bithub ~]$ ./test.sh a b c d e f g<br> $0是：./test.sh ##执行的脚本位置<br> $1是：a ##第一个参数<br> $2是：b<br> $3是：c<br> $4是：d ##第四个参数<br> $@是：a b c d e f g ##列出全部参数<br> $#是：7  ##一共是7个参数<br>[zhang@bithub ~]$ sh test.sh 1 2 3 4 5 6 7<br> $0是：test.sh<br> $1是：1<br> $2是：2<br> $3是：3<br> $4是：4<br> $@是：1 2 3 4 5 6 7<br> $#是：7</p>
-<h5 id="与其相类似的”-”，这个是用来判断命令是否执行成功-成功0失败非0"><a href="#与其相类似的”-”，这个是用来判断命令是否执行成功-成功0失败非0" class="headerlink" title="与其相类似的”$?”，这个是用来判断命令是否执行成功(成功0失败非0)"></a>与其相类似的”$?”，这个是用来判断命令是否执行成功(成功0失败非0)</h5><p>[zhang@bithub ~]$ cat ping.sh<br> !/bin/bash -<br> ip=$1<br> ping -c 2 -w 2 $ip &gt; /dev/null 2&gt;&amp;1<br> [ $? -eq 0 ] &amp;&amp; echo “$ip is on” || echo “$ip is down”<br>[zhang@bithub ~]$ ./ping.sh <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a><br><a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> is on<br>[zhang@bithub ~]$ ./ping.sh 192.168.1.1<br> 192.168.1.1 is down</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/09/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1217,15 +1272,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1233,11 +1284,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
+                <a href="javascript:void(0)" class="js-tag color3">--linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
               </li>
             
             <div class="clearfix"></div>

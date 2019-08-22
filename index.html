@@ -159,6 +159,239 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-GPG加密校验入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/22/GPG加密校验入门/">GPG加密校验入门</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/22/GPG加密校验入门/" class="archive-article-date">
+  	<time datetime="2019-08-22T10:00:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文COPY于[<a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html],第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2013/07/gpg.html],第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">我的笔记</span><br><span class="line">加密  </span><br><span class="line">gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]</span><br><span class="line">解密</span><br><span class="line">gpg [输出的加密文件]</span><br><span class="line">签名 (二进制)</span><br><span class="line">gpg --sign [输入文件]</span><br><span class="line">gpg --clearsign [输入文件]</span><br><span class="line">单独签名</span><br><span class="line">gpg --detach-sign [file]</span><br><span class="line">gpg --armor --detach-sign [file]</span><br><span class="line">签名+加密</span><br><span class="line">gpg --local-user [发信者ID] --recipient [接收者ID] --armor --sign --encrypt [file]</span><br><span class="line">验证签名</span><br><span class="line">gpg --verify [file.sig] [file] </span><br><span class="line">真：GOOD signature 假： BAD signature</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>正文</p>
+</blockquote>
+<p>今天，就接着来看，现实中怎么使用这个算法，对信息加密和解密。这要用到<a href="http://www.gnupg.org/" target="_blank" rel="noopener">GnuPG</a>软件（简称GPG），它是目前最流行、最好用的加密工具之一。</p>
+<p>一、什么是GPG</p>
+<p>要了解什么是GPG，就要先了解PGP。</p>
+<p>1991年，程序员Phil Zimmermann为了避开政府监视，开发了加密软件PGP。这个软件非常好用，迅速流传开来，成了许多程序员的必备工具。但是，它是商业软件，不能自由使用。所以，自由软件基金会决定，开发一个PGP的替代品，取名为GnuPG。这就是GPG的由来。</p>
+<p>GPG有许多用途，本文主要介绍文件加密。至于邮件的加密，不同的邮件客户端有不同的设置，请参考Ubuntu网站的介绍。</p>
+<p>本文的使用环境为Linux命令行。如果掌握了命令行，Windows 或 Mac OS 客户端，就非常容易掌握。GPG并不难学，学会了它，从此就能轻松传递加密信息。建议读者一步步跟着教程做，对每条命令都自行测试。</p>
+<p>二、安装</p>
+<p>GPG有两种安装方式。可以下载源码，自己编译安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　./configure</span><br><span class="line">　　make</span><br><span class="line">　　make install</span><br></pre></td></tr></table></figure>
+
+<p>也可以安装编译好的二进制包。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">　　# Debian / Ubuntu 环境</span><br><span class="line">　　sudo apt-get install gnupg</span><br><span class="line"></span><br><span class="line">　　# Fedora 环境</span><br><span class="line">　　yum install gnupg</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，键入下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --help</span><br></pre></td></tr></table></figure>
+
+<p>如果屏幕显示GPG的帮助，就表示安装成功。</p>
+<p>三、生成密钥</p>
+<p>安装成功后，使用gen-ken参数生成自己的密钥。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --gen-key</span><br></pre></td></tr></table></figure>
+
+<p>回车以后，会跳出一大段文字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　gpg (GnuPG) 1.4.12; Copyright (C) 2012 Free Software Foundation, Inc.</span><br><span class="line">　　This is free software: you are free to change and redistribute it.</span><br><span class="line">　　There is NO WARRANTY, to the extent permitted by law.</span><br><span class="line"></span><br><span class="line">　　请选择您要使用的密钥种类：</span><br><span class="line">　　　(1) RSA and RSA (default)</span><br><span class="line">　　　(2) DSA and Elgamal</span><br><span class="line">　　　(3) DSA (仅用于签名)　</span><br><span class="line">　　　(4) RSA (仅用于签名)</span><br><span class="line">　　您的选择？</span><br></pre></td></tr></table></figure>
+
+<p>第一段是版权声明，然后让用户自己选择加密算法。默认选择第一个选项，表示加密和签名都使用RSA算法。</p>
+<p>然后，系统就会问你密钥的长度。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　RSA 密钥长度应在 1024 位与 4096 位之间。</span><br><span class="line">　　您想要用多大的密钥尺寸？(2048)</span><br></pre></td></tr></table></figure>
+
+<p>密钥越长越安全，默认是2048位。</p>
+<p>接着，设定密钥的有效期。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">　　请设定这把密钥的有效期限。</span><br><span class="line">　　　0 = 密钥永不过期</span><br><span class="line">　　　&lt;n&gt; = 密钥在 n 天后过期</span><br><span class="line">　　　&lt;n&gt;w = 密钥在 n 周后过期</span><br><span class="line">　　　&lt;n&gt;m = 密钥在 n 月后过期</span><br><span class="line">　　　&lt;n&gt;y = 密钥在 n 年后过期</span><br><span class="line">　　密钥的有效期限是？(0)</span><br></pre></td></tr></table></figure>
+
+<p>如果密钥只是个人使用，并且你很确定可以有效保管私钥，建议选择第一个选项，即永不过期。回答完上面三个问题以后，系统让你确认。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　以上正确吗？(y/n)</span><br></pre></td></tr></table></figure>
+
+<p>输入y，系统就要求你提供个人信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　　您需要一个用户标识来辨识您的密钥；本软件会用真实姓名、注释和电子邮件地址组合成用户标识，如下所示：</span><br><span class="line">　　&quot;Heinrich Heine (Der Dichter) &lt;heinrichh@duesseldorf.de&gt;&quot;</span><br><span class="line"></span><br><span class="line">　　真实姓名：</span><br><span class="line">　　电子邮件地址：</span><br><span class="line">　　注释：</span><br></pre></td></tr></table></figure>
+
+<p>“真实姓名”填入你姓名的英文写法，”电子邮件地址”填入你的邮件地址，”注释”这一栏可以空着。</p>
+<p>然后，你的”用户ID”生成了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">　　您选定了这个用户标识：</span><br><span class="line">　　　&quot;Ruan YiFeng &lt;yifeng.ruan@gmail.com&gt;&quot;</span><br><span class="line"></span><br><span class="line">我的&quot;真实姓名&quot;是Ruan YiFeng，&quot;电子邮件地址&quot;是yifeng.ruan@gmail.com，所以我的&quot;用户ID&quot;就是&quot;Ruan YiFeng &lt;yifeng.ruan@gmail.com&gt;&quot;。系统会让你最后确认一次。</span><br><span class="line"></span><br><span class="line">　　更改姓名(N)、注释(C)、电子邮件地址(E)或确定(O)/退出(Q)？</span><br><span class="line"></span><br><span class="line">输入O表示&quot;确定&quot;。</span><br></pre></td></tr></table></figure>
+
+<p>接着，系统会让你设定一个私钥的密码。这是为了防止误操作，或者系统被侵入时有人擅自动用私钥。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　您需要一个密码来保护您的私钥：</span><br></pre></td></tr></table></figure>
+
+<p>然后，系统就开始生成密钥了，这时会要求你做一些随机的举动，以生成一个随机数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　我们需要生成大量的随机字节。这个时候您可以多做些琐事(像是敲打键盘、移动鼠标、读写硬盘之类的)，这会让随机数字发生器有更好的机会获得足够的熵数。</span><br></pre></td></tr></table></figure>
+
+<p>几分钟以后，系统提示密钥已经生成了。或者可以安装ngp来随机生成字节</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install rng-tools</span><br><span class="line">systemctl restart rngd</span><br></pre></td></tr></table></figure>
+
+<p>最后正确的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　gpg: 密钥 EDDD6D76 被标记为绝对信任</span><br><span class="line">　　公钥和私钥已经生成并经签名。</span><br></pre></td></tr></table></figure>
+
+<p>请注意上面的字符串”EDDD6D76”，这是”用户ID”的Hash字符串，可以用来替代”用户ID”。</p>
+<p>这时，最好再生成一张”撤销证书”，以备以后密钥作废时，可以请求外部的公钥服务器撤销你的公钥。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --gen-revoke [用户ID]</span><br></pre></td></tr></table></figure>
+
+<p>上面的”用户ID”部分，可以填入你的邮件地址或者Hash字符串（以下同）。</p>
+<p>四、密钥管理</p>
+<p>4.1 列出密钥</p>
+<p>list-keys参数列出系统中已有的密钥．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --list-keys</span><br></pre></td></tr></table></figure>
+
+<p>显示结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">　　/home/ruanyf/.gnupg/pubring.gpg</span><br><span class="line">　　-------------------------------</span><br><span class="line">　　pub 4096R/EDDD6D76 2013-07-11</span><br><span class="line">　　uid Ruan YiFeng &lt;yifeng.ruan@gmail.com&gt;</span><br><span class="line">　　sub 4096R/3FA69BE4 2013-07-11</span><br></pre></td></tr></table></figure>
+
+<p>第一行显示公钥文件名（pubring.gpg），第二行显示公钥特征（4096位，Hash字符串和生成时间），第三行显示”用户ID”，第四行显示私钥特征。</p>
+<p>如果你要从密钥列表中删除某个密钥，可以使用delete-key参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --delete-key [用户ID]</span><br></pre></td></tr></table></figure>
+
+<p>4.2 输出密钥</p>
+<p>公钥文件（.gnupg/pubring.gpg）以二进制形式储存，armor参数可以将其转换为ASCII码显示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --armor --output public-key.txt --export [用户ID]</span><br></pre></td></tr></table></figure>
+
+<p>“用户ID”指定哪个用户的公钥，output参数指定输出文件名（public-key.txt）。</p>
+<p>类似地，export-secret-keys参数可以转换私钥。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --armor --output private-key.txt --export-secret-keys</span><br></pre></td></tr></table></figure>
+
+<p>4.3 上传公钥</p>
+<p>公钥服务器是网络上专门储存用户公钥的服务器。send-keys参数可以将公钥上传到服务器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --send-keys [用户ID] --keyserver hkp://subkeys.pgp.net</span><br></pre></td></tr></table></figure>
+
+<p>使用上面的命令，你的公钥就被传到了服务器subkeys.pgp.net，然后通过交换机制，所有的公钥服务器最终都会包含你的公钥。</p>
+<p>由于公钥服务器没有检查机制，任何人都可以用你的名义上传公钥，所以没有办法保证服务器上的公钥的可靠性。通常，你可以在网站上公布一个公钥指纹，让其他人核对下载到的公钥是否为真。fingerprint参数生成公钥指纹。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --fingerprint [用户ID]</span><br></pre></td></tr></table></figure>
+
+<p>4.4 输入密钥</p>
+<p>除了生成自己的密钥，还需要将他人的公钥或者你的其他密钥输入系统。这时可以使用import参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --import [密钥文件]</span><br></pre></td></tr></table></figure>
+
+<p>为了获得他人的公钥，可以让对方直接发给你，或者到公钥服务器上寻找。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --keyserver hkp://subkeys.pgp.net --search-keys [用户ID]</span><br></pre></td></tr></table></figure>
+
+<p>正如前面提到的，我们无法保证服务器上的公钥是否可靠，下载后还需要用其他机制验证．</p>
+<p>五、加密和解密</p>
+<p>5.1 加密</p>
+<p>假定有一个文本文件demo.txt，怎样对它加密呢？</p>
+<p>encrypt参数用于加密。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --recipient [用户ID] --output demo.en.txt --encrypt demo.txt</span><br></pre></td></tr></table></figure>
+
+<p>recipient参数指定接收者的公钥，output参数指定加密后的文件名，encrypt参数指定源文件。运行上面的命令后，demo.en.txt就是已加密的文件，可以把它发给对方。</p>
+<p>5.2 解密</p>
+<p>对方收到加密文件以后，就用自己的私钥解密。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --decrypt demo.en.txt --output demo.de.txt</span><br></pre></td></tr></table></figure>
+
+<p>decrypt参数指定需要解密的文件，output参数指定解密后生成的文件。运行上面的命令，demo.de.txt就是解密后的文件。</p>
+<p>GPG允许省略decrypt参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg demo.en.txt</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的命令以后，解密后的文件内容直接显示在标准输出。</p>
+<p>六、签名</p>
+<p>6.1 对文件签名</p>
+<p>有时，我们不需要加密文件，只需要对文件签名，表示这个文件确实是我本人发出的。sign参数用来签名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --sign demo.txt</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的命令后，当前目录下生成demo.txt.gpg文件，这就是签名后的文件。这个文件默认采用二进制储存，如果想生成ASCII码的签名文件，可以使用clearsign参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --clearsign demo.txt</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的命令后 ，当前目录下生成demo.txt.asc文件，后缀名asc表示该文件是ASCII码形式的。</p>
+<p>如果想生成单独的签名文件，与文件内容分开存放，可以使用detach-sign参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --detach-sign demo.txt</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的命令后，当前目录下生成一个单独的签名文件demo.txt.sig。该文件是二进制形式的，如果想采用ASCII码形式，要加上armor参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --armor --detach-sign demo.txt</span><br></pre></td></tr></table></figure>
+
+<p>6.2 签名+加密</p>
+<p>上一节的参数，都是只签名不加密。如果想同时签名和加密，可以使用下面的命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --local-user [发信者ID] --recipient [接收者ID] --armor --sign --encrypt demo.txt</span><br></pre></td></tr></table></figure>
+
+<p>local-user参数指定用发信者的私钥签名，recipient参数指定用接收者的公钥加密，armor参数表示采用ASCII码形式显示，sign参数表示需要签名，encrypt参数表示指定源文件。</p>
+<p>6.3 验证签名</p>
+<p>我们收到别人签名后的文件，需要用对方的公钥验证签名是否为真。verify参数用来验证。(单独签名)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　gpg --verify demo.txt.sig demo.txt</span><br></pre></td></tr></table></figure>
+
+<p>举例来说，openvpn网站就提供每一个下载包的gpg签名文件。你可以根据它的说明，验证这些下载包是否为真。</p>
+<p>七、参考文档</p>
+<ol>
+<li><p>Paul Heinlein, <a href="http://www.madboa.com/geek/gpg-quickstart/" target="_blank" rel="noopener">GPG Quick Start</a></p>
+</li>
+<li><p>Ubuntu help，<a href="https://help.ubuntu.com/community/GnuPrivacyGuardHowto" target="_blank" rel="noopener">GnuPrivacyGuardHowto</a></p>
+</li>
+<li><p>KNL, <a href="http://www.bitflop.com/document/129" target="_blank" rel="noopener">GnuPG Tutorial</a></p>
+</li>
+<li><p>Alan Eliasen. <a href="http://futureboy.us/pgp.html" target="_blank" rel="noopener">GPG Tutorial</a></p>
+</li>
+<li><p>GnuPG 袖珍 <a href="http://www.gnupg.org/howtos/zh/index.html" target="_blank" rel="noopener">HOWTO</a>(中文版)</p>
+</li>
+<li><p><a href="http://www.gnupg.org/gph/en/manual.html" target="_blank" rel="noopener">The GNU Privacy Handbook</a></p>
+</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">--linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/22/GPG加密校验入门/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Vim-yml缩进问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -893,7 +1126,7 @@ pip install shadowsocks</code></pre><p>Windows:</p>
 <p>但是我们要更改文件选项使用<code>chmod 0600 file</code>的时候，并不能更改文件的权限。这时候我们就要去更改<code>/mnt/d</code>的挂载方式。<br>解决详细方案来自<a href="https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/" target="_blank" rel="noopener">microsoft帮助</a></p>
 <p>您现在可以使用chmod / chown设置文件的所有者和组，  并在WSL中修改读/写/执行权限。您还可以创建特殊文件，如fifos，unix套接字和设备文件。我们在DrvFs中引入了新的安装选项，用于将权限投射到文件上，同时在文件和文件夹上提供新的Linux元数据。</p>
 <p>还有一个步骤中，您必须采取之前，你可以享受这些新功能：你必须卸载drvfs 并与“元数据”标志重新安装。去做这个： </p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">按需使用磁盘C或D 或者其他</span></span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>按需使用磁盘C或D 或者其他</span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
 
 <p>到这，<code>WSL</code>就有随意更替<code>Windows</code>文件的权限。</p>
 <figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 0600 .ssh/*</span><br></pre></td></tr></table></figure>
@@ -1133,143 +1366,6 @@ pip install shadowsocks</code></pre><p>Windows:</p>
 
 
   
-    <article id="post-python-函数的参数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/27/python-函数的参数/">python-函数的参数</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/27/python-函数的参数/" class="archive-article-date">
-  	<time datetime="2019-07-27T02:33:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#函数的参数</p>
-<p>###默认值参数<br>我们自定义的函数中，如果调用的时候没有设置参数，需要给一个默认参数时，需要添加一个默认值的</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_user_info</span><span class="params">( name,age,sex = <span class="string">'男'</span> )</span>:</span></span><br><span class="line">    <span class="comment">#打印用户信息</span></span><br><span class="line">    print(<span class="string">'昵称:&#123;&#125;'</span>.format(name), end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'年龄:&#123;&#125;'</span>.format(age), end=<span class="string">' '</span> )</span><br><span class="line">    print(<span class="string">'性别:&#123;&#125;'</span>.format(sex))</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"><span class="comment">#调用 print_user_info 函数</span></span><br><span class="line"></span><br><span class="line">print_user_info(<span class="string">'Tingbob'</span>,<span class="string">'20'</span>,<span class="string">'男'</span>)</span><br><span class="line">print_user_info(<span class="string">'Lixie'</span>,<span class="string">'20'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>输出结果</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">昵称:Tingbob 年龄:20 性别:男</span><br><span class="line">昵称:Lixie 年龄:20 性别:男</span><br></pre></td></tr></table></figure>
-
-<p>当设置了默认参数的时候，在调用的时候，不传该参数，就会使用默认值。但这里需要注意的一点时：<strong><em>只有在形参表末尾的那些参数可以有默认参数值，</em></strong>也就是说你不能在声明函数形参的时候，先声明有默认值的形参而后声明没有默认值的形参。这是因为赋给形参的值时根据位置而赋值的。<br>例如，def func(a,b=1）是有效的，但是def func(a=1,b)是无效的</p>
-<p>如果参数中是一个可修改的容器比如一个list或者dict，我们可以使用None来作为默认值。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(a,b = None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b <span class="keyword">is</span> <span class="literal">None</span> :</span><br><span class="line">        b = []</span><br><span class="line">    <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
-
-<p>在参数中我们直接<code>b=[]</code>不久行了吗？也就是写成下面的这个样子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(a , b = [] )</span>:</span></span><br><span class="line">    <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
-
-<p>这样做也不会报错，但编辑器就会在<code>b = []</code>这里标记出来，为什么呢？这里需要特别注意的一点：<strong>默认参数的值是不可变的对象，比如None、True、False、数字或字符串</strong>，如果默认值在其他地方被修改后，你将会遇到各种麻烦。这些修改会影响到下次调用这个函数时的默认值。</p>
-<p>实例：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(a,b=[])</span>:</span></span><br><span class="line">    print(b)</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line">    </span><br><span class="line">result = print_info(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">result.append(<span class="string">'error'</span>)</span><br><span class="line"></span><br><span class="line">print_info(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
-
-<p>输出结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[]</span><br><span class="line">[<span class="string">'error'</span>] </span><br><span class="line"><span class="comment"># `error`字符是不可变的量，b = []就不会起作用了</span></span><br></pre></td></tr></table></figure>
-
-<p>第二个<code>error</code>是你不想要的值，因此切忌不要这样操作。</p>
-<p>有时候我就是不想要默认值，只是想单单判断默认参数有没有值传递出来，那该怎么办？我们可以这样做：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_no_value = object()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">( a , b = _no_value )</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b <span class="keyword">is</span> _no_value :</span><br><span class="line">        print(<span class="string">'b 没有赋值'</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
-
-<p>这里的<code>object</code>是python中所有类的基类，你可以创建<code>object</code>类的实例，但是这些实例并没有什么实际用处，因为它并没有任何有用的地方,也没有任何实例数据（因为它没有任何的实例字典，你甚至都不能设置任何属性值）。你唯一能做的就是测试同一性。也正好利用这个特性，来判断是否有值输入。</p>
-<p>###关键字参数<br>在python中，可以通过参数命来给函数传递参数，而不用关系参数列表定义时的顺序，则被称之为关键字参数。使用关键参数有两个优势：</p>
-<ul>
-<li>由于我们不必担心参数的顺序，使用函数变得更加简单了。</li>
-<li>假设其他参数都有默认值，我们可以只给我们想要的那些参数赋值<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_user_info</span><span class="params">( name,age,sex = <span class="string">'男'</span> )</span>:</span></span><br><span class="line">    <span class="comment">#打印用户信息</span></span><br><span class="line">    print(<span class="string">'昵称:&#123;&#125;'</span>.format(name), end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'年龄:&#123;&#125;'</span>.format(age), end=<span class="string">' '</span> )</span><br><span class="line">    print(<span class="string">'性别:&#123;&#125;'</span>.format(sex))</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">print_user_info( name = <span class="string">'LiXie'</span> , age=<span class="number">18</span>,sex=<span class="string">'女'</span>)</span><br><span class="line">print_user_info( name=<span class="string">'Tingbob'</span>,sex=<span class="string">'女'</span>,age=<span class="number">18</span>)</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>输出的值:<br><code>昵称:LiXie 年龄:18 性别:女
-昵称:Tingbob 年龄:18 性别:女</code></p>
-<h2 id="不定长参数"><a href="#不定长参数" class="headerlink" title="###不定长参数"></a>###不定长参数</h2><p>有时我们在设计函数接口的时候，可能会需要可变长的参数。也就是说，我们事先无法确认传入的参数个数。python提供了一个元组的方式来接受没有直接定义的参数。这种方式在参数前边加星号 <code>*</code> 。如果在函数调用时没有指定参数，他就是一个空元组。我们也可以不向函数传递未命名的变量。</p>
-<p>例如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_user_info</span><span class="params">( name ,  age  , sex = <span class="string">'男'</span> , * hobby)</span>:</span></span><br><span class="line">    <span class="comment"># 打印用户信息</span></span><br><span class="line">    print(<span class="string">'昵称：&#123;&#125;'</span>.format(name) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'年龄：&#123;&#125;'</span>.format(age) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'性别：&#123;&#125;'</span>.format(sex) ,end = <span class="string">' '</span> )</span><br><span class="line">    print(<span class="string">'爱好：&#123;&#125;'</span>.format(hobby))</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用 print_user_info 函数</span></span><br><span class="line">print_user_info( <span class="string">'两点水'</span> ,<span class="number">18</span> , <span class="string">'女'</span>, <span class="string">'打篮球'</span>,<span class="string">'打羽毛球'</span>,<span class="string">'跑步'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>输出的结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">昵称：两点水 年龄：18 性别：女 爱好：(&apos;打篮球&apos;, &apos;打羽毛球&apos;, &apos;跑步&apos;)</span><br></pre></td></tr></table></figure>
-
-<p>通过输出的结果可以知道，*hobby是可变参数，且 hobby其实就是一个 tuple （元祖）</p>
-<p>可变长参数也支持关键参数，没有被定义的关键参数会被放到一个字典里。这种方式即是在参数前边加 **,更改上面的示例如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_user_info</span><span class="params">( name ,  age  , sex = <span class="string">'男'</span> , ** hobby )</span>:</span></span><br><span class="line">    <span class="comment"># 打印用户信息</span></span><br><span class="line">    print(<span class="string">'昵称：&#123;&#125;'</span>.format(name) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'年龄：&#123;&#125;'</span>.format(age) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'性别：&#123;&#125;'</span>.format(sex) ,end = <span class="string">' '</span> )</span><br><span class="line">    print(<span class="string">'爱好：&#123;&#125;'</span>.format(hobby))</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用 print_user_info 函数</span></span><br><span class="line">print_user_info( name = <span class="string">'两点水'</span> , age = <span class="number">18</span> , sex = <span class="string">'女'</span>, hobby = (<span class="string">'打篮球'</span>,<span class="string">'打羽毛球'</span>,<span class="string">'跑步'</span>))</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">昵称：两点水 年龄：18 性别：女 爱好：&#123;&apos;hobby&apos;: (&apos;打篮球&apos;, &apos;打羽毛球&apos;, &apos;跑步&apos;)&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过对比上面的例子和这个例子，可以知道，<em>hobby是可变参数，且 hobby其实就是一个 tuple （元祖），*</em>hobby是关键字参数，且 hobby 就是一个 dict （字典）</p>
-<p>###只接受关键字参数<br>关键字参数使用起来简单，不容易参数出错，那么有些时候，我们定义的函数希望某些参数强制使用关键字参数传递，这时候该怎么办呢？</p>
-<p>将强制关键字参数放到某个<em>参数或者单个</em>后面就能达到这种效果,比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_user_info</span><span class="params">( name , *, age  , sex = <span class="string">'男'</span> )</span>:</span></span><br><span class="line">    <span class="comment"># 打印用户信息</span></span><br><span class="line">    print(<span class="string">'昵称：&#123;&#125;'</span>.format(name) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'年龄：&#123;&#125;'</span>.format(age) , end = <span class="string">' '</span>)</span><br><span class="line">    print(<span class="string">'性别：&#123;&#125;'</span>.format(sex))</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用 print_user_info 函数</span></span><br><span class="line">print_user_info( name = <span class="string">'两点水'</span> ,age = <span class="number">18</span> , sex = <span class="string">'女'</span> )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这种写法会报错，因为 age ，sex 这两个参数强制使用关键字参数</span></span><br><span class="line"><span class="comment">#print_user_info( '两点水' , 18 , '女' )</span></span><br><span class="line">print_user_info(<span class="string">'两点水'</span>,age=<span class="string">'22'</span>,sex=<span class="string">'男'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>通过例子可以看，如果 age , sex 不适用关键字参数是会报错的。</p>
-<p>很多情况下，使用强制关键字参数会比使用位置参数表意更加清晰，程序也更加具有可读性。使用强制关键字参数也会比使用 **kw 参数更好且强制关键字参数在一些更高级场合同样也很有用。</p>
-<p><img src="https://github.com/zhang12c/Python/blob/master/Article/python6/4.md" alt="From github"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/linux/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/27/python-函数的参数/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1376,15 +1472,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1392,11 +1484,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
+                <a href="javascript:void(0)" class="js-tag color3">--linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
               </li>
             
             <div class="clearfix"></div>

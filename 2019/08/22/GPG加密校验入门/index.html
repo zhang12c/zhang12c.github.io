@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
   <title>GPG加密校验入门 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文COPY于[http://www.ruanyifeng.com/blog/2013/07/gpg.html],第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径 12345678910111213141516我的笔记加密  gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]">
+  <meta name="description" content="本文COPY于博客,第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径 12345678910111213141516我的笔记加密  gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]解密gpg [输出的加密文件]签名 (二进制)gpg --sign [输入文件]gpg --c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GPG加密校验入门">
 <meta property="og:url" content="https://zhang12c.bithub.xin/2019/08/22/GPG加密校验入门/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="本文COPY于[http://www.ruanyifeng.com/blog/2013/07/gpg.html],第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径 12345678910111213141516我的笔记加密  gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]">
+<meta property="og:description" content="本文COPY于博客,第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径 12345678910111213141516我的笔记加密  gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]解密gpg [输出的加密文件]签名 (二进制)gpg --sign [输入文件]gpg --c">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-08-22T10:32:27.100Z">
+<meta property="og:updated_time" content="2019-08-23T01:45:07.580Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GPG加密校验入门">
-<meta name="twitter:description" content="本文COPY于[http://www.ruanyifeng.com/blog/2013/07/gpg.html],第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径 12345678910111213141516我的笔记加密  gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]">
+<meta name="twitter:description" content="本文COPY于博客,第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径 12345678910111213141516我的笔记加密  gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]解密gpg [输出的加密文件]签名 (二进制)gpg --sign [输入文件]gpg --c">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
   
@@ -178,7 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文COPY于[<a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html],第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2013/07/gpg.html],第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径</a></p>
+        <p>本文COPY于<a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html" target="_blank" rel="noopener">博客</a>,第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">我的笔记</span><br><span class="line">加密  </span><br><span class="line">gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]</span><br><span class="line">解密</span><br><span class="line">gpg [输出的加密文件]</span><br><span class="line">签名 (二进制)</span><br><span class="line">gpg --sign [输入文件]</span><br><span class="line">gpg --clearsign [输入文件]</span><br><span class="line">单独签名</span><br><span class="line">gpg --detach-sign [file]</span><br><span class="line">gpg --armor --detach-sign [file]</span><br><span class="line">签名+加密</span><br><span class="line">gpg --local-user [发信者ID] --recipient [接收者ID] --armor --sign --encrypt [file]</span><br><span class="line">验证签名</span><br><span class="line">gpg --verify [file.sig] [file] </span><br><span class="line">真：GOOD signature 假： BAD signature</span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -581,15 +581,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">

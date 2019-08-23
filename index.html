@@ -179,7 +179,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文COPY于[<a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html],第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2013/07/gpg.html],第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径</a></p>
+        <p>本文COPY于<a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html" target="_blank" rel="noopener">博客</a>,第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">我的笔记</span><br><span class="line">加密  </span><br><span class="line">gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]</span><br><span class="line">解密</span><br><span class="line">gpg [输出的加密文件]</span><br><span class="line">签名 (二进制)</span><br><span class="line">gpg --sign [输入文件]</span><br><span class="line">gpg --clearsign [输入文件]</span><br><span class="line">单独签名</span><br><span class="line">gpg --detach-sign [file]</span><br><span class="line">gpg --armor --detach-sign [file]</span><br><span class="line">签名+加密</span><br><span class="line">gpg --local-user [发信者ID] --recipient [接收者ID] --armor --sign --encrypt [file]</span><br><span class="line">验证签名</span><br><span class="line">gpg --verify [file.sig] [file] </span><br><span class="line">真：GOOD signature 假： BAD signature</span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -809,13 +809,13 @@
 <blockquote>
 <p>附加：怎么用</p>
 </blockquote>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible -i hosts chang_sshd_config.yml </span><br><span class="line"><span class="meta">#</span>-i 指定inventory 即存放主机ip的文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible -i hosts chang_sshd_config.yml </span><br><span class="line"><span class="meta">#</span><span class="bash">-i 指定inventory 即存放主机ip的文件</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>后续</p>
 </blockquote>
 <p>Ansible默认config文件<code>/etc/ansible/ansible.cfg</code></p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>inventory      = /etc/ansible/hosts</span><br><span class="line"><span class="meta">#</span>library        = /usr/share/my_modules/</span><br><span class="line"><span class="meta">#</span>module_utils   = /usr/share/my_module_utils/</span><br><span class="line"><span class="meta">#</span>remote_tmp     = ~/.ansible/tmp</span><br><span class="line"><span class="meta">#</span>local_tmp      = ~/.ansible/tmp</span><br><span class="line"><span class="meta">#</span>plugin_filters_cfg = /etc/ansible/plugin_filters.yml</span><br><span class="line">forks          = 10 ##默认是 forks = 5</span><br><span class="line"><span class="meta">#</span>poll_interval  = 15</span><br><span class="line"><span class="meta">#</span>sudo_user      = root</span><br><span class="line"><span class="meta">#</span>ask_sudo_pass = True</span><br><span class="line"><span class="meta">#</span>ask_pass      = True</span><br><span class="line"><span class="meta">#</span>transport      = smart</span><br><span class="line"><span class="meta">#</span>remote_port    = 22</span><br><span class="line"><span class="meta">#</span>module_lang    = C</span><br><span class="line"><span class="meta">#</span>module_set_locale = False</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">inventory      = /etc/ansible/hosts</span></span><br><span class="line"><span class="meta">#</span><span class="bash">library        = /usr/share/my_modules/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_utils   = /usr/share/my_module_utils/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">remote_tmp     = ~/.ansible/tmp</span></span><br><span class="line"><span class="meta">#</span><span class="bash">local_tmp      = ~/.ansible/tmp</span></span><br><span class="line"><span class="meta">#</span><span class="bash">plugin_filters_cfg = /etc/ansible/plugin_filters.yml</span></span><br><span class="line">forks          = 10 ##默认是 forks = 5</span><br><span class="line"><span class="meta">#</span><span class="bash">poll_interval  = 15</span></span><br><span class="line"><span class="meta">#</span><span class="bash">sudo_user      = root</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ask_sudo_pass = True</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ask_pass      = True</span></span><br><span class="line"><span class="meta">#</span><span class="bash">transport      = smart</span></span><br><span class="line"><span class="meta">#</span><span class="bash">remote_port    = 22</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_lang    = C</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_set_locale = False</span></span><br></pre></td></tr></table></figure>
 
 <p>将<code>forks = 5</code>替换成<code>forks  = 10</code>目的是为了将同步运行速度提升1倍，即同一时间在10台主机上面执行playbook。缩短了一半的时间</p>
 <blockquote>
@@ -1124,7 +1124,7 @@ pip install shadowsocks</code></pre><p>Windows:</p>
 <p>但是我们要更改文件选项使用<code>chmod 0600 file</code>的时候，并不能更改文件的权限。这时候我们就要去更改<code>/mnt/d</code>的挂载方式。<br>解决详细方案来自<a href="https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/" target="_blank" rel="noopener">microsoft帮助</a></p>
 <p>您现在可以使用chmod / chown设置文件的所有者和组，  并在WSL中修改读/写/执行权限。您还可以创建特殊文件，如fifos，unix套接字和设备文件。我们在DrvFs中引入了新的安装选项，用于将权限投射到文件上，同时在文件和文件夹上提供新的Linux元数据。</p>
 <p>还有一个步骤中，您必须采取之前，你可以享受这些新功能：你必须卸载drvfs 并与“元数据”标志重新安装。去做这个： </p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>按需使用磁盘C或D 或者其他</span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">按需使用磁盘C或D 或者其他</span></span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
 
 <p>到这，<code>WSL</code>就有随意更替<code>Windows</code>文件的权限。</p>
 <figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 0600 .ssh/*</span><br></pre></td></tr></table></figure>
@@ -1474,15 +1474,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">

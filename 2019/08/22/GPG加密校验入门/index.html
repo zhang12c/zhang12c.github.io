@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="云维">
 <meta property="og:description" content="本文COPY于博客,第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径 12345678910111213141516我的笔记加密  gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]解密gpg [输出的加密文件]签名 (二进制)gpg --sign [输入文件]gpg --c">
 <meta property="og:locale" content="Chinese">
-<meta property="og:updated_time" content="2019-08-23T01:59:30.031Z">
+<meta property="og:updated_time" content="2019-08-23T02:01:54.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GPG加密校验入门">
 <meta name="twitter:description" content="本文COPY于博客,第一次接触GPG就能看到这么优秀的文章，谢谢原作者。COPY的目的是自己备忘，也希望好东西能多一个传播的途径 12345678910111213141516我的笔记加密  gpg --recipient [用户ID] --output [输出加密文件] --encrypt [输入文件]解密gpg [输出的加密文件]签名 (二进制)gpg --sign [输入文件]gpg --c">
@@ -185,11 +185,7 @@
 <p>正文</p>
 </blockquote>
 <p>今天，就接着来看，现实中怎么使用这个算法，对信息加密和解密。这要用到<a href="http://www.gnupg.org/" target="_blank" rel="noopener">GnuPG</a>软件（简称GPG），它是目前最流行、最好用的加密工具之一。</p>
-<p>一、什么是GPG<br>要了解什么是GPG，就要先了解PGP。</p>
-<p>1991年，程序员Phil Zimmermann为了避开政府监视，开发了加密软件PGP。这个软件非常好用，迅速流传开来，成了许多程序员的必备工具。但是，它是商业软件，不能自由使用。所以，自由软件基金会决定，开发一个PGP的替代品，取名为GnuPG。这就是GPG的由来。</p>
-<p>GPG有许多用途，本文主要介绍文件加密。至于邮件的加密，不同的邮件客户端有不同的设置，请参考Ubuntu网站的介绍。</p>
-<p>本文的使用环境为Linux命令行。如果掌握了命令行，Windows 或 Mac OS 客户端，就非常容易掌握。GPG并不难学，学会了它，从此就能轻松传递加密信息。建议读者一步步跟着教程做，对每条命令都自行测试。<br>二、安装</p>
-<p>GPG有两种安装方式。可以下载源码，自己编译安装。</p>
+<p>一、什么是GPG<br>要了解什么是GPG，就要先了解PGP。<br>1991年，程序员Phil Zimmermann为了避开政府监视，开发了加密软件PGP。这个软件非常好用，迅速流传开来，成了许多程序员的必备工具。但是，它是商业软件，不能自由使用。所以，自由软件基金会决定，开发一个PGP的替代品，取名为GnuPG。这就是GPG的由来。<br>GPG有许多用途，本文主要介绍文件加密。至于邮件的加密，不同的邮件客户端有不同的设置，请参考Ubuntu网站的介绍。<br>本文的使用环境为Linux命令行。如果掌握了命令行，Windows 或 Mac OS 客户端，就非常容易掌握。GPG并不难学，学会了它，从此就能轻松传递加密信息。建议读者一步步跟着教程做，对每条命令都自行测试。<br>二、安装<br>GPG有两种安装方式。可以下载源码，自己编译安装。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　./configure</span><br><span class="line">　　make</span><br><span class="line">　　make install</span><br></pre></td></tr></table></figure>
 
 <p>也可以安装编译好的二进制包。</p>
@@ -577,11 +573,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -593,11 +585,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
             
             <div class="clearfix"></div>

@@ -186,11 +186,7 @@
 <p>正文</p>
 </blockquote>
 <p>今天，就接着来看，现实中怎么使用这个算法，对信息加密和解密。这要用到<a href="http://www.gnupg.org/" target="_blank" rel="noopener">GnuPG</a>软件（简称GPG），它是目前最流行、最好用的加密工具之一。</p>
-<p>一、什么是GPG<br>要了解什么是GPG，就要先了解PGP。</p>
-<p>1991年，程序员Phil Zimmermann为了避开政府监视，开发了加密软件PGP。这个软件非常好用，迅速流传开来，成了许多程序员的必备工具。但是，它是商业软件，不能自由使用。所以，自由软件基金会决定，开发一个PGP的替代品，取名为GnuPG。这就是GPG的由来。</p>
-<p>GPG有许多用途，本文主要介绍文件加密。至于邮件的加密，不同的邮件客户端有不同的设置，请参考Ubuntu网站的介绍。</p>
-<p>本文的使用环境为Linux命令行。如果掌握了命令行，Windows 或 Mac OS 客户端，就非常容易掌握。GPG并不难学，学会了它，从此就能轻松传递加密信息。建议读者一步步跟着教程做，对每条命令都自行测试。<br>二、安装</p>
-<p>GPG有两种安装方式。可以下载源码，自己编译安装。</p>
+<p>一、什么是GPG<br>要了解什么是GPG，就要先了解PGP。<br>1991年，程序员Phil Zimmermann为了避开政府监视，开发了加密软件PGP。这个软件非常好用，迅速流传开来，成了许多程序员的必备工具。但是，它是商业软件，不能自由使用。所以，自由软件基金会决定，开发一个PGP的替代品，取名为GnuPG。这就是GPG的由来。<br>GPG有许多用途，本文主要介绍文件加密。至于邮件的加密，不同的邮件客户端有不同的设置，请参考Ubuntu网站的介绍。<br>本文的使用环境为Linux命令行。如果掌握了命令行，Windows 或 Mac OS 客户端，就非常容易掌握。GPG并不难学，学会了它，从此就能轻松传递加密信息。建议读者一步步跟着教程做，对每条命令都自行测试。<br>二、安装<br>GPG有两种安装方式。可以下载源码，自己编译安装。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　./configure</span><br><span class="line">　　make</span><br><span class="line">　　make install</span><br></pre></td></tr></table></figure>
 
 <p>也可以安装编译好的二进制包。</p>
@@ -1124,7 +1120,7 @@ pip install shadowsocks</code></pre><p>Windows:</p>
 <p>但是我们要更改文件选项使用<code>chmod 0600 file</code>的时候，并不能更改文件的权限。这时候我们就要去更改<code>/mnt/d</code>的挂载方式。<br>解决详细方案来自<a href="https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/" target="_blank" rel="noopener">microsoft帮助</a></p>
 <p>您现在可以使用chmod / chown设置文件的所有者和组，  并在WSL中修改读/写/执行权限。您还可以创建特殊文件，如fifos，unix套接字和设备文件。我们在DrvFs中引入了新的安装选项，用于将权限投射到文件上，同时在文件和文件夹上提供新的Linux元数据。</p>
 <p>还有一个步骤中，您必须采取之前，你可以享受这些新功能：你必须卸载drvfs 并与“元数据”标志重新安装。去做这个： </p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">按需使用磁盘C或D 或者其他</span></span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>按需使用磁盘C或D 或者其他</span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
 
 <p>到这，<code>WSL</code>就有随意更替<code>Windows</code>文件的权限。</p>
 <figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 0600 .ssh/*</span><br></pre></td></tr></table></figure>
@@ -1470,11 +1466,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1486,11 +1478,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
             
             <div class="clearfix"></div>

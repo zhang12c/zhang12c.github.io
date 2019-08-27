@@ -159,6 +159,110 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/10/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-5/">shell脚本编程入门-5</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/10/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-5/" class="archive-article-date">
+  	<time datetime="2019-05-10T08:18:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><p>定义一个函数，可以随时引用<br>定义函数的格式：<br>funname [()] {<br>     action;<br>     [return int;]<br> }</p>
+<h6 id="下面的例子定义了一个函数并进行调用："><a href="#下面的例子定义了一个函数并进行调用：" class="headerlink" title="下面的例子定义了一个函数并进行调用："></a>下面的例子定义了一个函数并进行调用：</h6><p>———————–sprite———–</p>
+<p>##!/bin/bash -<br>## 20190510<br>## fun_test<br> fun(){<br> echo “hello,world”<br> }<br> fun  ##调用</p>
+<h6 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a><strong>输出结果</strong></h6><p>[root@bithub zhang]# chmod +x fun.sh<br>[root@bithub zhang]# ls<br>fun.sh  install_mysql[5.5-8.0].sh  ping.sh  test.sh<br>[root@bithub zhang]# ./fun.sh<br> hello,world</p>
+<h6 id="github的脚本实例-安装mysql的脚本"><a href="#github的脚本实例-安装mysql的脚本" class="headerlink" title="github的脚本实例(安装mysql的脚本)"></a>github的脚本实例(安装mysql的脚本)</h6><p>[root@bithub zhang]# cat install_mysql[5.5-8.0].sh<br> !/bin/bash -<br> 版本1.1<br> 安装mysql社区版本5.5-8.0<br> info=<code>rpm -qa | grep &quot;yum-utils&quot;</code><br> if [ -z $info ];then<br>     echo “正在安装脚本依赖”<br>     yum -y install yum-utils &gt;/etc/null 2&gt;&amp;1<br> else<br>     echo “脚本依赖已经完成,脚本开始进行”<br> fi<br>  echo “==============================”<br>  echo “安装的版本：”<br>  echo “(0) mysql55-community”<br>  echo “(1) mysql56-community”<br>  echo “(2) mysql57-community”<br>  echo “(3) mysql80-community”<br>  echo “Crt + c  退出脚本”<br>  echo “==============================”<br>  read -p “请选择您要安装的版本(0-3)” input<br> case $input in<br>     0)<br>         yum-config-manager —disable mysql80-community –save<br>         yum-config-manager –enable mysql55-community –save<br>         yum install mysql-community-server -y;;<br>     1)<br>         yum-config-manager —disable mysql80-community –save<br>         yum-config-manager –enable mysql56-community –save<br>         yum install mysql-community-server -y;;<br>     2)<br>         yum-config-manager —disable mysql80-community –save<br>         yum-config-manager –enable mysql57-community –save<br>         yum install mysql-community-server -y;;<br>     3)<br>         yum install mysql-community-server -y;;<br> esac</p>
+<h6 id="实例结果"><a href="#实例结果" class="headerlink" title="实例结果"></a>实例结果</h6><p>[root@bithub zhang]# sh install_mysql[5.5-8.0].sh<br> 脚本依赖已经完成,脚本开始进行<br> 安装的版本：<br> (0) mysql55-community<br> (1) mysql56-community<br> (2) mysql57-community<br> (3) mysql80-community<br> Crt + c  退出脚本<br> 请选择您要安装的版本(0-3)</p>
+<p>这个脚本就是没有用脚本也可以执行，不过可以看出那个echo，yum这些命令都太多重复了，所以今天我优化一下，加上函数和判断。从而为下一步的循环做准备</p>
+<h6 id="改变后"><a href="#改变后" class="headerlink" title="改变后"></a>改变后</h6><p>#!/bin/bash -  </p>
+<p>#版本1.1  </p>
+<p>#安装mysql社区版本5.5-8.0<br>info=`rpm -qa | grep “yum-utils”`<br>if [ -z $info ];then<br>echo “正在安装脚本依赖”<br>yum -y install yum-utils &gt;/etc/null 2&gt;&amp;1<br>else<br>echo “脚本依赖已经完成,脚本开始进行”<br>fi</p>
+<p>#定义函数<br>fun_echo(){</p>
+<p>echo “==============================”<br>echo “安装的版本：”<br>echo “(0) mysql55-community”<br>echo “(1) mysql56-community”<br>echo “(2) mysql57-community”<br>echo “(3) mysql80-community”<br>echo “Crt + c 退出脚本”<br>echo “==============================”<br>}<br>dis_mysql80(){</p>
+<p>yum-config-manager —disable mysql80-community –save<br>}<br>en_mysql55(){</p>
+<p>yum-config-manager –enable mysql55-community –save</p>
+<p>}<br>en_mysql56(){</p>
+<p>yum-config-manager –enable mysql56-community –save</p>
+<p>}<br>en_mysql57(){</p>
+<p>yum-config-manager –enable mysql57-community –save</p>
+<p>}<br>in_mysql(){</p>
+<p>yum install mysql-community-server -y</p>
+<p>}<br>fun_read(){<br>read -p “请选择您要安装的版本(0-3)” input<br>}</p>
+<p>fun_install(){<br>case $input in<br>0)<br>dis_mysql80#yum-config-manager —disable mysql80-community –save<br>en_mysql55#yum-config-manager –enable mysql55-community –save<br>in_mysql;;#yum install mysql-community-server -y;;<br>1)<br>dis_mysql80#yum-config-manager —disable mysql80-community –save<br>en_mysql56#yum-config-manager –enable mysql56-community –save<br>in_mysql;;#yum install mysql-community-server -y;;<br>2)<br>dis_mysql80#yum-config-manager —disable mysql80-community –save<br>en_mysql57#yum-config-manager –enable mysql57-community –save<br>in_mysql;;#yum install mysql-community-server -y;;<br>3)<br>in_mysql;;#yum install mysql-community-server -y;;<br>esac<br>}<br>fun_echo<br>fun_read<br>if [ -z $input ]<br>then<br>echo “输入有误，请重新输入”<br>fun_read<br>else<br>fun_install<br>fi</p>
+<h6 id="脚本可以在首页的我的GitHub的shell目录里面"><a href="#脚本可以在首页的我的GitHub的shell目录里面" class="headerlink" title="脚本可以在首页的我的GitHub的shell目录里面"></a>脚本可以在首页的我的GitHub的shell目录里面</h6><p><strong>我说的清楚吗</strong></p>
+<p>10分 or 5分</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux/shell//" class="article-tag-list-link color1">shell</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/10/shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-5/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-shell-e8-84-9a-e6-9c-ac-e7-bc-96-e7-a8-8b-e5-85-a5-e9-97-a8-4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1011,252 +1115,6 @@
 
 
   
-    <article id="post-linux-e4-b8-ad-e7-9a-84-e5-ae-98-e6-96-b9-e6-ba-90-e3-80-81-e9-95-9c-e5-83-8f-e6-ba-90-e6-b1-87-e6-80-bb" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/28/linux-e4-b8-ad-e7-9a-84-e5-ae-98-e6-96-b9-e6-ba-90-e3-80-81-e9-95-9c-e5-83-8f-e6-ba-90-e6-b1-87-e6-80-bb/">Linux中的官方源、镜像源汇总</a>
-    </h1>
-  
-
-        
-        <a href="/2018/06/28/linux-e4-b8-ad-e7-9a-84-e5-ae-98-e6-96-b9-e6-ba-90-e3-80-81-e9-95-9c-e5-83-8f-e6-ba-90-e6-b1-87-e6-80-bb/" class="archive-article-date">
-  	<time datetime="2018-06-28T02:34:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="平时在玩VM虚拟机的时候，经常要用到系统镜像，用到比较多的是阿里云镜像站，不过今天顺便做了一个汇总。"><a href="#平时在玩VM虚拟机的时候，经常要用到系统镜像，用到比较多的是阿里云镜像站，不过今天顺便做了一个汇总。" class="headerlink" title="平时在玩VM虚拟机的时候，经常要用到系统镜像，用到比较多的是阿里云镜像站，不过今天顺便做了一个汇总。"></a>平时在玩VM虚拟机的时候，经常要用到系统镜像，用到比较多的是阿里云镜像站，不过今天顺便做了一个汇总。</h4><p><strong>0x00 企业站</strong></p>
-<p><strong>0x00 搜狐</strong></p>
-<p><a href="http://mirrors.sohu.com/" target="_blank" rel="noopener">http://mirrors.sohu.com/</a></p>
-<p><strong>0x01 网易</strong></p>
-<p><a href="http://mirrors.163.com/" target="_blank" rel="noopener">http://mirrors.163.com/</a></p>
-<p><strong>0x02 阿里云</strong></p>
-<p><a href="http://mirrors.aliyun.com/" target="_blank" rel="noopener">http://mirrors.aliyun.com/</a></p>
-<p><strong>0x03 腾讯</strong></p>
-<p><a href="http://android-mirror.bugly.qq.com:8080/%EF%BC%88%E4%BB%85%E9%92%88%E5%AF%B9APP%E5%BC%80%E5%8F%91%E7%9A%84%E8%BD%AF%E4%BB%B6%EF%BC%8C%E9%99%90%E6%B5%81%EF%BC%8C%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89" target="_blank" rel="noopener">http://android-mirror.bugly.qq.com:8080/（仅针对APP开发的软件，限流，不推荐）</a></p>
-<p><strong>0x04 淘宝</strong></p>
-<p><a href="http://npm.taobao.org/" target="_blank" rel="noopener">http://npm.taobao.org/</a></p>
-<p><strong>0x01 教育站</strong></p>
-<p><strong>0x00 上海交通大学</strong></p>
-<p><a href="http://ftp.sjtu.edu.cn/html/resources.xml%EF%BC%88%E9%83%A8%E5%88%86%E7%A7%BB%E5%8A%A8%E8%BF%90%E8%90%A5%E5%95%86%E5%87%BA%E5%8F%A3%E7%8A%B6%E5%86%B5%E4%B8%8D%E4%BD%B3%EF%BC%8C%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%EF%BC%89" target="_blank" rel="noopener">http://ftp.sjtu.edu.cn/html/resources.xml（部分移动运营商出口状况不佳，无法访问）</a></p>
-<p><strong>0x01 华中科技大学</strong></p>
-<p><a href="http://mirror.hust.edu.cn/%EF%BC%88%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A4.83T%EF%BC%89" target="_blank" rel="noopener">http://mirror.hust.edu.cn/（当前已用容量估计：4.83T）</a></p>
-<p><strong>0x02 清华大学</strong></p>
-<p><a href="http://mirrors.tuna.tsinghua.edu.cn/%EF%BC%88%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A9.8T%EF%BC%89" target="_blank" rel="noopener">http://mirrors.tuna.tsinghua.edu.cn/（当前已用容量估计：9.8T）</a></p>
-<p><strong>0x03 北京理工大学</strong></p>
-<p><a href="http://mirror.bit.edu.cn/web/" target="_blank" rel="noopener">http://mirror.bit.edu.cn/web/</a></p>
-<p><strong>0x04 兰州大学</strong></p>
-<p><a href="http://mirror.lzu.edu.cn/" target="_blank" rel="noopener">http://mirror.lzu.edu.cn/</a></p>
-<p><strong>0x05 中国科技大学</strong></p>
-<p><a href="http://mirrors.ustc.edu.cn/%EF%BC%88%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A21.32T%EF%BC%89" target="_blank" rel="noopener">http://mirrors.ustc.edu.cn/（当前已用容量估计：21.32T）</a></p>
-<p><strong>0x06 大连东软信息学院</strong></p>
-<p><a href="http://mirrors.neusoft.edu.cn/%EF%BC%88%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A2.5T%EF%BC%89" target="_blank" rel="noopener">http://mirrors.neusoft.edu.cn/（当前已用容量估计：2.5T）</a></p>
-<p><strong>0x07 东北大学</strong></p>
-<p><a href="http://mirror.neu.edu.cn/" target="_blank" rel="noopener">http://mirror.neu.edu.cn/</a></p>
-<p><strong>0x08 大连理工大学</strong></p>
-<p><a href="http://mirror.dlut.edu.cn/" target="_blank" rel="noopener">http://mirror.dlut.edu.cn/</a></p>
-<p><strong>0x09 哈尔滨工业大学</strong></p>
-<p><a href="http://run.hit.edu.cn/html/%EF%BC%88%E9%83%A8%E5%88%86%E8%81%94%E9%80%9A%E8%BF%90%E8%90%A5%E5%95%86%E5%87%BA%E5%8F%A3%E7%8A%B6%E5%86%B5%E4%B8%8D%E4%BD%B3%EF%BC%8C%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%EF%BC%89" target="_blank" rel="noopener">http://run.hit.edu.cn/html/（部分联通运营商出口状况不佳，无法访问）</a></p>
-<p><strong>0x0A 北京交通大学</strong></p>
-<p><a href="http://mirror.bjtu.edu.cn/cn/" target="_blank" rel="noopener">http://mirror.bjtu.edu.cn/cn/</a></p>
-<p><strong>0x0B 天津大学</strong></p>
-<p><a href="http://mirror.tju.edu.xn--cn%28%2Cping%29-735sxhs76er15g0gftw0b/" target="_blank" rel="noopener">http://mirror.tju.edu.cn（无法访问，ping超时）</a></p>
-<p><strong>0x0C 中国地质大学</strong></p>
-<p><a href="http://mirrors.cug.edu.cn/%EF%BC%88%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A2.3T%EF%BC%89" target="_blank" rel="noopener">http://mirrors.cug.edu.cn/（当前已用容量估计：2.3T）</a></p>
-<p><strong>0x0D 浙江大学</strong></p>
-<p><a href="http://mirrors.zju.edu.cn/" target="_blank" rel="noopener">http://mirrors.zju.edu.cn/</a></p>
-<p><strong>0x0E 厦门大学</strong></p>
-<p><a href="http://mirrors.xmu.edu.cn/" target="_blank" rel="noopener">http://mirrors.xmu.edu.cn/</a></p>
-<p><strong>0x0F 中山大学</strong></p>
-<p><a href="http://mirror.sysu.edu.cn/" target="_blank" rel="noopener">http://mirror.sysu.edu.cn/</a></p>
-<p><strong>0x10 重庆大学</strong></p>
-<p><a href="http://mirrors.cqu.edu.cn/%EF%BC%88%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A3.93T%EF%BC%89" target="_blank" rel="noopener">http://mirrors.cqu.edu.cn/（当前已用容量估计：3.93T）</a></p>
-<p><strong>0x11 北京化工大学</strong></p>
-<p><a href="http://ubuntu.buct.edu.cn/%EF%BC%88Android" target="_blank" rel="noopener">http://ubuntu.buct.edu.cn/（Android</a> SDK镜像仅供校内使用，当前已用容量估计：1.72T）</p>
-<p><strong>0x12 南阳理工大学</strong></p>
-<p><a href="http://mirror.nyist.edu.cn/" target="_blank" rel="noopener">http://mirror.nyist.edu.cn/</a></p>
-<p><strong>0x13 中国科学院</strong></p>
-<p><a href="http://www.opencas.org/mirrors/" target="_blank" rel="noopener">http://www.opencas.org/mirrors/</a></p>
-<p><strong>0x14 电子科技大学</strong></p>
-<p><a href="http://ubuntu.uestc.edu.cn/%EF%BC%88%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%EF%BC%8Cping%E8%B6%85%E6%97%B6%EF%BC%89" target="_blank" rel="noopener">http://ubuntu.uestc.edu.cn/（无法访问，ping超时）</a></p>
-<p><strong>0x15 电子科技大学星辰工作室</strong></p>
-<p><a href="http://mirrors.stuhome.net/%EF%BC%88%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A1.08T%EF%BC%89" target="_blank" rel="noopener">http://mirrors.stuhome.net/（当前已用容量估计：1.08T）</a></p>
-<p><strong>0x16 西北农林科技大学</strong></p>
-<p><a href="http://mirrors.nwsuaf.edu.cn/%EF%BC%88%E5%8F%AA%E5%81%9ACentOS%E9%95%9C%E5%83%8F%EF%BC%8C%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A140GB%EF%BC%89" target="_blank" rel="noopener">http://mirrors.nwsuaf.edu.cn/（只做CentOS镜像，当前已用容量估计：140GB）</a></p>
-<p><strong>0x17 浙江大学</strong></p>
-<p><a href="http://mirrors.zju.edu.cn/" target="_blank" rel="noopener">http://mirrors.zju.edu.cn/</a></p>
-<p><strong>0x18 台湾淡江大学</strong></p>
-<p><a href="http://ftp.tku.edu.tw/Linux/" target="_blank" rel="noopener">http://ftp.tku.edu.tw/Linux/</a></p>
-<p><strong>0x03 其他</strong></p>
-<p><strong>0x00 首都在线科技股份有限公司</strong></p>
-<p><a href="http://mirrors.yun-idc.com/" target="_blank" rel="noopener">http://mirrors.yun-idc.com/</a></p>
-<p><strong>0x01 中国电信天翼云</strong></p>
-<p><a href="http://mirrors.noc.im/%EF%BC%88%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A3.74T%EF%BC%89" target="_blank" rel="noopener">http://mirrors.noc.im/（当前已用容量估计：3.74T）</a></p>
-<p><strong>0x02 常州贝特康姆软件技术有限公司</strong></p>
-<p><a href="http://centos.bitcomm.cn/%EF%BC%88%E5%8F%AA%E5%81%9ACentOS%E9%95%9C%E5%83%8F%EF%BC%8C%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A140GB%EF%BC%89" target="_blank" rel="noopener">http://centos.bitcomm.cn/（只做CentOS镜像，当前已用容量估计：140GB）</a></p>
-<p><strong>0x03 公云PubYun（母公司为贝特康姆）</strong></p>
-<p><a href="http://mirrors.pubyun.com/" target="_blank" rel="noopener">http://mirrors.pubyun.com/</a></p>
-<p><strong>0x04 Linux运维派：</strong></p>
-<p><a href="http://mirrors.skyshe.cn/%EF%BC%88%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%8C%E7%95%8C%E9%9D%A2%E4%BD%BF%E7%94%A8%E6%B5%99%E6%B1%9F%E5%A4%A7%E5%AD%A6%E7%9A%84%E6%A8%A1%E6%9D%BF%EF%BC%8C%E9%A6%96%E9%A1%B5%E7%BB%B4%E6%8A%A4%EF%BC%8C%E5%86%85%E5%AE%B9%E5%8F%AF%E8%AE%BF%E9%97%AE%EF%BC%89" target="_blank" rel="noopener">http://mirrors.skyshe.cn/（使用阿里云服务器，界面使用浙江大学的模板，首页维护，内容可访问）</a></p>
-<p><strong>0x05 中国互联网络信息中心：</strong></p>
-<p><a href="http://mirrors.cnnic.cn/%EF%BC%88%E5%8F%AA%E5%81%9AApache%E9%95%9C%E5%83%8F%EF%BC%8C%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A120GB%EF%BC%89" target="_blank" rel="noopener">http://mirrors.cnnic.cn/（只做Apache镜像，当前已用容量估计：120GB）</a></p>
-<p><strong>0x06 Fayea工作室：</strong></p>
-<p><a href="http://apache.fayea.com/%EF%BC%88%E5%8F%AA%E5%81%9AApache%E9%95%9C%E5%83%8F%EF%BC%8C%E5%BD%93%E5%89%8D%E5%B7%B2%E7%94%A8%E5%AE%B9%E9%87%8F%E4%BC%B0%E8%AE%A1%EF%BC%9A120GB%EF%BC%89" target="_blank" rel="noopener">http://apache.fayea.com/（只做Apache镜像，当前已用容量估计：120GB）</a></p>
-<p><strong>0x07 开源中国社区：</strong></p>
-<p><a href="http://mirrors.oss.org.cn/" target="_blank" rel="noopener">http://mirrors.oss.org.cn/</a></p>
-<p><strong>0x04 Ubuntu</strong></p>
-<p><strong>0x00 阿里云：</strong></p>
-<p><a href="http://mirrors.aliyun.com/ubuntu-releases/" target="_blank" rel="noopener">http://mirrors.aliyun.com/ubuntu-releases/</a></p>
-<p><strong>0x01 网易：</strong></p>
-<p><a href="http://mirrors.163.com/ubuntu-releases/" target="_blank" rel="noopener">http://mirrors.163.com/ubuntu-releases/</a></p>
-<p><strong>0x02 搜狐：</strong></p>
-<p><a href="http://mirrors.sohu.com/ubuntu-releases/" target="_blank" rel="noopener">http://mirrors.sohu.com/ubuntu-releases/</a></p>
-<p><strong>0x03 首都在线科技股份有限公司：</strong></p>
-<p><a href="http://mirrors.yun-idc.com/ubuntu-releases/" target="_blank" rel="noopener">http://mirrors.yun-idc.com/ubuntu-releases/</a></p>
-<p><strong>0x05 CentOS</strong></p>
-<p><strong>0x00 网易：</strong></p>
-<p><a href="http://mirrors.163.com/centos/" target="_blank" rel="noopener">http://mirrors.163.com/centos/</a></p>
-<p><strong>0x01 搜狐：</strong></p>
-<p><a href="http://mirrors.sohu.com/centos/" target="_blank" rel="noopener">http://mirrors.sohu.com/centos/</a></p>
-<p><strong>0x02 阿里云：</strong></p>
-<p><a href="http://mirrors.aliyun.com/centos/" target="_blank" rel="noopener">http://mirrors.aliyun.com/centos/</a></p>
-<p><strong>0x06 Apache</strong></p>
-<p><strong>0x00 中国互联网络信息中心：</strong></p>
-<p><a href="http://mirrors.cnnic.cn/apache/" target="_blank" rel="noopener">http://mirrors.cnnic.cn/apache/</a></p>
-<p><strong>0x01 华中科技大学</strong></p>
-<p><a href="http://mirrors.hust.edu.cn/apache/" target="_blank" rel="noopener">http://mirrors.hust.edu.cn/apache/</a></p>
-<p><strong>0x02 北京理工大学：</strong></p>
-<p><a href="http://mirror.bit.edu.cn/apache/" target="_blank" rel="noopener">http://mirror.bit.edu.cn/apache/</a></p>
-<p><strong>0x03 TOMCAT全版本：</strong></p>
-<p><a href="https://archive.apache.org/dist/tomcat/" target="_blank" rel="noopener">https://archive.apache.org/dist/tomcat/</a></p>
-<p><strong>0x07 MySQL</strong></p>
-<p><strong>0x00 北京理工大学：</strong></p>
-<p><a href="http://mirror.bit.edu.cn/mysql/Downloads/" target="_blank" rel="noopener">http://mirror.bit.edu.cn/mysql/Downloads/</a></p>
-<p><strong>0x01 中国电信天翼云：</strong></p>
-<p><a href="http://mirrors.ctyun.cn/Mysql/" target="_blank" rel="noopener">http://mirrors.ctyun.cn/Mysql/</a></p>
-<p><strong>0x02 搜狐镜像源：</strong></p>
-<p><a href="http://mirrors.sohu.com/mysql/" target="_blank" rel="noopener">http://mirrors.sohu.com/mysql/</a></p>
-<p><strong>0x08 PostgreSQL</strong></p>
-<p><strong>0x00 浙江大学：</strong></p>
-<p><strong>0x09 MariaDB</strong></p>
-<p><strong>0x00 中国电信天翼云：</strong></p>
-<p><strong>0x0A VideoLAN</strong></p>
-<p><strong>0x00 大连东软信息学院：</strong></p>
-<p><a href="http://mirrors.neusoft.edu.cn/videolan/" target="_blank" rel="noopener">http://mirrors.neusoft.edu.cn/videolan/</a></p>
-<p><strong>0x01 中国科技大学：</strong></p>
-<p><a href="http://mirrors.ustc.edu.cn/videolan-ftp/" target="_blank" rel="noopener">http://mirrors.ustc.edu.cn/videolan-ftp/</a></p>
-<p><strong>0X0B PHP</strong></p>
-<p><strong>0x00 php全版本</strong></p>
-<p><a href="https://secure.php.net/releases/" target="_blank" rel="noopener">https://secure.php.net/releases/</a></p>
-<p><strong>0X0C Eclipse</strong></p>
-<p><strong>0x00 中国科技大学</strong></p>
-<p><a href="http://mirrors.ustc.edu.cn/eclipse/" target="_blank" rel="noopener">http://mirrors.ustc.edu.cn/eclipse/</a></p>
-<p><strong>0x01 中国科学院</strong></p>
-<p><a href="http://mirrors.opencas.cn/eclipse/" target="_blank" rel="noopener">http://mirrors.opencas.cn/eclipse/</a></p>
-<p><strong>0x02 东北大学</strong></p>
-<p><a href="http://ftp.neu.edu.cn/mirrors/eclipse/%EF%BC%8Chttp://mirror.neu.edu.cn/eclipse/" target="_blank" rel="noopener">http://ftp.neu.edu.cn/mirrors/eclipse/，http://mirror.neu.edu.cn/eclipse/</a></p>
-<p><strong>0x0D Android SDK</strong></p>
-<p><strong>0x00 中国科学院</strong></p>
-<p><a href="http://mirrors.opencas.ac.cn/android/repository/" target="_blank" rel="noopener">http://mirrors.opencas.ac.cn/android/repository/</a></p>
-<p><strong>0x01 南洋理工学院</strong></p>
-<p><a href="http://mirror.nyist.edu.cn/android/repository/" target="_blank" rel="noopener">http://mirror.nyist.edu.cn/android/repository/</a></p>
-<p><strong>0x02 中国科学院</strong></p>
-<p><a href="http://mirrors.opencas.cn/android/repository/" target="_blank" rel="noopener">http://mirrors.opencas.cn/android/repository/</a></p>
-<p><strong>0x03 腾讯</strong></p>
-<p><a href="http://android-mirror.bugly.qq.com:8080/android/repository/%EF%BC%88%E9%99%90%E6%B5%81%EF%BC%8C%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89" target="_blank" rel="noopener">http://android-mirror.bugly.qq.com:8080/android/repository/（限流，不推荐）</a></p>
-<p><strong>0x04 大连东软信息学院</strong></p>
-<p><a href="http://mirrors.neusoft.edu.cn/android/repository/%EF%BC%88%E5%90%8C%E6%AD%A5%E6%95%88%E6%9E%9C%E4%B8%8D%E5%A6%82%E4%B8%AD%E7%A7%91%E9%99%A2%E7%9A%84%E9%95%9C%E5%83%8F%EF%BC%8C%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89" target="_blank" rel="noopener">http://mirrors.neusoft.edu.cn/android/repository/（同步效果不如中科院的镜像，不推荐）</a></p>
-<p><strong>（十四）、Xcode</strong></p>
-<p><strong>0x00 腾讯</strong></p>
-<p><a href="http://android-mirror.bugly.qq.com:8080/Xcode/%EF%BC%88%E4%BB%8E7.2%E4%B9%8B%E5%90%8E%E4%B8%8D%E5%86%8D%E6%9B%B4%E6%96%B0%EF%BC%8C%E5%BB%BA%E8%AE%AE%E7%9B%B4%E6%8E%A5%E4%BB%8E%E5%AE%98%E7%BD%91%E4%B8%8B%E8%BD%BD%EF%BC%89" target="_blank" rel="noopener">http://android-mirror.bugly.qq.com:8080/Xcode/（从7.2之后不再更新，建议直接从官网下载）</a></p>
-<p><strong>容器</strong></p>
-<p><strong>0x00 lxc国内镜像源</strong></p>
-<p><a href="https://mirrors.tuna.tsinghua.edu.cn/lxc-images/" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/lxc-images/</a></p>
-<p><strong>官方镜像列表状态地址</strong></p>
-<p><strong>0x00 CentOS</strong></p>
-<p><a href="http://mirror-status.centos.org/#cn" target="_blank" rel="noopener">http://mirror-status.centos.org/#cn</a></p>
-<p><strong>0x01 Archlinux</strong></p>
-<p><a href="https://www.archlinux.org/mirrors/status/" target="_blank" rel="noopener">https://www.archlinux.org/mirrors/status/</a></p>
-<p><strong>0x02 Ubuntu</strong></p>
-<p><a href="https://launchpad.net/ubuntu/+cdmirrors" target="_blank" rel="noopener">https://launchpad.net/ubuntu/+cdmirrors</a></p>
-<p><strong>0x03 Debian</strong></p>
-<p><a href="http://mirror.debian.org/status.html" target="_blank" rel="noopener">http://mirror.debian.org/status.html</a></p>
-<p><strong>0x04 Fedora Linux/Fedora EPEL</strong></p>
-<p><a href="https://admin.fedoraproject.org/mirrormanager/mirrors" target="_blank" rel="noopener">https://admin.fedoraproject.org/mirrormanager/mirrors</a></p>
-<p><strong>0x05 Apache</strong></p>
-<p><a href="http://www.apache.org/mirrors/#cn" target="_blank" rel="noopener">http://www.apache.org/mirrors/#cn</a></p>
-<p><strong>0x06 Cygwin</strong></p>
-<p><a href="https://www.cygwin.com/mirrors.html" target="_blank" rel="noopener">https://www.cygwin.com/mirrors.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/工具//" class="article-tag-list-link color3">工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/工具/自学资源//" class="article-tag-list-link color5">自学资源</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/28/linux-e4-b8-ad-e7-9a-84-e5-ae-98-e6-96-b9-e6-ba-90-e3-80-81-e9-95-9c-e5-83-8f-e6-ba-90-e6-b1-87-e6-80-bb/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1363,6 +1221,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
@@ -1376,10 +1238,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">centos</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -159,6 +159,129 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-logrotate日志轮播" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/27/logrotate日志轮播/">logrotate日志轮播</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/27/logrotate日志轮播/" class="archive-article-date">
+  	<time datetime="2019-08-27T08:45:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>logrotate</code>的配置文件在/etc/logrotate.conf。日志文件的轮续设置在独立的配置文件中。<code>/etc/logrotate.d/</code></p>
+<blockquote>
+<p>样例一</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/var/log/log-file &#123;</span><br><span class="line">    monthly #每月轮续</span><br><span class="line">    rotate 5 #只保留5个log文件，第6个月将删除最早的log文件</span><br><span class="line">    compress #轮续后将自动压缩gzip</span><br><span class="line">    delaycompress #不压缩最近归档，上个月的归档不压缩</span><br><span class="line">    missingok #将log文件中的错误全都过滤掉不保存</span><br><span class="line">    notifempty #如果日志为空，文件将不归档</span><br><span class="line">    create 644 root root #以root身上创建归档，权限0644</span><br><span class="line">    postrotate #执行 killall -HUP rsyslogd命令</span><br><span class="line">        /usr/bin/killall -HUP rsyslogd</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>样例二</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/var/log/log-file &#123;</span><br><span class="line">    size=50M #只保留一个文件50M大小，超过则开始下一个归档</span><br><span class="line">    rotate 5</span><br><span class="line">    create 644 root root</span><br><span class="line">    postrotate</span><br><span class="line">        /usr/bin/killall -HUP rsyslogd</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>样例三</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/var/log/log-file &#123;</span><br><span class="line">    monthly</span><br><span class="line">    rotate 5</span><br><span class="line">    dateext #以日期来命名归档文件。eg:Linux-19910825</span><br><span class="line">    create 644 root root</span><br><span class="line">    postrotate</span><br><span class="line">        /usr/bin/killall -HUP rsyslogd</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="排障"><a href="#排障" class="headerlink" title="排障"></a>排障</h2><blockquote>
+<p>手动</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">logrotate /etc/logrotate.conf #手动执行所有</span><br><span class="line">logrotate /etc/logrotate.d/yum #手动单个执行</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>测试</p>
+</blockquote>
+<p>使用<code>-d</code>来测试结果</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">&gt;:logrotate -d /etc/logrotate.d/yum</span></span><br><span class="line"></span><br><span class="line">reading config file yum</span><br><span class="line">Allocating hash table for state file, size 15360 B</span><br><span class="line"></span><br><span class="line">Handling 1 logs</span><br><span class="line"></span><br><span class="line">rotating pattern: /var/log/yum.log  yearly (no old logs will be kept)</span><br><span class="line">empty log files are not rotated, log files &gt;= 30720 are rotated earlier, old logs are removed</span><br><span class="line">considering log /var/log/yum.log</span><br><span class="line">  log does not need rotating (log has been rotated at 2019-5-1 13:0, that is not year ago yet)</span><br></pre></td></tr></table></figure>
+
+<p>logrotate判断小于一天则不执行提醒</p>
+<blockquote>
+<p>强制轮续</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">&gt;:logrotate -fv /etc/logtotate.d/yum <span class="comment">#-f 强制 -v 详细</span></span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>定时任务</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"> Clean non existent <span class="built_in">log</span> file entries from status file</span></span><br><span class="line">cd /var/lib/logrotate</span><br><span class="line">test -e status || touch status #不存在则添加</span><br><span class="line">head -1 status &gt; status.clean #输出第一行status.clean</span><br><span class="line">sed 's/"//g' status | while read logfile date #替换每行开头的" ，将结果分为logfile 和 date 俩部分 *注①</span><br><span class="line">do</span><br><span class="line">    [ -e "$logfile" ] &amp;&amp; echo "\"$logfile\" $date" #如果$logfile存在则输出"$logfile" $date      "/etc/logrotate.d/yum" 1991-0825 </span><br><span class="line">done &gt;&gt; status.clean #输入到文件</span><br><span class="line">mv status.clean status </span><br><span class="line"> </span><br><span class="line">test -x /usr/sbin/logrotate || exit 0 #test 可执行文件是否存在，不存在就退出，存在就手动logrotate</span><br><span class="line">/usr/sbin/logrotate /etc/logrotate.conf</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>附① while循环接受</p>
+</blockquote>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo 1 2 3  | while read a b c </span><br><span class="line">do </span><br><span class="line">echo $a $b $c</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p><code>结果：1 2 3</code></p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@bithub zabbix]# echo 1 2 3  | while read a b c ; do echo $a $b $c; done</span><br><span class="line">1 2 3</span><br></pre></td></tr></table></figure>
+
+<p>该学习资料来自<a href="https://linux.cn/article-4126-1.html" target="_blank" rel="noopener">Linux中国</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/27/logrotate日志轮播/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-GPG加密校验入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1120,7 +1243,7 @@ pip install shadowsocks</code></pre><p>Windows:</p>
 <p>但是我们要更改文件选项使用<code>chmod 0600 file</code>的时候，并不能更改文件的权限。这时候我们就要去更改<code>/mnt/d</code>的挂载方式。<br>解决详细方案来自<a href="https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/" target="_blank" rel="noopener">microsoft帮助</a></p>
 <p>您现在可以使用chmod / chown设置文件的所有者和组，  并在WSL中修改读/写/执行权限。您还可以创建特殊文件，如fifos，unix套接字和设备文件。我们在DrvFs中引入了新的安装选项，用于将权限投射到文件上，同时在文件和文件夹上提供新的Linux元数据。</p>
 <p>还有一个步骤中，您必须采取之前，你可以享受这些新功能：你必须卸载drvfs 并与“元数据”标志重新安装。去做这个： </p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">按需使用磁盘C或D 或者其他</span></span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>按需使用磁盘C或D 或者其他</span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
 
 <p>到这，<code>WSL</code>就有随意更替<code>Windows</code>文件的权限。</p>
 <figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 0600 .ssh/*</span><br></pre></td></tr></table></figure>
@@ -1152,185 +1275,6 @@ pip install shadowsocks</code></pre><p>Windows:</p>
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/08/06/Chmod-Chown-WSL-Improvements/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Zabbix-in-Telegram告警视图" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/01/Zabbix-in-Telegram告警视图/">Zabbix-in-Telegram告警视图</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/01/Zabbix-in-Telegram告警视图/" class="archive-article-date">
-  	<time datetime="2019-08-01T06:55:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>电报-Telegram(需要代理)是一款基于云的移动和桌面消息应用程序，专注于安全性和速度。深得开发程序员的喜爱</p>
-<p>zabbix每日都有很多的警告,警告的通知可使用Email、短信等通知到用户。在GitHub上有这么一个项目<a href="https://github.com/ableev/Zabbix-in-Telegram" target="_blank" rel="noopener">Zabbix-in-Telegram</a>，直接使用电报来转发到用户。类似微信公众号的效果,每时每刻都可以接受到。</p>
-<blockquote>
-<p>效果图</p>
-</blockquote>
-<p><img src="/images/Zabbix-in-Telegram.png" alt="Zabbix-in-Telegram"></p>
-<p>####先决条件 已经有的直接跳到正式安装步骤</p>
-<ul>
-<li>创建这个目录<code>/usr/lib/zabbix/alertscripts</code> </li>
-<li>拥有一个<a href="https://core.telegram.org/bots#creating-a-new-bot" target="_blank" rel="noopener">TelegramAPI</a>机器人</li>
-<li>安装git</li>
-</ul>
-<blockquote>
-<p>先决条件步骤</p>
-</blockquote>
-<p>######创建zabbix可执行脚本的目录位置及安装git</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/lib/zabbix/alertscripts </span><br><span class="line"><span class="comment">#安装git</span></span><br><span class="line">yum install git </span><br><span class="line"><span class="comment">#用于克隆github项目</span></span><br></pre></td></tr></table></figure>
-
-<p>######创建TelegramAPI机器人<br>首先，通过以下链接连接到 @BotFather : <a href="https://telegram.me/BotFather" target="_blank" rel="noopener">https://telegram.me/BotFather</a> 。当在电报中打开与 BotFather 的聊天窗口时，按下Start按钮。</p>
-<p>你会看到像这样的消息：</p>
-<p><img src="/images/screenshot_create_bot_0.png" alt="BotFather的截图"></p>
-<p>按 /newbot 命令，并输入您的机器人的名称。</p>
-<p><img src="/images/screenshot_create_bot_1.png" alt="BotFather的截图"></p>
-<p>在这之后，您必须为机器人设定用户名。按照屏幕上的说明操作即可。</p>
-<p><img src="/images/screenshot_create_bot_2.png" alt="BotFather的截图"></p>
-<p>选择用户名后，您的机器人将自动创建并可以使用。然后，您将看到如下消息。</p>
-<p><img src="/images/screenshot_create_bot_3.png" alt="BotFather的截图"></p>
-<p>请注意：API Token 是机器人与Telegram系统通信的关键。请保持安全！ 不要通过电子邮件或除 Telegram 以外任何其他即时消息应用程序发送机器人令牌。</p>
-<p><strong>注意</strong><br>API token 需要保存备用，以后就是用你自己创建的这个机器人来给你发消息，启用机器人你得想和它发个消息，类似买了手机号码，你得打个电话激活号码</p>
-<p>####正式部署</p>
-<blockquote>
-<p>项目环境</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#克隆项目</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/ableev/Zabbix-in-Telegram.git</span><br><span class="line"><span class="comment">#下载pip</span></span><br><span class="line">sudo yum install python-pip <span class="comment">#测试python3-pip也可以</span></span><br><span class="line"><span class="comment">#安装requirements.txt文件中的依赖</span></span><br><span class="line"><span class="built_in">cd</span> Zabbix-in-Telegram/</span><br><span class="line">pip install -r requirements.txt</span><br><span class="line"><span class="comment">#将脚本拷贝到zabbix的脚本可执行目录</span></span><br><span class="line">cp zbxtg.py zbxtg_settings.example.py zbxtg_group.py /usr/lib/zabbix/alertscripts</span><br><span class="line"><span class="comment">#zbxtg_group.py用与将告警发送到群组中</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>修改配置文件</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tg_key = &quot;XYZ&quot;  # telegram bot api key 机器人的tokenID</span><br><span class="line">zbx_server = &quot;http://127.0.0.1/zabbix/&quot;  # zabbix server full url</span><br><span class="line">zbx_api_user = &quot;api&quot; #要有可读权限的用户</span><br><span class="line">zbx_api_pass = &quot;api&quot;</span><br><span class="line">zbx_api_verify = True  # http的用True  https - False</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<blockquote>
-<p>配置是否成功测试</p>
-</blockquote>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#文字测试</span><br><span class="line">./zbxtg.py @telegram_name &quot;主题&quot; &quot;内容&quot;</span><br><span class="line">#图像测试</span><br><span class="line">./zbxtg.py @telegram_name test &quot;$(echo -e &apos;zbxtg;graphs: \nzbxtg;graphs_period=10800\nzbxtg;itemid:100648\nzbxtg;title:ololo&apos;)&quot; --debug</span><br></pre></td></tr></table></figure>
-
-<p>相对应的在电报里能收到机器人的消息</p>
-<blockquote>
-<p>配置zabbix-server-web</p>
-</blockquote>
-<p>登录到zabbix，创建对应的告警媒介，动作，用户</p>
-<blockquote>
-<blockquote>
-<p>告警媒介设置</p>
-</blockquote>
-</blockquote>
-<p><img src="/images/screenshot_create_media_0.png" alt="zabbix-server-web的截图"></p>
-<p>选项里面使用默认就可以</p>
-<blockquote>
-<blockquote>
-<p>创建一个动作</p>
-</blockquote>
-</blockquote>
-<p><img src="/images/screenshot_create_action_0.png" alt="zabbix-server-web的截图"></p>
-<blockquote>
-<blockquote>
-<p>告警操作设置</p>
-</blockquote>
-</blockquote>
-<p><img src="/images/screenshot_create_action_1.png" alt="zabbix-server-web的截图"><br>请注意下面的后4行，<code>zbxtg</code>后面是分号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">告警主机:&#123;HOST.NAME&#125;</span><br><span class="line">告警地址:&#123;HOST.IP&#125;</span><br><span class="line">监控项目:&#123;ITEM.NAME&#125;</span><br><span class="line">监控取值:&#123;ITEM.LASTVALUE&#125;</span><br><span class="line">告警等级:&#123;TRIGGER.SEVERITY&#125;</span><br><span class="line">当前状态:&#123;TRIGGER.STATUS&#125;</span><br><span class="line">告警信息:&#123;TRIGGER.NAME&#125;</span><br><span class="line">告警时间:&#123;EVENT.DATE&#125; &#123;EVENT.TIME&#125;</span><br><span class="line">事件ID:&#123;EVENT.ID&#125;</span><br><span class="line">zbxtg;graphs</span><br><span class="line">zbxtg;graphs_period=10800</span><br><span class="line">zbxtg;itemid:&#123;ITEM.ID1&#125;</span><br><span class="line">zbxtg;title:&#123;HOST.HOST&#125; - &#123;TRIGGER.NAME&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<blockquote>
-<p>恢复和更新操作设置（默认也可以）</p>
-</blockquote>
-</blockquote>
-<p><img src="/images/screenshot_create_action_2.png" alt="zabbix-server-web的截图"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">告警主机:&#123;HOST.NAME&#125;</span><br><span class="line">告警地址:&#123;HOST.IP&#125;</span><br><span class="line">监控项目:&#123;ITEM.NAME&#125;</span><br><span class="line">监控取值:&#123;ITEM.LASTVALUE&#125;</span><br><span class="line">告警等级:&#123;TRIGGER.SEVERITY&#125;</span><br><span class="line">当前状态:&#123;TRIGGER.STATUS&#125;</span><br><span class="line">告警信息:&#123;TRIGGER.NAME&#125;</span><br><span class="line">告警时间:&#123;EVENT.DATE&#125; &#123;EVENT.TIME&#125;</span><br><span class="line">恢复时间:&#123;EVENT.RECOVERY.DATE&#125; &#123;EVENT.RECOVERY.TIME&#125;</span><br><span class="line">持续时间:&#123;EVENT.AGE&#125;</span><br><span class="line">事件ID:&#123;EVENT.ID&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<blockquote>
-<p>用户告警媒介选择</p>
-</blockquote>
-</blockquote>
-<p><img src="/images/screenshot_create_user_madia_0.png" alt="zabbix-server-web的截图"><br>其他使用默认即可</p>
-<p>收件人写你的telegram用户名(eg:@BotFather)没有的可以在telegram的设置里面的个人资料的info里面设置</p>
-<p>到这里安装就结束了。结果如开题的第一张图片</p>
-<p>###我安装的时候遇到的问题</p>
-<ul>
-<li>图片显示不存在或没权限</li>
-<li>zbxtg;graphs 分号被我写成冒号</li>
-</ul>
-<ol>
-<li>第一个问题是因为我使用了不能登录前端web无法登录的用户，图片id能获取到，但是没有权限读。然后我在<code>zbxtg_settings.py</code>中设置为Admin用户，并且将告警媒介和动作删了重做。结果都没有用<br>最后用了一个下午Google问题。没有解决办法，最后将<code>/usr/lib/zabbix/alertscripts</code>里面的 <code>zbxtg.py zbxtg_settings.example.py zbxtg_group.py</code>都删掉重新copy一份。最后才有效</li>
-<li>分号写成冒号，测试的时候是没有图片的。正常情况下，机器人一个警告发2条消息，一个text一个图片</li>
-</ol>
-<p>Done.TingBob</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/linux/zabbix//" class="article-tag-list-link color2">zabbix</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/01/Zabbix-in-Telegram告警视图/">展开全文 >></a>
         </p>
       
 
@@ -1466,6 +1410,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
@@ -1479,10 +1427,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">centos</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">

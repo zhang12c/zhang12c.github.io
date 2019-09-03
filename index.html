@@ -159,6 +159,96 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-脚本自动化关闭Zabbix中Down的主机" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/03/脚本自动化关闭Zabbix中Down的主机/">脚本自动化关闭Zabbix中Down的主机</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/03/脚本自动化关闭Zabbix中Down的主机/" class="archive-article-date">
+  	<time datetime="2019-09-03T10:47:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以下我使用Python通过Py-Zabbix的API来进行关闭Zabbix中已经Down的主机。基本思路是</p>
+<ol>
+<li>获得前所属组的IP</li>
+<li>通过telnet去检验主机是否Down</li>
+<li>关闭主机</li>
+</ol>
+<p>如下是脚本初始小damo，<em>萌新一定要先测试脚本是不是符合你的生产环境后再在正式环境下执行</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#！/bin/env python</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> telnetlib</span><br><span class="line"><span class="keyword">import</span> pyzabbix</span><br><span class="line"><span class="keyword">from</span> pyzabbix <span class="keyword">import</span> ZabbixAPI</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">web = input(<span class="string">"Input Your Zabbix-Web address:"</span>)</span><br><span class="line">username = input(<span class="string">"API User :"</span>)</span><br><span class="line">passwd = input(<span class="string">"Password:"</span>)</span><br><span class="line">groupids = input(<span class="string">"HostGroup1:15\nHostGroup2:16\nInput Your Group: "</span>)</span><br><span class="line"><span class="comment">#check Your Password</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    zapi = ZabbixAPI(url=web, user=username, password=passwd)</span><br><span class="line">    print(<span class="string">"认证成功"</span>)</span><br><span class="line">    zapi.do_request(<span class="string">'user.logout'</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"用户认证错误！！脚本退出"</span>)</span><br><span class="line">    os._exit(<span class="number">0</span>)</span><br><span class="line"><span class="comment">#Get Host IP From Zabbix</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ZabbixIP</span><span class="params">()</span>:</span></span><br><span class="line">    zapi = ZabbixAPI(url=web, user=username, password=passwd)</span><br><span class="line">    <span class="comment">#获得输出结果的个数</span></span><br><span class="line">    result1 = zapi.do_request(<span class="string">"host.get"</span>, &#123;<span class="string">"groupids"</span>:groupids, <span class="string">"output"</span>: [<span class="string">"name"</span>], <span class="string">'countOutput'</span>: <span class="literal">True</span>&#125;)</span><br><span class="line">    <span class="comment">#输出结果带IP</span></span><br><span class="line">    result2 = zapi.do_request(<span class="string">"host.get"</span>, &#123;<span class="string">"groupids"</span>:groupids, <span class="string">"output"</span>: [<span class="string">"name"</span>], <span class="string">"selectInterfaces"</span>: [<span class="string">"interfaces"</span>, <span class="string">"ip"</span>]&#125;)</span><br><span class="line">    host_count = int(result1.get(<span class="string">u'result'</span>))</span><br><span class="line">    <span class="comment">#初始化IPList，一会拿来装IP</span></span><br><span class="line">    IPList = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(host_count):</span><br><span class="line">        num = i</span><br><span class="line">        <span class="comment">#分别输出元组</span></span><br><span class="line">        VeeeHostList = result2.get(<span class="string">u'result'</span>)[num]</span><br><span class="line">        <span class="comment"># print(VeeeHostList)</span></span><br><span class="line">        <span class="comment">#得到一个包含ip的元组 eg：&#123;interfaces:["ip":"0.0.0.0"]&#125;</span></span><br><span class="line">        HostIP = VeeeHostList.get(<span class="string">'interfaces'</span>)</span><br><span class="line">        <span class="comment">#到元组里面的数列["ip":"0.0.0.0"]</span></span><br><span class="line">        IpTup = HostIP[<span class="number">0</span>]</span><br><span class="line">        Ip = IpTup.get(<span class="string">r"ip"</span>)</span><br><span class="line">        <span class="comment">#print(Ip)</span></span><br><span class="line">        IPList.append(Ip)</span><br><span class="line">    zapi.do_request(<span class="string">'user.logout'</span>)</span><br><span class="line">    <span class="keyword">return</span> IPList</span><br><span class="line"><span class="comment">#做telnet 测试端口是否开放。即检测服务器是否在线，不在线则关闭主机</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">telenetlib</span><span class="params">()</span>:</span></span><br><span class="line">    WrongIpList = []</span><br><span class="line">    RightIpList = []</span><br><span class="line">    <span class="keyword">for</span> ip <span class="keyword">in</span> IpGroup:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            tn = telnetlib.Telnet(host=ip,port=<span class="number">22</span>,timeout=<span class="number">5</span>)</span><br><span class="line">            print(<span class="string">"狗屎笨笨"</span>)</span><br><span class="line">            RightIpList.append(ip)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">"there is sometime wrong with "</span> + ip + <span class="string">"!!!"</span>)</span><br><span class="line">            WrongIpList.append(ip)</span><br><span class="line">    <span class="keyword">return</span> WrongIpList,RightIpList</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">UpdateHost</span><span class="params">()</span>:</span></span><br><span class="line">    zapi = ZabbixAPI(url=web, user=username, password=passwd)</span><br><span class="line">    <span class="keyword">for</span> Winterface <span class="keyword">in</span> IpWrongGroup:</span><br><span class="line">        result3 = zapi.do_request(<span class="string">"host.get"</span>,&#123;<span class="string">"output"</span>:<span class="string">"hostid"</span>,<span class="string">"selectInterfaces"</span>:[<span class="string">"interfaces"</span>,<span class="string">"ip"</span>],<span class="string">"filter"</span>:&#123;<span class="string">"ip"</span>:Winterface&#125;&#125;)</span><br><span class="line">        result4 = str(result3.get(<span class="string">u'result'</span>)).split(<span class="string">'\''</span>)</span><br><span class="line">        hostid = result4[<span class="number">3</span>]</span><br><span class="line">        zapi.do_request(<span class="string">"host.update"</span>,&#123;<span class="string">"hostid"</span>:hostid,<span class="string">"status"</span>:<span class="number">1</span>&#125;)</span><br><span class="line">    <span class="keyword">for</span> Rinterface <span class="keyword">in</span> IpRightGroup:</span><br><span class="line">        result3 = zapi.do_request(<span class="string">"host.get"</span>,&#123;<span class="string">"output"</span>:<span class="string">"hostid"</span>,<span class="string">"selectInterfaces"</span>:[<span class="string">"interfaces"</span>,<span class="string">"ip"</span>],<span class="string">"filter"</span>:&#123;<span class="string">"ip"</span>:Rinterface&#125;&#125;)</span><br><span class="line">        result4 = str(result3.get(<span class="string">u'result'</span>)).split(<span class="string">'\''</span>)</span><br><span class="line">        hostid = result4[<span class="number">3</span>]</span><br><span class="line">        zapi.do_request(<span class="string">"host.update"</span>,&#123;<span class="string">"hostid"</span>:hostid,<span class="string">"status"</span>:<span class="number">0</span>&#125;)</span><br><span class="line">    zapi.do_request(<span class="string">'user.logout'</span>)</span><br><span class="line">IpGroup = ZabbixIP()</span><br><span class="line">IpWrongGroup,IpRightGroup = telenetlib()</span><br><span class="line">UpdateHost()</span><br></pre></td></tr></table></figure>
+
+<p>敬上，溜了。<br>有啥问题，你可以联系博主 Telegram：@tingbob</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux/zabbix//" class="article-tag-list-link color2">zabbix</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/03/脚本自动化关闭Zabbix中Down的主机/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-logrotate日志轮播" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -928,13 +1018,13 @@
 <blockquote>
 <p>附加：怎么用</p>
 </blockquote>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible -i hosts chang_sshd_config.yml </span><br><span class="line"><span class="meta">#</span><span class="bash">-i 指定inventory 即存放主机ip的文件</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible -i hosts chang_sshd_config.yml </span><br><span class="line"><span class="meta">#</span>-i 指定inventory 即存放主机ip的文件</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>后续</p>
 </blockquote>
 <p>Ansible默认config文件<code>/etc/ansible/ansible.cfg</code></p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">inventory      = /etc/ansible/hosts</span></span><br><span class="line"><span class="meta">#</span><span class="bash">library        = /usr/share/my_modules/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_utils   = /usr/share/my_module_utils/</span></span><br><span class="line"><span class="meta">#</span><span class="bash">remote_tmp     = ~/.ansible/tmp</span></span><br><span class="line"><span class="meta">#</span><span class="bash">local_tmp      = ~/.ansible/tmp</span></span><br><span class="line"><span class="meta">#</span><span class="bash">plugin_filters_cfg = /etc/ansible/plugin_filters.yml</span></span><br><span class="line">forks          = 10 ##默认是 forks = 5</span><br><span class="line"><span class="meta">#</span><span class="bash">poll_interval  = 15</span></span><br><span class="line"><span class="meta">#</span><span class="bash">sudo_user      = root</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ask_sudo_pass = True</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ask_pass      = True</span></span><br><span class="line"><span class="meta">#</span><span class="bash">transport      = smart</span></span><br><span class="line"><span class="meta">#</span><span class="bash">remote_port    = 22</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_lang    = C</span></span><br><span class="line"><span class="meta">#</span><span class="bash">module_set_locale = False</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>inventory      = /etc/ansible/hosts</span><br><span class="line"><span class="meta">#</span>library        = /usr/share/my_modules/</span><br><span class="line"><span class="meta">#</span>module_utils   = /usr/share/my_module_utils/</span><br><span class="line"><span class="meta">#</span>remote_tmp     = ~/.ansible/tmp</span><br><span class="line"><span class="meta">#</span>local_tmp      = ~/.ansible/tmp</span><br><span class="line"><span class="meta">#</span>plugin_filters_cfg = /etc/ansible/plugin_filters.yml</span><br><span class="line">forks          = 10 ##默认是 forks = 5</span><br><span class="line"><span class="meta">#</span>poll_interval  = 15</span><br><span class="line"><span class="meta">#</span>sudo_user      = root</span><br><span class="line"><span class="meta">#</span>ask_sudo_pass = True</span><br><span class="line"><span class="meta">#</span>ask_pass      = True</span><br><span class="line"><span class="meta">#</span>transport      = smart</span><br><span class="line"><span class="meta">#</span>remote_port    = 22</span><br><span class="line"><span class="meta">#</span>module_lang    = C</span><br><span class="line"><span class="meta">#</span>module_set_locale = False</span><br></pre></td></tr></table></figure>
 
 <p>将<code>forks = 5</code>替换成<code>forks  = 10</code>目的是为了将同步运行速度提升1倍，即同一时间在10台主机上面执行playbook。缩短了一半的时间</p>
 <blockquote>
@@ -1219,91 +1309,6 @@ pip install shadowsocks</code></pre><p>Windows:</p>
 
 
   
-    <article id="post-Chmod-Chown-WSL-Improvements" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/06/Chmod-Chown-WSL-Improvements/">Chmod/Chown WSL Improvements</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/06/Chmod-Chown-WSL-Improvements/" class="archive-article-date">
-  	<time datetime="2019-08-06T05:45:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>####WSL Windows 子系统linux<br>在WSL中，Windows的目录都存在与<code>/mnt</code>目录里。<code>ls -l</code>可以看到<code>WSL</code>在<code>Windows</code>里面的拥有<code>777</code>最高选项的。<br><img src="/images/sceen_WSL_0.png" alt="Sceen"></p>
-<p>但是我们要更改文件选项使用<code>chmod 0600 file</code>的时候，并不能更改文件的权限。这时候我们就要去更改<code>/mnt/d</code>的挂载方式。<br>解决详细方案来自<a href="https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/" target="_blank" rel="noopener">microsoft帮助</a></p>
-<p>您现在可以使用chmod / chown设置文件的所有者和组，  并在WSL中修改读/写/执行权限。您还可以创建特殊文件，如fifos，unix套接字和设备文件。我们在DrvFs中引入了新的安装选项，用于将权限投射到文件上，同时在文件和文件夹上提供新的Linux元数据。</p>
-<p>还有一个步骤中，您必须采取之前，你可以享受这些新功能：你必须卸载drvfs 并与“元数据”标志重新安装。去做这个： </p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">按需使用磁盘C或D 或者其他</span></span><br><span class="line">sudo umount /mnt/d</span><br><span class="line">sudo mount -t drvfs D: /mnt/d -o metadata</span><br></pre></td></tr></table></figure>
-
-<p>到这，<code>WSL</code>就有随意更替<code>Windows</code>文件的权限。</p>
-<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 0600 .ssh/*</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/06/Chmod-Chown-WSL-Improvements/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1414,19 +1419,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">centos</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">centos</a>
               </li>
              
               <li class="article-tag-list-item">

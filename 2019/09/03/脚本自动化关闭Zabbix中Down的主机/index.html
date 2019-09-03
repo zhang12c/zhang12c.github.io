@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://zhang12c.bithub.xin">
-  <title>云维</title>
+  <title>脚本自动化关闭Zabbix中Down的主机 | 云维</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="博文，让学习留下印记">
-<meta property="og:type" content="website">
-<meta property="og:title" content="云维">
-<meta property="og:url" content="https://zhang12c.bithub.xin/page/5/index.html">
+  <meta name="description" content="以下我使用Python通过Py-Zabbix的API来进行关闭Zabbix中已经Down的主机。基本思路是  获得前所属组的IP 通过telnet去检验主机是否Down 关闭主机  如下是脚本初始小damo，萌新一定要先测试脚本是不是符合你的生产环境后再在正式环境下执行 1234567891011121314151617181920212223242526272829303132333435363">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脚本自动化关闭Zabbix中Down的主机">
+<meta property="og:url" content="https://zhang12c.bithub.xin/2019/09/03/脚本自动化关闭Zabbix中Down的主机/index.html">
 <meta property="og:site_name" content="云维">
-<meta property="og:description" content="博文，让学习留下印记">
+<meta property="og:description" content="以下我使用Python通过Py-Zabbix的API来进行关闭Zabbix中已经Down的主机。基本思路是  获得前所属组的IP 通过telnet去检验主机是否Down 关闭主机  如下是脚本初始小damo，萌新一定要先测试脚本是不是符合你的生产环境后再在正式环境下执行 1234567891011121314151617181920212223242526272829303132333435363">
 <meta property="og:locale" content="Chinese">
+<meta property="og:updated_time" content="2019-09-03T10:55:45.372Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="云维">
-<meta name="twitter:description" content="博文，让学习留下印记">
+<meta name="twitter:title" content="脚本自动化关闭Zabbix中Down的主机">
+<meta name="twitter:description" content="以下我使用Python通过Py-Zabbix的API来进行关闭Zabbix中已经Down的主机。基本思路是  获得前所属组的IP 通过telnet去检验主机是否Down 关闭主机  如下是脚本初始小damo，萌新一定要先测试脚本是不是符合你的生产环境后再在正式环境下执行 1234567891011121314151617181920212223242526272829303132333435363">
   
     <link rel="alternative" href="/atom.xml" title="云维" type="application/atom+xml">
   
@@ -157,47 +158,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-e6-99-ba-e6-85-a7-e6-a2-af-e5-ad-90-e5-86-b2-e6-b5-aa-e5-b0-b1-e6-98-af-e8-bf-99-e4-b9-88-e7-ae-80-e5-8d-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-脚本自动化关闭Zabbix中Down的主机" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/24/e6-99-ba-e6-85-a7-e6-a2-af-e5-ad-90-e5-86-b2-e6-b5-aa-e5-b0-b1-e6-98-af-e8-bf-99-e4-b9-88-e7-ae-80-e5-8d-95/">一键智慧梯子-冲浪就是这么简单</a>
+    <h1 class="article-title" itemprop="name">
+      脚本自动化关闭Zabbix中Down的主机
     </h1>
   
 
         
-        <a href="/2018/04/24/e6-99-ba-e6-85-a7-e6-a2-af-e5-ad-90-e5-86-b2-e6-b5-aa-e5-b0-b1-e6-98-af-e8-bf-99-e4-b9-88-e7-ae-80-e5-8d-95/" class="archive-article-date">
-  	<time datetime="2018-04-24T01:05:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-24</time>
+        <a href="/2019/09/03/脚本自动化关闭Zabbix中Down的主机/" class="archive-article-date">
+  	<time datetime="2019-09-03T10:47:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>转载于：秋水逸冰 » Shadowsocks Python版一键安装脚本</p>
-<p><strong>前提你要有国外的云服务器，我自己是用vulter的KVM<br>zzk的推荐链接<a href="https://www.vultr.com/?ref=7284272" target="_blank" rel="noopener">https://www.vultr.com/?ref=7284272 </a><br>支持支付宝，新用户注册也有优惠送$10,可以当玩具玩玩</strong></p>
-<p><strong>本脚本适用环境：</strong><br> 系统支持：CentOS 6，7，Debian，Ubuntu<br> 内存要求：≥128M<br> 日期：2018 年 02 月 07 日<br><strong>默认配置：</strong><br> 服务器端口：自己设定（如不设定，默认从 9000-19999 之间随机生成）<br> 密码：自己设定（如不设定，默认为 teddysun.com）<br> 加密方式：自己设定（如不设定，默认为 aes-256-gcm）<br> 备注：脚本默认创建单用户配置文件，如需配置多用户，安装完毕后参照下面的教程示例手动修改配置文件后重启即可。</p>
-<p><strong>Shadowsocks for Windows 客户端下载：</strong><br> <a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-windows/releases</a></p>
-<p><strong>使用方法：</strong><br> 使用root用户登录，运行以下命令：</p>
-<p>wget –no-check-certificate -O shadowsocks.sh <a href="https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh" target="_blank" rel="noopener">https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh</a><br>chmod +x shadowsocks.sh<br>./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log</p>
-<p><strong>安装完成后，脚本提示如下：</strong></p>
-<p>Congratulations, Shadowsocks-python server install completed!<br>Your Server IP        :your_server_ip<br>Your Server Port      :your_server_port<br>Your Password         :your_password<br>Your Encryption Method:your_encryption_method</p>
-<p>Welcome to visit:<a href="https://teddysun.com/342.html" target="_blank" rel="noopener">https://teddysun.com/342.html</a><br>Enjoy it!</p>
-<p><strong>卸载方法：</strong><br> 使用root用户登录，运行以下命令：</p>
-<p>./shadowsocks.sh uninstall</p>
-<p>单用户配置文件示例（2015 年 08 月 28 日修正）：<br> 配置文件路径：/etc/shadowsocks.json</p>
-<p>{<br>    “server”:”0.0.0.0”,<br>    “server_port”:your_server_port,<br>    “local_address”:”127.0.0.1”,<br>    “local_port”:1080,<br>    “password”:”your_password”,<br>    “timeout”:300,<br>    “method”:”your_encryption_method”,<br>    “fast_open”: false<br>}</p>
-<p>多用户多端口配置文件示例（2015 年 08 月 28 日修正）：<br> 配置文件路径：/etc/shadowsocks.json</p>
-<p>{<br>    “server”:”0.0.0.0”,<br>    “local_address”:”127.0.0.1”,<br>    “local_port”:1080,<br>    “port_password”:{<br>         “8989”:”password0”,<br>         “9001”:”password1”,<br>         “9002”:”password2”,<br>         “9003”:”password3”,<br>         “9004”:”password4”<br>    },<br>    “timeout”:300,<br>    “method”:”your_encryption_method”,<br>    “fast_open”: false<br>}</p>
-<p>使用命令（2015 年 08 月 28 日修正）：<br> 启动：/etc/init.d/shadowsocks start<br> 停止：/etc/init.d/shadowsocks stop<br> 重启：/etc/init.d/shadowsocks restart<br> 状态：/etc/init.d/shadowsocks status</p>
+        <p>以下我使用Python通过Py-Zabbix的API来进行关闭Zabbix中已经Down的主机。基本思路是</p>
+<ol>
+<li>获得前所属组的IP</li>
+<li>通过telnet去检验主机是否Down</li>
+<li>关闭主机</li>
+</ol>
+<p>如下是脚本初始小damo，<em>萌新一定要先测试脚本是不是符合你的生产环境后再在正式环境下执行</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#！/bin/env python</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> telnetlib</span><br><span class="line"><span class="keyword">import</span> pyzabbix</span><br><span class="line"><span class="keyword">from</span> pyzabbix <span class="keyword">import</span> ZabbixAPI</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">web = input(<span class="string">"Input Your Zabbix-Web address:"</span>)</span><br><span class="line">username = input(<span class="string">"API User :"</span>)</span><br><span class="line">passwd = input(<span class="string">"Password:"</span>)</span><br><span class="line">groupids = input(<span class="string">"HostGroup1:15\nHostGroup2:16\nInput Your Group: "</span>)</span><br><span class="line"><span class="comment">#check Your Password</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    zapi = ZabbixAPI(url=web, user=username, password=passwd)</span><br><span class="line">    print(<span class="string">"认证成功"</span>)</span><br><span class="line">    zapi.do_request(<span class="string">'user.logout'</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"用户认证错误！！脚本退出"</span>)</span><br><span class="line">    os._exit(<span class="number">0</span>)</span><br><span class="line"><span class="comment">#Get Host IP From Zabbix</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ZabbixIP</span><span class="params">()</span>:</span></span><br><span class="line">    zapi = ZabbixAPI(url=web, user=username, password=passwd)</span><br><span class="line">    <span class="comment">#获得输出结果的个数</span></span><br><span class="line">    result1 = zapi.do_request(<span class="string">"host.get"</span>, &#123;<span class="string">"groupids"</span>:groupids, <span class="string">"output"</span>: [<span class="string">"name"</span>], <span class="string">'countOutput'</span>: <span class="literal">True</span>&#125;)</span><br><span class="line">    <span class="comment">#输出结果带IP</span></span><br><span class="line">    result2 = zapi.do_request(<span class="string">"host.get"</span>, &#123;<span class="string">"groupids"</span>:groupids, <span class="string">"output"</span>: [<span class="string">"name"</span>], <span class="string">"selectInterfaces"</span>: [<span class="string">"interfaces"</span>, <span class="string">"ip"</span>]&#125;)</span><br><span class="line">    host_count = int(result1.get(<span class="string">u'result'</span>))</span><br><span class="line">    <span class="comment">#初始化IPList，一会拿来装IP</span></span><br><span class="line">    IPList = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(host_count):</span><br><span class="line">        num = i</span><br><span class="line">        <span class="comment">#分别输出元组</span></span><br><span class="line">        VeeeHostList = result2.get(<span class="string">u'result'</span>)[num]</span><br><span class="line">        <span class="comment"># print(VeeeHostList)</span></span><br><span class="line">        <span class="comment">#得到一个包含ip的元组 eg：&#123;interfaces:["ip":"0.0.0.0"]&#125;</span></span><br><span class="line">        HostIP = VeeeHostList.get(<span class="string">'interfaces'</span>)</span><br><span class="line">        <span class="comment">#到元组里面的数列["ip":"0.0.0.0"]</span></span><br><span class="line">        IpTup = HostIP[<span class="number">0</span>]</span><br><span class="line">        Ip = IpTup.get(<span class="string">r"ip"</span>)</span><br><span class="line">        <span class="comment">#print(Ip)</span></span><br><span class="line">        IPList.append(Ip)</span><br><span class="line">    zapi.do_request(<span class="string">'user.logout'</span>)</span><br><span class="line">    <span class="keyword">return</span> IPList</span><br><span class="line"><span class="comment">#做telnet 测试端口是否开放。即检测服务器是否在线，不在线则关闭主机</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">telenetlib</span><span class="params">()</span>:</span></span><br><span class="line">    WrongIpList = []</span><br><span class="line">    RightIpList = []</span><br><span class="line">    <span class="keyword">for</span> ip <span class="keyword">in</span> IpGroup:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            tn = telnetlib.Telnet(host=ip,port=<span class="number">22</span>,timeout=<span class="number">5</span>)</span><br><span class="line">            print(<span class="string">"狗屎笨笨"</span>)</span><br><span class="line">            RightIpList.append(ip)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">"there is sometime wrong with "</span> + ip + <span class="string">"!!!"</span>)</span><br><span class="line">            WrongIpList.append(ip)</span><br><span class="line">    <span class="keyword">return</span> WrongIpList,RightIpList</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">UpdateHost</span><span class="params">()</span>:</span></span><br><span class="line">    zapi = ZabbixAPI(url=web, user=username, password=passwd)</span><br><span class="line">    <span class="keyword">for</span> Winterface <span class="keyword">in</span> IpWrongGroup:</span><br><span class="line">        result3 = zapi.do_request(<span class="string">"host.get"</span>,&#123;<span class="string">"output"</span>:<span class="string">"hostid"</span>,<span class="string">"selectInterfaces"</span>:[<span class="string">"interfaces"</span>,<span class="string">"ip"</span>],<span class="string">"filter"</span>:&#123;<span class="string">"ip"</span>:Winterface&#125;&#125;)</span><br><span class="line">        result4 = str(result3.get(<span class="string">u'result'</span>)).split(<span class="string">'\''</span>)</span><br><span class="line">        hostid = result4[<span class="number">3</span>]</span><br><span class="line">        zapi.do_request(<span class="string">"host.update"</span>,&#123;<span class="string">"hostid"</span>:hostid,<span class="string">"status"</span>:<span class="number">1</span>&#125;)</span><br><span class="line">    <span class="keyword">for</span> Rinterface <span class="keyword">in</span> IpRightGroup:</span><br><span class="line">        result3 = zapi.do_request(<span class="string">"host.get"</span>,&#123;<span class="string">"output"</span>:<span class="string">"hostid"</span>,<span class="string">"selectInterfaces"</span>:[<span class="string">"interfaces"</span>,<span class="string">"ip"</span>],<span class="string">"filter"</span>:&#123;<span class="string">"ip"</span>:Rinterface&#125;&#125;)</span><br><span class="line">        result4 = str(result3.get(<span class="string">u'result'</span>)).split(<span class="string">'\''</span>)</span><br><span class="line">        hostid = result4[<span class="number">3</span>]</span><br><span class="line">        zapi.do_request(<span class="string">"host.update"</span>,&#123;<span class="string">"hostid"</span>:hostid,<span class="string">"status"</span>:<span class="number">0</span>&#125;)</span><br><span class="line">    zapi.do_request(<span class="string">'user.logout'</span>)</span><br><span class="line">IpGroup = ZabbixIP()</span><br><span class="line">IpWrongGroup,IpRightGroup = telenetlib()</span><br><span class="line">UpdateHost()</span><br></pre></td></tr></table></figure>
+
+<p>敬上，溜了。<br>有啥问题，你可以联系博主 Telegram：@tingbob</p>
 
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -212,11 +226,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/代理//" class="article-tag-list-link color3">代理</a>
+        			<a href="/categories/linux/zabbix//" class="article-tag-list-link color2">zabbix</a>
         		</li>
       		
 		</ul>
@@ -224,16 +238,75 @@
 
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/24/e6-99-ba-e6-85-a7-e6-a2-af-e5-ad-90-e5-86-b2-e6-b5-aa-e5-b0-b1-e6-98-af-e8-bf-99-e4-b9-88-e7-ae-80-e5-8d-95/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://zhang12c.bithub.xin/2019/09/03/脚本自动化关闭Zabbix中Down的主机/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/27/logrotate日志轮播/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">logrotate日志轮播</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -253,697 +326,14 @@
 
 
 
-
-  
-    <article id="post-nfs-e6-9c-8d-e5-8a-a1-e5-99-a8-e9-b8-9f-e5-8f-94" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/24/nfs-e6-9c-8d-e5-8a-a1-e5-99-a8-e9-b8-9f-e5-8f-94/">NFS 服务器(鸟叔)</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/24/nfs-e6-9c-8d-e5-8a-a1-e5-99-a8-e9-b8-9f-e5-8f-94/" class="archive-article-date">
-  	<time datetime="2018-04-24T00:29:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>network files system</strong></p>
-<p><img src="http://cn.linux.vbird.org/image/logo.png" alt="大标题的图示">13.2 NFS Server 端的设定</p>
-<p>既然要使用 NFS 的话，就得要安装 NFS 所需要的软件了！底下让我们查询一下系统有无安装所需要的软件， NFS 软件的架构以及如何设定 NFS 服务器吧！ ^_^</p>
-<hr>
-<p><img src="http://cn.linux.vbird.org/image/logo.png" alt="小标题的图示">13.2.1 所需要的软件</p>
-<p>以 CentOS 6.x 为例的话，要设定好 NFS 服务器我们必须要有两个软件才行，分别是：</p>
-<ul>
-<li>RPC 主程序：rpcbind就如同刚刚提的到，我们的 NFS 其实可以被视为一个 RPC 服务，而要启动任何一个 RPC 服务之前，我们都需要做好 port 的对应 (mapping) 的工作才行，这个工作其实就是『 rpcbind 』这个服务所负责的！也就是说， 在启动任何一个 RPC 服务之前，我们都需要启动 rpcbind 才行！ (在 CentOS 5.x 以前这个软件称为 portmap，在 CentOS 6.x 之后才称为 rpcbind 的！)</li>
-<li>NFS 主程序：nfs-utils就是提供 rpc.nfsd 及 rpc.mountd 这两个 NFS daemons 与其他相关 documents 与说明文件、执行文件等的软件！这个就是 NFS 服务所需要的主要软件啦！一定要有喔！</li>
-</ul>
-<p>好了，知道我们需要这两个软件之后，现在干嘛？赶快去你的系统先用 RPM 看一下有没有这两个软件啦！ 没有的话赶快用 RPM 或 yum 去安装喔！不然就玩不下去了！</p>
-<p>例题：</p>
-<p>请问我的主机是以 RPM 为套件管理的 Linux distribution ，例如 Red Hat, CentOS 与 SuSE 等版本，那么我要如何知道我的主机里面是否已经安装了 rpcbind 与 nfs 相关的软件呢？</p>
-<p>答：</p>
-<p>简单的使用『 rpm -qa | grep nfs 』与『 rpm -qa | grep rpcbind 』即可知道啦！如果没有安装的话， 在 CentOS 内可以使用『 <a href="http://linux.vbird.org/linux_server/0210network-secure.php#update" target="_blank" rel="noopener">yum</a> install nfs-utils 』来安装！</p>
-<hr>
-<p><img src="http://cn.linux.vbird.org/image/logo.png" alt="小标题的图示">13.2.2 NFS 的软件结构</p>
-<p>NFS 这个咚咚真的是很简单，上面我们提到的 NFS 软件中，配置文件只有一个，执行档也不多， 记录文件也三三两两而已吶！赶紧先来看一看吧！ ^_^</p>
-<ul>
-<li>主要配置文件：/etc/exports<br>这个档案就是 NFS 的主要配置文件了！不过，系统并没有默认值，所以这个档案『 不一定会存在』，你可能必须要使用 vim 主动的建立起这个档案喔！我们等一下要谈的设定也仅只是这个档案而已吶！</li>
-<li>NFS 文件系统维护指令：/usr/sbin/exportfs<br>这个是维护 NFS 分享资源的指令，我们可以利用这个指令重新分享 /etc/exports 变更的目录资源、将 NFS Server 分享的目录卸除或重新分享等等，这个指令是 NFS 系统里面相当重要的一个喔！至于指令的用法我们在底下会介绍。</li>
-<li>分享资源的登录档：/var/lib/nfs/*tab<br>在 NFS 服务器的登录文件都放置到 /var/lib/nfs/ 目录里面，在该目录下有两个比较重要的登录档， 一个是 etab ，主要记录了 NFS 所分享出来的目录的完整权限设定值；另一个 xtab 则记录曾经链接到此 NFS 服务器的相关客户端数据。</li>
-<li>客户端查询服务器分享资源的指令：/usr/sbin/showmount<br>这是另一个重要的 NFS 指令。exportfs 是用在 NFS Server 端，而 showmount 则主要用在 Client 端。这个 showmount 可以用来察看 NFS 分享出来的目录资源喔！</li>
-</ul>
-<p>就说不难吧！主要就是这几个啰！</p>
-<hr>
-<p><img src="http://cn.linux.vbird.org/image/logo.png" alt="小标题的图示">13.2.3 /etc/exports 配置文件的语法与参数</p>
-<p>在开始 NFS 服务器的设定之前，你必须要了解的是，NFS 会直接使用到核心功能，所以你的核心必须要有支持 NFS 才行。万一如果你的核心版本小于 2.2 版，或者重新自行编译过核心的话，那么就得要很注意啦！因为你可能会忘记选择 NFS 的核心支持啊！</p>
-<p>还好，我们 CentOS 或者是其他版本的 Linux ，预设核心通常是支持 NFS 功能的，所以你只要确认你的核心版本是目前新的 2.6.x 版，并且使用你的 distribution 所提供的核心，那应该就不会有问题啦！</p>
-<p><strong>Tips:</strong><br>上面会提醒您这个问题的原因是，以前鸟哥都很喜欢自行编译一个特别的核心，但是某次编译核心时，却忘记加上了 NFS 的核心功能，结果 NFS server 无论如何也搞不起来～最后才想到原来俺的核心是非正规的…</p>
-<p><img src="http://cn.linux.vbird.org/linux_server/0330nfs_files/vbird_face.gif" alt="鸟哥的图示" title="鸟哥的图示"></p>
-<p>至于 NFS 服务器的架设实在很简单，你只要编辑好主要配置文件 /etc/exports 之后，先启动 rpcbind (若已经启动了，就不要重新启动)，然后再启动 nfs ，你的 NFS 就成功了！ 不过这样的设定能否对客户端生效？那就得要考虑你权限方面的设定能力了。废话少说，我们就直接来看看那个 /etc/exports 应该如何设定吧！某些 distributions 并不会主动提供 /etc/exports 档案，所以请你自行手动建立它吧。</p>
-<p>[root@www ~]# vim /etc/exports<br>/tmp         192.168.100.0/24(ro)   localhost(rw)   *.ev.ncku.edu.tw(ro,sync)<br>[分享目录]   [第一部主机(权限)]     [可用主机名]    [可用通配符]</p>
-<p>你看看，这个配置文件有够简单吧！每一行最前面是要分享出来的目录，注意喔！是以目录为单位啊！ 然后这个目录可以依照不同的权限分享给不同的主机，像鸟哥上面的例子说明是： 要将 /tmp 分别分享给三个不同的主机或网域的意思。记得主机后面以小括号 () 设计权限参数， 若权限参数不止一个时，则以逗号 (,) 分开。且主机名与小括号是连在一起的喔！在这个档案内也可以利用 # 来批注呢。</p>
-<p>至于主机名的设定主要有几个方式：</p>
-<ul>
-<li>可以使用完整的 IP 或者是网域，例如 192.168.100.10 或 192.168.100.0/24 ，或 192.168.100.0/255.255.255.0 都可以接受！</li>
-<li>也可以使用主机名，但这个主机名必须要在 /etc/hosts 内，或可使用 DNS 找到该名称才行啊！反正重点是可找到 IP 就是了。如果是主机名的话，那么他可以支持通配符，例如 * 或 ? 均可接受。</li>
-</ul>
-<p>至于权限方面 (就是小括号内的参数) 常见的参数则有：</p>
-<p>参数值</p>
-<p>内容说明</p>
-<p>rw<br>ro</p>
-<p>该目录分享的权限是可擦写 (read-write) 或只读 (read-only)，但最终能不能读写，还是与文件系统的 rwx 及身份有关。</p>
-<p>sync<br>async</p>
-<p>sync 代表数据会同步写入到内存与硬盘中，async 则代表数据会先暂存于内存当中，而非直接写入硬盘！</p>
-<p>no_root_squash<br>root_squash</p>
-<p>客户端使用 NFS 文件系统的账号若为 root 时，系统该如何判断这个账号的身份？预设的情况下，客户端 root 的身份会由 root_squash 的设定压缩成 nfsnobody， 如此对服务器的系统会较有保障。但如果你想要开放客户端使用 root 身份来操作服务器的文件系统，那么这里就得要开 no_root_squash 才行！</p>
-<p>all_squash</p>
-<p>不论登入 NFS 的使用者身份为何， 他的身份都会被压缩成为匿名用户，通常也就是 nobody(nfsnobody) 啦！</p>
-<p>anonuid<br>anongid</p>
-<p>anon 意指 anonymous (匿名者) 前面关于 *_squash 提到的匿名用户的 UID 设定值，通常为 nobody(nfsnobody)，但是你可以自行设定这个 UID 的值！当然，这个 UID 必需要存在于你的 /etc/passwd 当中！ anonuid 指的是 UID 而 anongid 则是群组的 GID 啰。</p>
-<p>这是几个比较常见的权限参数，如果你有兴趣玩其他的参数时，请自行 man exports 可以发现很多有趣的数据。 接下来我们利用上述的几个参数来实际思考一下几个有趣的小习题：</p>
-<p>例题一：让 root 保有 root 的权限</p>
-<p>我想将 /tmp 分享出去给大家使用，由于这个目录本来就是大家都可以读写的，因此想让所有的人都可以存取。此外，我要让 root 写入的档案还是具有 root 的权限，那如何设计配置文件？</p>
-<p>答：</p>
-<p>[root@www ~]# vim /etc/exports<br># 任何人都可以用我的 /tmp ，用通配符来处理主机名，重点在 no_root_squash<br>/tmp  *(rw,no_root_squash)</p>
-<p>主机名可以使用通配符，上头表示无论来自哪里都可以使用我的 /tmp 这个目录。 再次提醒，『 *(rw,no_root_squash) 』这一串设定值中间是没有空格符的喔！而 /tmp 与 *(rw,no_root_squash) 则是有空格符来隔开的！特别注意到那个 no_root_squash 的功能！在这个例子中，如果你是客户端，而且你是以 root 的身份登入你的 Linux 主机，那么当你 mount 上我这部主机的 /tmp 之后，你在该 mount 的目录当中，将具有『root 的权限！』</p>
-<p>例题二：同一目录针对不同范围开放不同权限</p>
-<p>我要将一个公共的目录 /home/public 公开出去，但是只有限定我的局域网络 192.168.100.0/24 这个网域且加入 vbirdgroup (第一章的例题建立的群组) 的用户才能够读写，其他来源则只能读取。</p>
-<p>答：</p>
-<p>[root@www ~]# mkdir /home/public<br>[root@www ~]# setfacl -m g:vbirdgroup:rwx /home/public<br>[root@www ~]# vim /etc/exports<br>/tmp          *(rw,no_root_squash)<br>/home/public  192.168.100.0/24(rw)    *(ro)<br># 继续累加在后面，注意，我有将主机与网域分为两段 (用空白隔开) 喔！</p>
-<p>上面的例子说的是，当我的 IP 是在 192.168.100.0/24 这个网段的时候，那么当我在 Client 端挂载了 Server 端的 /home/public 后，针对这个被我挂载的目录我就具有可以读写的权限～ 至于如果我不是在这个网段之内，那么这个目录的数据我就仅能读取而已，亦即为只读的属性啦！</p>
-<p>需要注意的是，通配符仅能用在主机名的分辨上面，IP 或网段就只能用 192.168.100.0/24 的状况， 不可以使用 192.168.100.* 喔！</p>
-<p>例题三：仅给某个单一主机使用的目录设定</p>
-<p>我要将一个私人的目录 /home/test 开放给 192.168.100.10 这个 Client 端的机器来使用时，该如何设定？ 假设使用者的身份是 dmtsai 才具有完整的权限时。</p>
-<p>答：</p>
-<p>[root@www ~]# mkdir /home/test<br>[root@www ~]# setfacl -m u:dmtsai:rwx /home/test<br>[root@www ~]# vim /etc/exports<br>/tmp          *(rw,no_root_squash)<br>/home/public  192.168.100.0/24(rw)    *(ro)<br>/home/test    192.168.100.10(rw)<br># 只要设定 IP 正确即可！</p>
-<p>这样就设定完成了！而且，只有 192.168.100.10 这部机器才能对 /home/test 这个目录进行存取喔！</p>
-<p>例题四：开放匿名登录的情况</p>
-<p>我要让 *.centos.vbird 网域的主机，登入我的 NFS 主机时，可以存取 /home/linux ，但是他们存数据的时候，我希望他们的 UID 与 GID 都变成 45 这个身份的使用者，假设我 NFS 服务器上的 UID 45 与 GID 45 的用户/组名为 nfsanon。</p>
-<p>答：</p>
-<p>[root@www ~]# groupadd -g 45 nfsanon<br>[root@www ~]# useradd -u 45 -g nfsanon nfsanon<br>[root@www ~]# mkdir /home/linux<br>[root@www ~]# setfacl -m u:nfsanon:rwx /home/linux<br>[root@www ~]# vim /etc/exports<br>/tmp          *(rw,no_root_squash)<br>/home/public  192.168.100.0/24(rw)    *(ro)<br>/home/test    192.168.100.10(rw)<br>/home/linux   *.centos.vbird(rw,all_squash,anonuid=45,anongid=45)<br># 如果要开放匿名，那么重点是 all_squash，并且要配合 anonuid 喔！</p>
-<p>特别注意到那个 all_squash 与 anonuid, anongid 的功能！如此一来，当 clientlinux.centos.vbird 登入这部 NFS 主机，并且在 /home/linux 写入档案时，该档案的所有人与所有群组，就会变成 /etc/passwd 里面对应的 UID 为 45 的那个身份的使用者了！</p>
-<p>上面四个案例的权限如果依照<a href="http://cn.linux.vbird.org/linux_server/0330nfs_2.php#What_NFS_perm" target="_blank" rel="noopener">13.1.4 存取设定权限</a>来思考的话， 那么权限会是什么情况呢？让我们来检查一下：</p>
-<hr>
-<pre><code>客户端与服务器端具有相同的 UID 与账号：</code></pre><p>假设我在 192.168.100.10 登入这部 NFS (IP 假设为 192.168.100.254) 服务器，并且我在 192.168.100.10 的账号为 dmtsai 这个身份，同时，在这部 NFS 上面也有 dmtsai 这个账号， 并具有相同的 UID ，果真如此的话，那么：</p>
-<ol>
-<li>由于 192.168.100.254 这部 NFS 服务器的 /tmp 权限为 -rwxrwxrwt ，所以我 (dmtsai 在 192.168.100.10 上面) 在 /tmp 底下具有存取的权限，并且写入的档案所有人为 dmtsai ；</li>
-<li>在 /home/public 当中，由于我有读写的权限，所以如果在 /home/public 这个目录的权限对于 dmtsai 有开放写入的话，那么我就可以读写，并且我写入的档案所有人是 dmtsai 。但是万一 /home/public 对于 dmtsai 这个使用者并没有开放可以写入的权限时， 那么我还是没有办法写入档案喔！这点请特别留意！</li>
-<li>在 /home/test 当中，我的权限与 /home/public 相同的状态！还需要 NFS 服务器的 /home/test 对于 dmtsai 有开放权限；</li>
-<li>在 /home/linux 当中就比较麻烦！因为不论你是何种 user ，你的身份一定会被变成 UID=45 这个账号！所以，这个目录就必需要针对 UID = 45 的那个账号名称，修改他的权限才行！</li>
-</ol>
-<hr>
-<pre><code>客户端与服务器端的账号并未相同时：</code></pre><p>假如我在 192.168.100.10 的身份为 vbird (uid 为 600)，但是 192.168.100.254 这部 NFS 主机却没有 uid=600 的账号时，情况会变成怎样呢？</p>
-<ol>
-<li>我在 /tmp 底下还是可以写入，只是该档案的权限会保持为 UID=600 ，因此服务器端看起来就会怪怪的， 因为找不到 UID=600 这个账号的显示，故档案拥有者会填上 600 呦！</li>
-<li>我在 /home/public 里面是否可以写入，还需要视 /home/public 的权限而定，不过，由于没有加上 all_squash 的参数， 因此在该目录下会保留客户端的使用者 UID，同上一点所示。</li>
-<li>/home/test 的观点与 /home/public 相同！</li>
-<li>/home/linux 底下，我的身份就被变成 UID = 45 那个使用者就是了！</li>
-</ol>
-<hr>
-<pre><code>当客户端的身份为 root 时：</code></pre><p>假如我在 192.168.100.10 的身份为 root 呢？ root 这个账号每个系统都会有呀！权限变成怎样呢？</p>
-<ol>
-<li>我在 /tmp 里面可以写入，并且由于 no_root_squash 的参数，改变了预设的 root_squash 设定值，所以在 /tmp 写入的档案所有人为 root 喔！</li>
-<li>我在 /home/public 底下的身份还是被压缩成为 nobody 了！因为默认属性里面都具有 root_squash 呢！所以，如果 /home/public 有针对 nobody 开放写入权限时，那么我就可以写入，但是档案所有人变成 nobody 就是了！</li>
-<li>/home/test 与 /home/public 相同；</li>
-<li>/home/linux 的情况中，我 root 的身份也被压缩成为 UID = 45 的那个使用者了！</li>
-</ol>
-<hr>
-<p>这样的权限讲解之后，你可以了解了吗？这里是最重要的地方，如果这一关通过了，底下的咚咚就没有问题啦！ ^_^！ 在你将本文读完后，最好还是回到<a href="http://cn.linux.vbird.org/linux_server/0330nfs_2.php#What_NFS_perm" target="_blank" rel="noopener">13.1.4 NFS 的档案访问权限</a>好好的瞧一瞧， 才能解决 NFS 的问题喔！</p>
-<hr>
-<p><img src="http://cn.linux.vbird.org/image/logo.png" alt="小标题的图示">13.2.4 启动 NFS</p>
-<p>配置文件搞定后，当然要开始来启动才行啊！而前面我们也提到过，NFS 的启动还需要 rpcbind 的协助才行啊！ 所以赶紧来启动吧！</p>
-<p>[root@www ~]# /etc/init.d/rpcbind start<br># 如果 rpcbind 本来就已经在执行了，那就不需要启动啊！</p>
-<p>[root@www ~]# /etc/init.d/nfs start<br># 有时候某些 distributions 可能会出现如下的警告讯息：<br>exportfs: /etc/exports [3]: No ‘sync’ or ‘async’ option specified<br>for export “192.168.100.10:/home/test”.<br>  Assuming default behaviour (‘sync’).<br># 上面的警告讯息仅是在告知因为我们没有指定 sync 或 async 的参数，<br># 则 NFS 将默认会使用 sync 的信息而已。你可以不理他，也可以加入 /etc/exports。</p>
-<p>[root@www ~]# /etc/init.d/nfslock start<br>[root@www ~]# chkconfig rpcbind on<br>[root@www ~]# chkconfig nfs on<br>[root@www ~]# chkconfig nfslock on</p>
-<p>那个 rpcbind 根本就不需要设定！只要直接启动它就可以啦！启动之后，会出现一个 port 111 的 sunrpc 的服务，那就是 rpcbind 啦！至于 nfs 则会启动至少两个以上的 daemon 出现！然后就开始在监听 Client 端的需求啦！你必须要很注意屏幕上面的输出信息， 因为如果配置文件写错的话，屏幕上会显示出错误的地方喔！</p>
-<p>此外，如果你想要增加一些 NFS 服务器的数据一致性功能时，可能需要用到 rpc.lockd 及 rpc.statd 等 RPC 服务， 那么或许你可以增加一个服务，那就是 nfslock 啰！启动之后，请赶快到 /var/log/messages 里面看看有没有被正确的启动呢？</p>
-<p>[root@www ~]# tail /var/log/messages<br>Jul 27 17:10:39 www kernel: Installing knfsd (copyright (C) 1996 <a href="mailto:okir@monad.swb.de" target="_blank" rel="noopener">okir@monad.swb.de</a>).<br>Jul 27 17:10:54 www kernel: NFSD: Using /var/lib/nfs/v4recovery as the NFSv4 state<br>recovery directory<br>Jul 27 17:10:54 www kernel: NFSD: starting 90-second grace period<br>Jul 27 17:11:32 www rpc.statd[3689]: Version 1.2.2 starting</p>
-<p>在确认启动没有问题之后，接下来我们来瞧一瞧那么 NFS 到底开了哪些埠口？</p>
-<p>[root@www ~]# netstat -tulnp| grep -E ‘(rpc|nfs)’<br>Active Internet connections (only servers)<br>Proto Recv-Q Send-Q Local Address  Foreign Address  State   PID/Program name<br>tcp        0      0 0.0.0.0:875    0.0.0.0:*        LISTEN  3631/rpc.rquotad<br>tcp        0      0 0.0.0.0:111    0.0.0.0:*        LISTEN  3601/rpcbind<br>tcp        0      0 0.0.0.0:48470  0.0.0.0:*        LISTEN  3647/rpc.mountd<br>tcp        0      0 0.0.0.0:59967  0.0.0.0:*        LISTEN  3689/rpc.statd<br>tcp        0      0 0.0.0.0:2049   0.0.0.0:*        LISTEN  -<br>udp        0      0 0.0.0.0:875    0.0.0.0:*                3631/rpc.rquotad<br>udp        0      0 0.0.0.0:111    0.0.0.0:*                3601/rpcbind<br>udp        0      0 0.0.0.0:897    0.0.0.0:*                3689/rpc.statd<br>udp        0      0 0.0.0.0:46611  0.0.0.0:*                3647/rpc.mountd<br>udp        0      0 0.0.0.0:808    0.0.0.0:*                3601/rpcbind<br>udp        0      0 0.0.0.0:46011  0.0.0.0:*                3689/rpc.statd</p>
-<p>注意看到上面喔！总共产生了好多的 port 喔！真是可怕！不过主要的埠口是：</p>
-<ul>
-<li>rpcbind 启动的 port 在 111 ，同时启动在 UDP 与 TCP；</li>
-<li>nfs 本身的服务启动在 port 2049 上头！</li>
-<li>其他 rpc.* 服务启动的 port 则是随机产生的，因此需向 port 111 注册。</li>
-</ul>
-<p>好了，那我怎么知道每个 RPC 服务的注册状况？没关系，你可以使用 rpcinfo 来观察的。</p>
-<p>[root@www ~]# rpcinfo -p [IP|hostname]<br>[root@www ~]# rpcinfo -t|-u  IP|hostname 程序名称<br>选项与参数：<br>-p ：针对某 IP (未写则预设为本机) 显示出所有的 port 与 porgram 的信息；<br>-t ：针对某主机的某支程序检查其 TCP 封包所在的软件版本；<br>-u ：针对某主机的某支程序检查其 UDP 封包所在的软件版本；</p>
-<p># 1. 显示出目前这部主机的 RPC 状态<br>[root@www ~]# rpcinfo -p localhost<br>   program vers proto   port  service<br>    100000    4   tcp    111  portmapper<br>    100000    3   tcp    111  portmapper<br>    100000    2   tcp    111  portmapper<br>    100000    4   udp    111  portmapper<br>    100000    3   udp    111  portmapper<br>    100000    2   udp    111  portmapper<br>    100011    1   udp    875  rquotad<br>    100011    2   udp    875  rquotad<br>    100011    1   tcp    875  rquotad<br>    100011    2   tcp    875  rquotad<br>    100003    2   tcp   2049  nfs<br>….(底下省略)….<br># 程序代号 NFS版本 封包类型 埠口  服务名称</p>
-<p># 2. 针对 nfs 这个程序检查其相关的软件版本信息 (仅察看 TCP 封包)<br>[root@www ~]# rpcinfo -t localhost nfs<br>program 100003 version 2 ready and waiting<br>program 100003 version 3 ready and waiting<br>program 100003 version 4 ready and waiting<br># 可发现提供 nfs 的版本共有三种，分别是 2, 3, 4 版呦！</p>
-<p>仔细瞧瞧，上面出现的信息当中除了程序名称与埠口的对应可以与 netstat -tlunp 输出的结果作比对之外，还需要注意到 NFS 的版本支持！新的 NFS 版本传输速度较快，由上表看起来，我们的 NFS 至少支持到第 4 版，应该还算合理啦！ ^_^！ 如果你的 rpcinfo 无法输出，那就表示注册的数据有问题啦！可能需要重新启动 rpcbind 与 nfs 喔！</p>
-<hr>
-<p><img src="http://cn.linux.vbird.org/image/logo.png" alt="小标题的图示">13.2.5 NFS 的联机观察</p>
-<p>在你的 NFS 服务器设定妥当之后，我们可以在 server 端先自我测试一下是否可以联机喔！就是利用 showmount 这个指令来查阅！</p>
-<p>[root@www ~]# showmount [-ae] [hostname|IP]<br>选项与参数：<br>-a ：显示目前主机与客户端的 NFS 联机分享的状态；<br>-e ：显示某部主机的 /etc/exports 所分享的目录数据。</p>
-<p># 1. 请显示出刚刚我们所设定好的相关 exports 分享目录信息<br>[root@www ~]# showmount -e localhost<br>Export list for localhost:<br>/tmp         *<br>/home/linux  *.centos.vbird<br>/home/test   192.168.100.10<br>/home/public (everyone)</p>
-<p>很简单吧！所以，当你要扫瞄某一部主机他提供的 NFS 分享的目录时，就使用 showmount -e IP (或hostname) 即可！非常的方便吧！这也是 NFS client 端最常用的指令喔！ 另外， NFS 关于目录权限设定的数据非常之多！在 /etc/exports 只是比较特别的权限参数而已，还有很多预设参数呢！ 这些预设参数在哪？我们可以检查一下 /var/lib/nfs/etab 就知道了！</p>
-<p>[root@www ~]# tail /var/lib/nfs/etab<br>/home/public    192.168.100.0/24(rw,sync,wdelay,hide,nocrossmnt,secure,root_squash,<br>no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534)<br># 上面是同一行，可以看出除了 rw, sync, root_squash 等等，<br># 其实还有 anonuid 及 anongid 等等的设定！</p>
-<p>上面仅仅是一个小范例，透过分析 anonuid=65534 对比 /etc/passwd 后，会发现 CentOS 出现的是 nfsnobody 啦！这个账号在不同的版本都可能会不一样的！另外，如果有其他客户端挂载了你的 NFS 文件系统时，那么该客户端与文件系统信息就会被记录到 /var/lib/nfs/xtab 里头去的！</p>
-<p>另外，如果你想要重新处理 /etc/exports 档案，当重新设定完 /etc/exports 后需不需要重新启动 nfs ？ 不需要啦！如果重新启动 nfs 的话，要得再向 RPC 注册！很麻烦～这个时候我们可以透过 exportfs 这个指令来帮忙喔！</p>
-<p>[root@www ~]# exportfs [-aruv]<br>选项与参数：<br>-a ：全部挂载(或卸除) /etc/exports 档案内的设定<br>-r ：重新挂载 /etc/exports 里面的设定，此外，亦同步更新 /etc/exports<br>     及 /var/lib/nfs/xtab 的内容！<br>-u ：卸除某一目录<br>-v ：在 export 的时候，将分享的目录显示到屏幕上！</p>
-<p># 1. 重新挂载一次 /etc/exports 的设定<br>[root@www ~]# exportfs -arv<br>exporting 192.168.100.10:/home/test<br>exporting 192.168.100.0/24:/home/public<br>exporting *.centos.vbird:/home/linux<br>exporting *:/home/public<br>exporting *:/tmp</p>
-<p># 2. 将已经分享的 NFS 目录资源，通通都卸除<br>[root@www ~]# exportfs -auv<br># 这时如果你再使用 showmount -e localhost 就会看不到任何资源了！</p>
-<p>要熟悉一下这个指令的用法喔！这样一来，就可以直接重新 exportfs 我们的记录在 /etc/exports 的目录数据啰！但是要特别留意，如果你仅有处理配置文件，但并没有相对应的目录 (/home/public 等目录) 可以提供使用啊！ 那可能会出现一些警告讯息喔！所以记得要建立分享的目录才对！</p>
-<hr>
-<p><img src="http://cn.linux.vbird.org/image/logo.png" alt="小标题的图示">13.2.6 NFS 的安全性</p>
-<p>在 NFS 的安全性上面，有些地方是你必须要知道的喔！底下我们分别来谈一谈：</p>
-<hr>
-<pre><code>防火墙的设定问题与解决方案：</code></pre><p>一般来说， NFS 的服务仅会对内部网域开放，不会对因特网开放的。然而，如果你有特殊需求的话， 那么也可能会跨不同网域就是了。但是，NFS 的防火墙特别难搞，为什么呢？因为除了固定的 port 111, 2049 之外， 还有很多不固定的埠口是由 rpc.mountd, rpc.rquotad 等服务所开启的，所以，你的 iptables 就很难设定规则！ 那怎办？难道整个防火墙机制都要取消才可以？</p>
-<p>为了解决这个问题， CentOS 6.x 有提供一个固定特定 NFS 服务的埠口配置文件，那就是 /etc/sysconfig/nfs 啦！ 你在这个档案里面就能够指定特定的埠口，这样每次启动 nfs 时，相关服务启动的埠口就会固定，如此一来， 我们就能够设定正确的防火墙啰！这个配置文件内容很多，绝大部分的数据你都不要去更改，只要改跟 PORT 这个关键词有关的数据即可。 那么需要更改的 rpc 服务有哪些呢？主要有 mountd, rquotad, nlockmgr 这三个，所以你应该要这样改：</p>
-<p>[root@www ~]# vim /etc/sysconfig/nfs<br>RQUOTAD_PORT=1001   &lt;==约在 13 行左右<br>LOCKD_TCPPORT=30001 &lt;==约在 21 行左右<br>LOCKD_UDPPORT=30001 &lt;==约在 23 行左右<br>MOUNTD_PORT=1002    &lt;==约在 41 行左右<br># 记得设定值最左边的批注服务要拿掉之外，埠口的值你也可以自行决定。</p>
-<p>[root@www ~]# /etc/init.d/nfs restart<br>[root@www ~]# rpcinfo -p | grep -E ‘(rquota|mount|nlock)’<br>    100011    2   udp   1001  rquotad<br>    100011    2   tcp   1001  rquotad<br>    100021    4   udp  30001  nlockmgr<br>    100021    4   tcp  30001  nlockmgr<br>    100005    3   udp   1002  mountd<br>    100005    3   tcp   1002  mountd<br># 上述的输出数据已经被鸟哥汇整过了，没用到的埠口先挪掉了啦！</p>
-<p>很可怕吧！如果想要开放 NFS 给别的网域的朋友使用，又不想要让对方拥有其他服务的登入功能， 那你的防火墙就得要开放上述的十个埠口啦！有够麻烦的～假设你想要开放 120.114.140.0/24 这个网域的人能够使用你这部服务器的 NFS 的资源，且假设你已经使用<a href="http://linux.vbird.org/linux_server/0250simple_firewall.php" target="_blank" rel="noopener">第九章提供的防火墙脚本</a>， 那么你还得要这样做才能够针对该网域放行喔：</p>
-<p>[root@www ~]# vim /usr/local/virus/iptables/iptables.allow<br>iptables -A INPUT -i $EXTIF -p tcp -s 120.114.140.0/24 -m multiport <br>         –dport 111,2049,1001,1002,30001 -j ACCEPT<br>iptables -A INPUT -i $EXTIF -p udp -s 120.114.140.0/24 -m multiport <br>         –dport 111,2049,1001,1002,30001 -j ACCEPT</p>
-<p>[root@www ~]# /usr/local/virus/iptables/iptables.rule<br># 总是要重新执行这样防火墙规则才会顺利的生效啊！别忘记！别忘记！</p>
-<hr>
-<pre><code>使用 /etc/exports 设定更安全的权限：</code></pre><p>这就牵涉到你的逻辑思考了！怎么设定都没有关系，但是在『便利』与『安全』之间，要找到你的平衡点吶！善用root_squash 及 all_squash 等功能，再利用 anonuid 等等的设定来规范登入你主机的用户身份！应该还是有办法提供一个较为安全的 NFS 服务器的！</p>
-<p>另外，当然啦，你的 NFS 服务器的文件系统之权限设定也需要很留意！ 不要随便设定成为 -rwxrwxrwx ，这样会造成你的系统『很大的困扰』的啊！</p>
-<hr>
-<pre><code>更安全的 partition 规划：</code></pre><p>如果你的工作环境中，具有多部的 Linux 主机，并且预计彼此分享出目录时，那么在安装 Linux 的时候，最好就可以规划出一块 partition 作为预留之用。因为『 NFS 可以针对目录来分享』，因此，你可以将预留的 partition 挂载在任何一个挂载点，再将该挂载点 (就是目录啦！)由 /etc/exports 的设定中分享出去，那么整个工作环境中的其他 Linux 主机就可以使用该 NFS 服务器的那块预留的 partition 了！所以，在主机的规划上面，主要需要留意的只有 partition 而已。此外，由于分享的 partition 可能较容易被入侵，最好可以针对该 partition 设定比较严格的参数在 /etc/fstab 当中喔！</p>
-<p>此外，如果你的分割做的不够好，举例来说，很多人都喜欢使用懒人分割法，亦即整个系统中只有一个根目录的 partition 而已。这样做会有什么问题呢？假设你分享的是 /home 这个给一般用户的目录好了，有些用户觉得这个 NFS 的磁盘太好用了， 结果使用者就将他的一大堆暂存数据通通塞进这个 NFS 磁盘中。想一想，如果整个根目录就因为这个 /home 被塞爆了， 那么你的系统将会造成无法读写的困扰。因此，一个良好的分割规划，或者是利用磁盘配额来限制还是很重要的工作。</p>
-<hr>
-<pre><code>NFS 服务器关机前的注意事项：</code></pre><p>需要注意的是，由于 NFS 使用的这个 RPC 服务，当客户端连上服务器时，那么你的服务器想要关机， 那可就会成为『不可能的任务』！如果你的服务器上面还有客户端在联机，那么你要关机， 可能得要等到数个钟头才能够正常的关机成功！嗄！真的假的！不相信吗？不然你自个儿试试看！^_^！</p>
-<p>所以啰，建议你的 NFS Server 想要关机之前，能先『关掉 rpcbind 与 nfs 』这两个东西！ 如果无法正确的将这两个 daemons 关掉，那么先以 netstat -utlp 找出 PID ，然后以 kill 将他关掉先！这样才有办法正常的关机成功喔！这个请特别特别的注意呢！</p>
-<p>当然啦，你也可以利用 <a href="http://cn.linux.vbird.org/linux_server/0330nfs_2.php#showmount" target="_blank" rel="noopener">showmount</a> -a localhost 来查出来那个客户端还在联机？ 或者是查阅 /var/lib/nfs/rmtab 或 xtab 等档案来检查亦可。找到这些客户端后， 可以直接 call 他们啊！让他们能够帮帮忙先！ ^_^</p>
-<p>事实上，客户端以 NFS 联机到服务器端时，如果他们可以下达一些比较不那么『硬』的挂载参数时， 就能够减少这方面的问题喔！相关的安全性可以参考下一小节的 <a href="http://cn.linux.vbird.org/linux_server/0330nfs_2.php#nfsclient_mount" target="_blank" rel="noopener">客户端可处理的挂载参数与开机挂载</a>。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/NFS//" class="article-tag-list-link color4">NFS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/24/nfs-e6-9c-8d-e5-8a-a1-e5-99-a8-e9-b8-9f-e5-8f-94/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e5-ae-9e-e4-be-8b-e4-b8-8a-e5-ae-9e-e7-8e-b0-e8-bf-9c-e7-a8-8b-e6-a1-8c-e9-9d-a2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/01/e5-ae-9e-e4-be-8b-e4-b8-8a-e5-ae-9e-e7-8e-b0-e8-bf-9c-e7-a8-8b-e6-a1-8c-e9-9d-a2/">实例上实现远程桌面</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/01/e5-ae-9e-e4-be-8b-e4-b8-8a-e5-ae-9e-e7-8e-b0-e8-bf-9c-e7-a8-8b-e6-a1-8c-e9-9d-a2/" class="archive-article-date">
-  	<time datetime="2018-04-01T13:06:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>您可以使用本文提供的脚本在Linux实例上自动安装并运行VNC Server，实现远程图形化管理Linux服务器。目前，该脚本仅适用于CentOS实例，会在CentOS实例中安装GNOME桌面环境。</p>
-<h2 id="VNC-Server脚本"><a href="#VNC-Server脚本" class="headerlink" title="VNC Server脚本"></a>VNC Server脚本</h2><p>适用镜像：目前仅适用于CentOS镜像。 使用方法：以root身份执行命令 <code>bash install_vnc_server.sh</code>。 下载地址：<code>http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/41181/cn_zh/1504062842088/install_vnc_server.sh</code></p>
-<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><p>这部分内容以CentOS 7.4 64位操作系统为例，说明如何在Linux实例里自动安装并运行VNC Server，使您可以从Windows系统通过VNC Viewer远程连接到Linux实例</p>
-<h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><p>您已经在Windows系统里下载并安装了 <a href="https://www.realvnc.com/en/connect/download/viewer/" title="VNC Viewer下载页" target="_blank" rel="noopener">VNC Viewer</a>。</p>
-<h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3><p>按以下步骤操作：</p>
-<ol>
-<li><p>远程连接实例。</p>
-</li>
-<li><p>运行命令下载脚本install_vnc_server.sh。</p>
-<ol>
-<li><code>wget http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/41181/cn_zh/1504062842088/install_vnc_server.sh</code></li>
-</ol>
-</li>
-<li><p>以root身份运行脚本，安装VNC Server。</p>
-<ol>
-<li><code>bash install_vnc_server.sh</code></li>
-</ol>
-<p>安装需要较长的时间。当屏幕上出现以下信息时，表示VNC Server安装完成。您需要记录显示的随机密码。</p>
-<blockquote>
-<p><strong>说明</strong>：如果脚本执行报错可以多尝试几次。</p>
-</blockquote>
-<p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/install_success.png" alt="安装成功"></p>
-</li>
-<li><p>运行以下命令，在返回结果中查看Xvnc服务正在使用的端口。</p>
-<ol>
-<li><code>netstat -tulnp</code></li>
-</ol>
-<blockquote>
-<p>在本示例中，返回结果里Xvnc进程的信息示例如下所示。</p>
-<ol>
-<li><code>Active Internet connections (only servers)</code></li>
-<li><code>Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name</code></li>
-<li><code>tcp 0 0 0.0.0.0:5901 0.0.0.0:* LISTEN 1975/Xvnc</code></li>
-<li><code>tcp 0 0 0.0.0.0:6001 0.0.0.0:* LISTEN 1975/Xvnc</code></li>
-</ol>
-<p>表示VNC Server正在使用的端口为TCP 5901和6001，其中：</p>
-<ul>
-<li>TCP 5901：允许VNC客户端通过RFB协议连接VNC Server。使用VNC Viewer连接实例时选择这个端口。</li>
-<li>TCP 6001：允许Windows X连接VNC Server。</li>
-</ul>
-</blockquote>
-</li>
-<li><p>在实例所在安全组中，<a href="https://help.aliyun.com/document_detail/25471.html" target="_blank" rel="noopener">添加安全组规则</a>，放行Xnvc服务需要的端口。</p>
-<blockquote>
-<p>在本示例中需要添加2条安全组规则，分别放行TCP 5901和TCP 6001端口。具体规则如下表所示。</p>
-<p>网络类型</p>
-<p>网卡类型</p>
-<p>规则方向</p>
-<p>授权策略</p>
-<p>协议类型</p>
-<p>端口范围</p>
-<p>授权类型</p>
-<p>授权对象</p>
-<p>优先级</p>
-<p>VPC</p>
-<p>不需要配置</p>
-<p>入方向</p>
-<p>允许</p>
-<p>自定义TCP</p>
-<p>分别设置为5901/5901和6001/6001</p>
-<p>地址段访问</p>
-<p>0.0.0.0/0</p>
-<p>1</p>
-<p>经典网络</p>
-<p>公网</p>
-</blockquote>
-</li>
-<li><p>如果实例已经启用防火墙，需要添加规则放行端口。具体操作，以您实例里安装的防火墙软件为准。</p>
-<blockquote>
-<p>在本示例中，以iptables为例，您可以依次执行以下命令添加规则放行TCP 5901和6001端口：</p>
-<ol>
-<li><code>[root@iZXXXZ ~]# iptables -A INPUT -p tcp --dport 5901 -j ACCEPT</code></li>
-<li><code>[root@iZXXXZ ~]# iptables -A INPUT -p tcp --dport 6001 -j ACCEPT</code></li>
-<li><code>[root@iZXXXZ ~]# service iptables save</code></li>
-</ol>
-</blockquote>
-</li>
-<li><p>按以下步骤在本地Windows系统里通过VNC Viewer连接Linux实例：</p>
-<ol>
-<li><p>在本地Windows系统里启动VNC Viewer。</p>
-</li>
-<li><p>在工具栏里，选择 <strong>File</strong> &gt; <strong>New Connection</strong>。</p>
-</li>
-<li><p>在 <strong>Properties</strong> 对话框中，配置如下信息后单击 <strong>OK</strong>：</p>
-<ul>
-<li><strong>VNC Server</strong>：输入 <code>Linux 实例的公网 IP 地址:5901</code>。</li>
-<li><strong>Name</strong>：根据自己需要输入一个连接名称，方便后期管理。 <img src="https://www.bithub.xin/wp-content/uploads/2019/05/VncViewer_NewConnection.png" alt="在VNC Viewer中创建新的连接"></li>
-</ul>
-</li>
-<li><p>在VNC Viewer主窗口，右击新建连接的图标，并在弹出菜单中选择 <strong>Connect</strong>。 <img src="https://www.bithub.xin/wp-content/uploads/2019/05/VncViewer_Connect.png" alt="在VNC Viewer中连接实例"></p>
-</li>
-<li><p>在弹出的 <strong>Authentication</strong> 对话框中，输入 VNC Server安装结束后显示的随机密码，并单击 <strong>OK</strong>。</p>
-<blockquote>
-<p><strong>注意</strong>： 这里使用的密码并不是实例的登录密码。</p>
-</blockquote>
-<p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/VncViewer_Authentication.png" alt="输入连接密码"></p>
-</li>
-</ol>
-</li>
-</ol>
-<p>至此，您已经成功登录到Linux实例。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/工具//" class="article-tag-list-link color3">工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/工具/自学资源//" class="article-tag-list-link color5">自学资源</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/01/e5-ae-9e-e4-be-8b-e4-b8-8a-e5-ae-9e-e7-8e-b0-e8-bf-9c-e7-a8-8b-e6-a1-8c-e9-9d-a2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e8-ae-bf-e9-97-ae-e6-8e-a7-e5-88-b6-e5-88-97-e8-a1-a8-ef-bc-88acl-ef-bc-89" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/23/e8-ae-bf-e9-97-ae-e6-8e-a7-e5-88-b6-e5-88-97-e8-a1-a8-ef-bc-88acl-ef-bc-89/">访问控制列表（ACL）</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/23/e8-ae-bf-e9-97-ae-e6-8e-a7-e5-88-b6-e5-88-97-e8-a1-a8-ef-bc-88acl-ef-bc-89/" class="archive-article-date">
-  	<time datetime="2018-03-23T08:50:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>ACL是Access Contol List的缩写，主要的目的是在提供传统的owner，group,others的read,write,execute权限之外的细部权限设定。</strong></p>
-<p>ACL的设定技巧：getfacl,setfacl</p>
-<ul>
-<li><p>getfacl : 取得某个档案/目录的ACL设定项目；</p>
-</li>
-<li><p>setfacl:设定某个目录/档案的ACL规范。</p>
-</li>
-</ul>
-<p>setfacl指令用法介绍</p>
-<p>Setfacl [-bkRd] [{-m|-x} acl参数] 目标文件目录</p>
-<p>选项与参数：</p>
-<ul>
-<li><p>-m：设定后续的acl参数给目标档案使用，不可与-x合用</p>
-</li>
-<li><p>-x：删除后续的acl参数，不可与-m合用</p>
-</li>
-<li><p>-b:移除 所有的 ACL设定参数</p>
-</li>
-<li><p>-k：移除 预设的 ACL参数</p>
-</li>
-<li><p>-R：设定ACL，使子目录都会被设定起来</p>
-</li>
-<li><p>-d：设定 预设ACL参数，只对目录有效，该目录新建的资料会自动引用该目录的预设</p>
-</li>
-</ul>
-<p>###针对特定使用者的方式：</p>
-<pre><code>   zhang@ubuntu:~$ setfacl -m u:natasha:rx acl
-
-   zhang@ubuntu:~$ ls -l acl
-
- -rw-rwxr--+ 1 zhang zhang 0 Mar 23 02:47 acl
-
-#权限部分多了个 \+ ，则表示启用了ACL设定</code></pre><p> getfacl 指令用法</p>
-<p>选项参数与setfacl相同</p>
-<p><strong>Setfacl [-bkRd] [{-m|-x} acl参数] 目标文件目录    ##acl参数设定gid，uid无效</strong></p>
-<p>##列出目标文件目录的权限内容：</p>
-<p>zhang@vultr:~$ getfacl acl</p>
-<p># file: acl           &lt;==文件名</p>
-<p># owner: zhang  &lt;==预设的属性，所有者</p>
-<p># group: zhang   &lt;==同上，所有组</p>
-<p>user::rw-           &lt;== - 表示无权限</p>
-<p>user:natasha:r-x &lt;==使用者     #effective:r– &lt;==这个使用者只有r的权限</p>
-<p>group::rw-         &lt;==组</p>
-<p>mask::rw-         &lt;==预设的最高有限权限</p>
-<p>other::r–          &lt;==其他人</p>
-<p>mask的意义是：使用者，群组所设定的权限必须要存在与mask的权限设定范围内才会生效</p>
-<p>使用预设权限设定目录档案的ACL权限继承权限</p>
-<p>#设定规范： d:[ug]:使用者列表：[rwx]</p>
-<p>zhang@ubuntu:~$ mkdir ACLdir</p>
-<p>zhang@ubuntu:~$ setfacl -m d:u:natasha:rx ACLdir/</p>
-<p>zhang@ubuntu:~$ getfacl ACLdir/</p>
-<p># file: ACLdir/</p>
-<p># owner: zhang</p>
-<p># group: zhang</p>
-<p>user::rwx</p>
-<p>group::rwx</p>
-<p>other::r-x</p>
-<p>default:user::rwx</p>
-<p>default:user:natasha:r-x</p>
-<p>default:group::rwx</p>
-<p>default:mask::rwx</p>
-<p>default:other::r-x</p>
-<p><strong>#让natasha在/ACLdir底下一直具有rx的预设权限</strong>！</p>
-<p>zhang@ubuntu:~$ cd ACLdir/</p>
-<p>zhang@ubuntu:~/ACLdir$ touch text1</p>
-<p>zhang@ubuntu:~/ACLdir$ mkdir dir1</p>
-<p>zhang@ubuntu:~/ACLdir$ ls -l</p>
-<p>total 4</p>
-<p>drwxrwxr-x+ 2 zhang zhang 4096 Mar 23 03:31 dir1</p>
-<p>-rw-rw-r–+ 1 zhang zhang    0 Mar 23 03:31 text1</p>
-<p><strong>#都有 + 号，表示都有继承</strong></p>
-<p>zhang@ubuntu:~/ACLdir$ getfacl dir1/</p>
-<p># file: dir1/</p>
-<p># owner: zhang</p>
-<p># group: zhang</p>
-<p>user::rwx</p>
-<p>user:natasha:r-x</p>
-<p>group::rwx</p>
-<p>mask::rwx</p>
-<p>other::r-x</p>
-<p>default:user::rwx</p>
-<p>default:user:natasha:r-x</p>
-<p>default:group::rwx</p>
-<p>default:mask::rwx</p>
-<p>default:other::r-x</p>
-<p>取消全部的ACL设定可以使用-b来处理，但单一设定值的取消，就要用-x</p>
-<p>如：setfacl -x u:natasha /ACLdir</p>
-<p>setfacl -x d:u：natasha /ACLdir</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/系统安全//" class="article-tag-list-link color5">系统安全</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/23/e8-ae-bf-e9-97-ae-e6-8e-a7-e5-88-b6-e5-88-97-e8-a1-a8-ef-bc-88acl-ef-bc-89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux-e9-9a-8f-e6-9c-ba-e7-94-9f-e6-88-90-e5-af-86-e7-a0-81-e7-9a-84-e5-b0-8f-e7-a8-8b-e5-ba-8f" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/22/linux-e9-9a-8f-e6-9c-ba-e7-94-9f-e6-88-90-e5-af-86-e7-a0-81-e7-9a-84-e5-b0-8f-e7-a8-8b-e5-ba-8f/">linux随机生成密码的小程序</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/22/linux-e9-9a-8f-e6-9c-ba-e7-94-9f-e6-88-90-e5-af-86-e7-a0-81-e7-9a-84-e5-b0-8f-e7-a8-8b-e5-ba-8f/" class="archive-article-date">
-  	<time datetime="2018-03-22T14:26:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>通过我参观我朋友的博客，发现了一个好玩的linux小程序–pwgen。它可以随机生成高安全可靠的密码，感觉挺好玩的。每个密码都是唯一的<br>安装pwgen</p>
-<p>[root@bithub ~]# yum install pwgen<br> Loaded plugins: fastestmirror<br> Loading mirror speeds from cached hostfile<br> Package pwgen-2.07-1.el7.x86_64 already installed and latest version<br> Nothing to do</p>
-<p>直接在命令行输入pwgen就可以开始搞事情了！</p>
-<p>[root@bithub ~]# pwgen<br> Og3sieQu Bah4ma1X rii4aCho tae3ay6W ia5Zeup8 zaet1ooT Uawa3ahK Bulupoh2<br> ahqu1Xae ahC6Kei1 ahno9ahJ ooChied4 cheoFa9f johc7OoK ziu4Aigh Iev8gaix<br> Va0Izah1 Loh8dahx Quoo8Ohl eephuoB7 lie8Naid Oodaip3e eeraek7B seiVii0i<br> …<br> goPh2phe IibiF4oh Ciez2oe0 BeeHia4i og6aij1J jeija4Do zucoTh3x aeJ3boje</p>
-<p>可以通过pwgen -n 来生成你想要的密码个数！</p>
-<p>[root@bithub ~]# pwgen -n 3<br> NG6 c4I CJ7 KG0 R9W B8S 3Sv p9I T4A 7B4 0CR 8JJ Yb0 F0J z9Q DK1 W8v v0C Rp2 Xs6…</p>
-<p>提高密码的安全等级，可在密码中使用特殊字符，使用“-y”参数</p>
-<p>[root@bithub ~]# pwgen -1 -y<br> foh6EiT#</p>
-<p>pwgen 命令更多有趣的参数：<br> -0：密码中不包含数字。<br> -B, –ambiguous：密码中不包含容易混淆的字符，比如说“1”和“l”、“0”和“O”。<br> -v, –no-vowels：密码不包括元音字母或者可能被误认为是元音字母的数字。</p>
-<p>想挖掘更多好玩的新姿势，可以man pwgen，看看他的手册~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/工具//" class="article-tag-list-link color3">工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/工具/自学资源//" class="article-tag-list-link color5">自学资源</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/22/linux-e9-9a-8f-e6-9c-ba-e7-94-9f-e6-88-90-e5-af-86-e7-a0-81-e7-9a-84-e5-b0-8f-e7-a8-8b-e5-ba-8f/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -975,8 +365,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

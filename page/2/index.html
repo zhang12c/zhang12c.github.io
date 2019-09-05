@@ -159,6 +159,115 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-zabbix监控历史数据清理操作方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/06/zabbix监控历史数据清理操作方案/">zabbix监控历史数据清理操作方案</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/06/zabbix监控历史数据清理操作方案/" class="archive-article-date">
+  	<time datetime="2019-08-06T08:58:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>zabbix监控运行一段时间以后，会留下大量的历史监控数据，zabbix数据库一直在增大；可能会造成系统性能下降，查看历史数据室查询速度缓慢。</p>
+<p>zabbix里面最大的表就是history和history_uint两个表，而且zabbix里面的时间是使用的时间戳方式记录，所以可以根据时间戳来删除历史数据</p>
+<p>一、关闭zabbix、http服务</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pkill -9 zabbix</span><br><span class="line">service httpd stop</span><br></pre></td></tr></table></figure>
+
+<p>二、清理zabbix历史数据</p>
+<p>1、查看数据库目录文件</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix-server zabbix]# cd /var/lib/mysql/zabbix/</span><br><span class="line">[root@zabbix-server zabbix]# ls -lh | grep G</span><br><span class="line">total 177G</span><br><span class="line">-rw-r----- 1 mysql mysql 1.7G Dec 24 13:49 events.ibd</span><br><span class="line">-rw-r----- 1 mysql mysql  60G Dec 24 13:49 history.ibd</span><br><span class="line">-rw-r----- 1 mysql mysql 2.4G Dec 24 13:49 history_str.ibd</span><br><span class="line">-rw-r----- 1 mysql mysql  99G Dec 24 13:49 history_uint.ibd</span><br><span class="line">-rw-r----- 1 mysql mysql 4.6G Dec 24 13:02 trends.ibd</span><br><span class="line">-rw-r----- 1 mysql mysql 9.5G Dec 24 13:49 trends_uint.ibd</span><br><span class="line">[root@zabbix-server zabbix]# </span><br><span class="line">生成Unix时间戳。时间定为2018年2月1日（暂定是保存18年2月以后的监控数据）</span><br><span class="line">[root@zabbix-server zabbix]# date +%s -d "Feb 1, 2018 00:00:00"    #执行此命令以后会生成一个ID</span><br><span class="line">1517414400            #这是生成的ID</span><br></pre></td></tr></table></figure>
+
+<p>2、数据备份</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix-server zabbix]#mysql -uroot -p zabbix &gt; /root/mysqlback/zabbix.sql     #需要创建mysqlback目录</span><br></pre></td></tr></table></figure>
+
+<p>3、 登录数据库</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix-server zabbix]# mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 7</span><br><span class="line">Server version: 5.5.60-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; </span><br><span class="line"></span><br><span class="line">use zabbix;    #选择zabbix数据库</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">执行sql查看指定日期之前的数据大小：</span></span><br><span class="line">SELECT table_schema as `Database`,table_name AS `Table`,round(((data_length + index_length) / 1024 / 1024 / 1024), 2) `Size in MB`FROM information_schema.TABLES where CREATE_TIME &lt; '2018-02-01 00:00:00' and table_name='history.ibd';</span><br><span class="line"><span class="meta">#</span><span class="bash">根据需要修改日期和查询的表名称(如果查询出来的结果是0.0，需要将sql中的三个1024删除一个，以G为单位显示)</span></span><br></pre></td></tr></table></figure>
+
+<p>4、 执行以下命令，清理指定时间之前的数据、对zabbix数据库执行以下sql</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">delete from history where clock &lt; 1517414400;</span><br><span class="line">optimize table history;</span><br><span class="line"></span><br><span class="line">delete from history_uint where clock &lt; 1517414400;</span><br><span class="line">optimize table history_uint;</span><br><span class="line"></span><br><span class="line">delete from trends where clock &lt; 1517414400;</span><br><span class="line">optimize table trends;</span><br><span class="line"></span><br><span class="line">delete from trends_uint where clock &lt; 1517414400;</span><br><span class="line">optimize table trends_uint;</span><br></pre></td></tr></table></figure>
+
+<p>注意：sql中的ID是生成Unix时间戳的ID号,需要改为自己生成的ID号<br>三、启动服务</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/zabbix_server -c /etc/zabbix/zabbix_server.conf    #zabbix server</span><br><span class="line">/usr/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf    #zabbix agent</span><br><span class="line">service httpd start</span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<p>1、使用truncate命令清空zabbix 所有监控数据</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-------------------------------------------------------</span><br><span class="line">truncate table history;</span><br><span class="line">optimize table history;</span><br><span class="line">------------------------------------------------------- </span><br><span class="line">truncate table history_str;</span><br><span class="line">optimize table history_str;</span><br><span class="line">-------------------------------------------------------</span><br><span class="line">truncate table history_uint;</span><br><span class="line">optimize table history_uint;</span><br><span class="line">-------------------------------------------------------</span><br><span class="line">truncate table trends;</span><br><span class="line">optimize table trends;</span><br><span class="line">-------------------------------------------------------</span><br><span class="line">truncate table trends_uint; </span><br><span class="line">optimize table trends_uint; </span><br><span class="line">-------------------------------------------------------</span><br><span class="line">truncate table events;</span><br><span class="line">optimize table events;</span><br><span class="line">-------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<p>注意：这些命令会把zabbix所有的监控数据清空，操作前注意备份数据库</p>
+<p>truncate是删除了表，然后根据表结构重新建立，delete删除的是记录的数据没有修改表</p>
+<p>truncate执行删除比较快，但是在事务处理安全性方面不如delete,如果我们执行truncat的表正在处理事务，这个命令退出并会产生错误信息</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux//" class="article-tag-list-link color1">linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux/zabbix//" class="article-tag-list-link color2">zabbix</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/06/zabbix监控历史数据清理操作方案/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Chmod-Chown-WSL-Improvements" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -660,6 +769,89 @@
 
 
   
+    <article id="post-函数-函数返回值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/23/函数-函数返回值/">函数-函数返回值</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/23/函数-函数返回值/" class="archive-article-date">
+  	<time datetime="2019-07-23T01:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#函数返回值<br>通过return[表达式]语句用于退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。<br>eg:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(num1,num2)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (isinstance(num1,(int,float)) <span class="keyword">and</span> isinstance(num2,(int,float))):</span><br><span class="line">                <span class="keyword">raise</span> TypeError(<span class="string">'参数类型错误'</span>)</span><br><span class="line">        <span class="keyword">return</span> num1 + num2</span><br><span class="line">print(sum(<span class="number">1</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<p>返回结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>isinstance() 进行数据类型检查，判断是否是整形和浮点型。如果参数类型不对，会报错。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+<span id="busuanzi_container_page_pv">
+  |阅读量(<span id="busuanzi_value_page_pv"></span>)
+</span>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/23/函数-函数返回值/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ansible集群学习备忘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -716,89 +908,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/07/23/ansible集群学习备忘/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-函数-函数返回值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/23/函数-函数返回值/">函数-函数返回值</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/23/函数-函数返回值/" class="archive-article-date">
-  	<time datetime="2019-07-23T01:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#函数返回值<br>通过return[表达式]语句用于退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。<br>eg:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(num1,num2)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (isinstance(num1,(int,float)) <span class="keyword">and</span> isinstance(num2,(int,float))):</span><br><span class="line">                <span class="keyword">raise</span> TypeError(<span class="string">'参数类型错误'</span>)</span><br><span class="line">        <span class="keyword">return</span> num1 + num2</span><br><span class="line">print(sum(<span class="number">1</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
-
-<p>返回结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-<p>isinstance() 进行数据类型检查，判断是否是整形和浮点型。如果参数类型不对，会报错。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/23/函数-函数返回值/">展开全文 >></a>
         </p>
       
 
@@ -1114,130 +1223,6 @@
 
 
   
-    <article id="post-virt-manager-e7-a3-81-e7-9b-98-e6-89-a9-e5-ae-b9-e8-99-9a-e6-8b-9f-e6-9c-ba-e5-ae-89-e8-a3-85" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/19/virt-manager-e7-a3-81-e7-9b-98-e6-89-a9-e5-ae-b9-e8-99-9a-e6-8b-9f-e6-9c-ba-e5-ae-89-e8-a3-85/">Virt-Manager磁盘扩容</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/19/virt-manager-e7-a3-81-e7-9b-98-e6-89-a9-e5-ae-b9-e8-99-9a-e6-8b-9f-e6-9c-ba-e5-ae-89-e8-a3-85/" class="archive-article-date">
-  	<time datetime="2019-05-19T06:55:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>开始要接触的是Linux集群，现在在自己的虚拟机里开启多个虚拟机。刚好在爸爸那里有台自己组装内存16G主机，现在就在VMware的Centos里安装的多台主机。这时候用到了Virtual Machine Manager。在配置的过程中，遇到了两个问题。（图片截图在相册）</p>
-<ol>
-<li>磁盘空间不足</li>
-</ol>
-<ul>
-<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE3-1024x687.png" alt></p>
-<p>删除快照才可以扩容</p>
-</li>
-<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE4-1024x576.png" alt></p>
-<p>扩展到50G</p>
-</li>
-<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE7.png" alt></p>
-<p>磁盘分区</p>
-</li>
-<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE8.png" alt></p>
-<p>创建物理卷</p>
-</li>
-<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE9.png" alt></p>
-<p>根目录逻辑卷扩容</p>
-</li>
-<li><p><img src="https://www.bithub.xin/wp-content/uploads/2019/05/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE10.png" alt></p>
-<p>逻辑卷格式化</p>
-</li>
-</ul>
-<hr>
-<p>在之前VMware安装Centos7的时候，我设置虚拟机的磁盘空间只有20G，用KVM安装新虚拟机的时候，磁盘就开始不够用了。所以现在我做了一个磁盘的扩容</p>
-<p>一、扩展磁盘</p>
-<ol>
-<li>关闭VMware虚拟机.</li>
-<li>扩展磁盘</li>
-<li>开启虚拟机</li>
-</ol>
-<p>二、扩展逻辑卷组</p>
-<ol>
-<li>磁盘分区 fdisk</li>
-<li>物理卷添加 pvcreate </li>
-<li>添加到centos卷组 vgextend</li>
-<li>扩展centos/root的逻辑卷 lvextend</li>
-</ol>
-<p>三、格式化卷组</p>
-<ol>
-<li>格式化逻辑卷 xfs_grows </li>
-<li>查看 df -h</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-<span id="busuanzi_container_page_pv">
-  |阅读量(<span id="busuanzi_value_page_pv"></span>)
-</span>
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux/Virt-Manager//" class="article-tag-list-link color3">Virt-Manager</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/19/virt-manager-e7-a3-81-e7-9b-98-e6-89-a9-e5-ae-b9-e8-99-9a-e6-8b-9f-e6-9c-ba-e5-ae-89-e8-a3-85/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1352,15 +1337,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Zabbix</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">centos</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
